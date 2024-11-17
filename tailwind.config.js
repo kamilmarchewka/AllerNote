@@ -16,6 +16,7 @@ module.exports = {
         },
         eclipse: {
           800: "#383838",
+          600: "#515151",
         },
         bittersweet: {
           500: "#ff6060",
