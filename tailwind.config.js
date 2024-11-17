@@ -8,8 +8,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        turquoise: {
+          500: "#2ffcd5",
+        },
+        eden: {
+          700: "#306A5F",
+        },
+        eclipse: {
+          800: "#383838",
+        },
+        bittersweet: {
+          500: "#ff6060",
+        },
+        salmon: {
+          500: "#ff7b7b",
+        },
+        white: "#f8f8f8",
       },
     },
   },
