@@ -8,7 +8,7 @@ export default async function Home() {
   const data = await getCollection("users");
 
   return (
-    <h1 className="text-green-400 md:text-red-800 lg:text-purple-500">
+    <h1 className="">
       {data.map((item) => (
         <p key={item.id}>{item.name}</p>
       ))}

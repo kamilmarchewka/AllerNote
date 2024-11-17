@@ -23,7 +23,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <main className="body-spacing min-h-screen">{children}</main>
+        <footer className="body-spacing py-3 text-center text-eclipse-600 text-xs">
+          <p>
+            2024 <sup>&copy;</sup> AllerNote.
+          </p>
+        </footer>
       </body>
     </html>
   );

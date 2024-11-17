@@ -2,20 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply box-border m-0 p-0 bg-white text-eclipse-800 text-base min-h-screen;
+    font-family: Arial, Helvetica, sans-serif;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .body-spacing {
+    @apply px-4 md:px-10 lg:px-20 max-w-screen-xl mx-auto;
+  }
 }
