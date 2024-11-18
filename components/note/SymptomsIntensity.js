@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import addDocument from "@/lib/firebase/addDocument";
 
 export default function SymptomsIntensity() {
   const [bolGlowy, setBolGlowy] = useState(0);
@@ -8,6 +9,11 @@ export default function SymptomsIntensity() {
   function submitHandler(e) {
     e.preventDefault();
     console.log("dupa");
+    const data = {
+      "bol-glowy": bolGlowy,
+      katar: katar,
+    };
+    addDocument("notatka", data);
   }
   return (
     <form onSubmit={submitHandler}>
