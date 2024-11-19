@@ -2,13 +2,16 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import Hamburger from "./Hamburger";
+import LoginButton from "./LoginButton";
 
 export default function Nav() {
   const [navIsOpen, setNavIsOpen] = useState(false);
 
   return (
-    <nav>
+    <nav className="flex justify-between items-center">
       <Link href="/">Logo</Link>
+
+      <LoginButton isLoggedIn={true} username="Maksymilian Łuczak" />
 
       <Hamburger
         onClickHandler={() => setNavIsOpen((prev) => !prev)}
@@ -16,7 +19,7 @@ export default function Nav() {
       />
 
       {/* main navigation */}
-      <ul>
+      <ul className="fixed hidden">
         <li>
           <Link href="/">Dashboard</Link>
         </li>
@@ -25,7 +28,7 @@ export default function Nav() {
         </li>
         <li>
           {/* button with user name */}
-          <button>Maksymilian Łuczak</button>
+          <LoginButton isLoggedIn={false} />
           {/* submenu */}
           <ul>
             <li>
