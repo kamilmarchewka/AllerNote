@@ -8,7 +8,7 @@ export default function MenuIcon() {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="size-6"
+      className="w-full"
     >
       <path
         strokeLinecap="round"

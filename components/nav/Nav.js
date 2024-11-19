@@ -1,13 +1,19 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Hamburger from "./Hamburger";
 
 export default function Nav() {
+  const [navIsOpen, setNavIsOpen] = useState(false);
+
   return (
     <nav>
       <Link href="/">Logo</Link>
 
-      <Hamburger />
+      <Hamburger
+        onClickHandler={() => setNavIsOpen((prev) => !prev)}
+        isClicked={navIsOpen}
+      />
 
       {/* main navigation */}
       <ul>
