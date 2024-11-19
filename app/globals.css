@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply box-border m-0 p-0 bg-white text-eclipse-800 text-base min-h-screen;
+    @apply box-border m-0 p-0 bg-white text-eclipse-800 text-base;
     font-family: Arial, Helvetica, sans-serif;
   }
 }
