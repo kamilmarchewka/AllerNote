@@ -10,12 +10,12 @@ export default async function Home() {
 
   return (
     <>
-      <h1 className="">
+      {/* <h1 className="">
         {data.map((item) => (
           <p key={item.id}>{item.name}</p>
         ))}
       </h1>
-      <SymptomsIntensity />
+      <SymptomsIntensity /> */}
     </>
   );
 }
