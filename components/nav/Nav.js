@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import Hamburger from "./Hamburger";
 import LoginButton from "./LoginButton";
@@ -25,7 +26,9 @@ export default function Nav() {
 
   return (
     <nav className="body-spacing py-3 bg-white flex justify-between items-center fixed top-0 left-0 w-full shadow-sm">
-      <Link href="/">Logo</Link>
+      <Link href="/">
+        <Image src="/logo.png" width={40} height={30} alt="" />
+      </Link>
 
       <Hamburger
         onClickHandler={() => setNavIsOpen((prev) => !prev)}
@@ -38,7 +41,7 @@ export default function Nav() {
           navIsOpen
             ? "translate-x-0 opacity-100"
             : "translate-x-[calc(100%+1.1rem)] opacity-0 md:translate-x-0 md:opacity-100"
-        } transition-all md:flex-row md:gap-3 md:items-center md:static md:bg-transparent md:shadow-none md:rounded-none`}
+        } transition-all md:flex-row md:gap-3 md:p-0 md:items-center md:static md:bg-transparent md:shadow-none md:rounded-none`}
       >
         <li className="block">
           <Link href="/" className="block w-full p-2 text-left">
@@ -62,11 +65,11 @@ export default function Nav() {
           </div>
           {/* submenu */}
           <ul
-            className={`md:flex md:flex-col md:items-start md:absolute md:p-2 md:bg-white md:top-[calc(100%+2.5rem)] md:right-0 md:shadow-md md:rounded-md md:transform ${
+            className={`md:flex md:flex-col md:items-start md:absolute md:p-2 md:bg-white md:top-[calc(100%+1.5rem)] md:right-0 md:shadow-md md:rounded-md md:transform ${
               submenuIsOpen
-                ? "md:translate-y-0 md:opacity-100"
-                : "md:-translate-y-5 md:opacity-0"
-            } transition-all`}
+                ? "md:visible md:translate-y-0 md:opacity-100 submenu-transition-in"
+                : "md:invisible md:-translate-y-5 md:opacity-0 submenu-transition-out"
+            } `}
           >
             <li className="block border-t pt-2 mt-2 md:pt-0 md:mt-0 md:border-t-0">
               <Link href="/ustawienia" className="block w-full p-2 text-left">
