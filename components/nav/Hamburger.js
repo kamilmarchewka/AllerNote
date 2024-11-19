@@ -4,7 +4,10 @@ import CloseIcon from "./CloseIcon";
 
 export default function Hamburger({ onClickHandler, isClicked }) {
   return (
-    <button onClick={onClickHandler} className="relative overflow-hidden">
+    <button
+      onClick={onClickHandler}
+      className="relative overflow-hidden md:hidden"
+    >
       <div
         className={`w-6 h-6 transform ${
           isClicked ? "translate-y-full" : "translate-y-0"
