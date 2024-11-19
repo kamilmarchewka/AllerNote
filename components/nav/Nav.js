@@ -17,7 +17,13 @@ export default function Nav() {
       />
 
       {/* main navigation */}
-      <ul className="flex flex-col items-start absolute p-2 bg-white top-[calc(100%+1rem)] right-4 shadow-md rounded-md">
+      <ul
+        className={`flex flex-col items-start absolute p-2 bg-white top-[calc(100%+1rem)] right-4 shadow-md rounded-md transform ${
+          navIsOpen
+            ? "translate-x-0 opacity-100"
+            : "translate-x-[calc(100%+1.1rem)] opacity-0"
+        } transition-all`}
+      >
         <li className="block">
           <Link href="/" className="block w-full p-2 text-left">
             Dashboard
