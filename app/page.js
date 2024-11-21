@@ -11,7 +11,6 @@ export default async function Home() {
   return (
     <>
       <div className="flex justify-center items-center min-h-screen gap-8 p-8">
-        
         <div className="flex w-1/2 aspect-square bg-gray-200 border border-gray-400"></div>
 
         <div className="flex w-1/2 aspect-square bg-gray-100 border border-gray-400 p-4">

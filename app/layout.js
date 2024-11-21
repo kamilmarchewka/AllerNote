@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import Nav from "@/components/nav/Nav";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Nav />
         <main className="body-spacing min-h-screen">{children}</main>
         <footer className="body-spacing py-3 text-center text-eclipse-600 text-xs">
           <p>

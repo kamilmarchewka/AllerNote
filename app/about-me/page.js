@@ -2,27 +2,8 @@
 import Image from "next/image";
 
 import Nav from "@/components/nav/Nav";
+import Link from "next/link";
 
 export default function Home() {
-  return (
-    <nav>
-      <ul>
-        <li>
-          <Link>asdf</Link>
-        </li>
-        <li>
-          <Link>asdf</Link>
-        </li>
-        <li>
-          <Link>asdf</Link>
-        </li>
-        <li>
-          <Link>asdf</Link>
-        </li>
-        <li>
-          <Link>asdf</Link>
-        </li>
-      </ul>
-    </nav>
-  );
+  return <nav></nav>;
 }

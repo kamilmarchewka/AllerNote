@@ -13,5 +13,13 @@
   .body-spacing {
     @apply px-4 md:px-10 lg:px-20 max-w-screen-xl mx-auto;
   }
+  .submenu-transition-in {
+    transition: transform 100ms ease-in-out 0ms, opacity 100ms ease-in-out 0ms,
+      visibility 0ms ease-in-out 0ms;
+  }
+  .submenu-transition-out {
+    transition: transform 100ms ease-in-out 0ms, opacity 100ms ease-in-out 0ms,
+      visibility 0ms ease-in-out 100ms;
+  }
 }
 
