@@ -11,7 +11,7 @@ export default function Auth() {
         {/* Background svg */}
 
         {/* Login in form */}
-        <section className="px-4 py-8 sm:p-11 bg-eden-500 text-white rounded-3xl max-w-[27rem] shadow-md">
+        <section className="mt-32 mx-auto px-4 py-8 bg-eden-500 text-white rounded-3xl max-w-[27rem] shadow-md sm:p-11 md:ml-auto md:mr-0">
           <header className="mb-14 text-center">
             <h2 className="font-semibold text-4xl">Zaloguj się</h2>
           </header>
