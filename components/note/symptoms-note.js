@@ -40,7 +40,7 @@ export default function SymptomsIntensity_note() {
 
     return (
         <div className="flex justify-between">
-        <div className="flex ml-5 text-left text-xs">{symptom}:</div>
+        <div className="flex text-left text-sm">{symptom}:</div>
         <div className="flex ml-20 gap-1 my-0.5 ">
             {[1, 2, 3, 4, 5].map((value) => (
             <button
@@ -49,7 +49,7 @@ export default function SymptomsIntensity_note() {
                 onClick={() => handleClick(value)}
                 onMouseEnter={() => handleMouseEnter(value)} 
                 onMouseLeave={handleMouseLeave} 
-                className={`rounded-full px-2 py-2 ${
+                className={`rounded-full px-2.5 py-2.5 ${
                     currentValue >= value || hoveredValue >= value
                     ? "bg-gradient-to-r from-emerald-600 via-emerald-700 to-eden-700 hover:bg-gradient-to-br "
                     : "bg-white shadow-inner"
@@ -65,15 +65,15 @@ export default function SymptomsIntensity_note() {
   
   return (
     <form onSubmit={submitHandler}>
-      <h1 className="ml-5 mt-2">MOJE OBIAWY</h1>
+      <h1 className="mt-2">MOJE OBIAWY</h1>
       {renderButtons(setSamopoczocie, samopoczucie, "ogólne samopoczucie")}
       {renderButtons(setBolGlowy, bolGlowy, "ból głowy")}
       {renderButtons(setKatar, katar, "katar")}
       {renderButtons(setNos, nos, "swędzenie oczu")}
       {renderButtons(setOko, oko, "swędzenie nosa")}
       {renderButtons(setKaszel, kaszel, "kaszel")}
-      <h2 className="ml-5 mt-2">NOTATKA</h2>
-        <textarea id="userNote" rows="5" className="flex ml-5 mt-2 p-1.5 w-full text-xs bg-white rounded-lg border resize-none shadow-inner" 
+      <h2 className="mt-2">NOTATKA</h2>
+        <textarea id="userNote" rows="5" className="flex mt-2 p-1.5 w-full text-xs bg-white rounded-lg border resize-none shadow-inner" 
                   placeholder="Dzisiaj czuję się...">
         </textarea>
       <button className="flex my-2 bg-eden-700 active:bg-emerald-900 text-white cursor-pointer rounded-lg p-1 text-sm float-right"
