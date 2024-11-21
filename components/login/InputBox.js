@@ -2,7 +2,7 @@ import React from "react";
 
 export default function InputBox() {
   return (
-    <div className="flex flex-col relative">
+    <div className="flex flex-col relative overflow-hidden">
       <label className="text-white/80 font-extralight italic uppercase">
         email:
       </label>
