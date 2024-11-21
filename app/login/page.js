@@ -1,9 +1,10 @@
+import InputBox from "@/components/login/InputBox";
 import React from "react";
 
 export default function Auth() {
   return (
     <>
-      <section className="bg-pink-200">
+      <section className="bg-eden-500">
         {/* Background svg */}
 
         {/* Login in form */}
@@ -13,10 +14,8 @@ export default function Auth() {
           </header>
 
           <form>
-            <div>
-              <label>email:</label>
-              <input type="email" required placeholder="example@gmail.com" />
-            </div>
+            <InputBox />
+
             <div>
               <label>hasło:</label>
               <input type="password" required />
