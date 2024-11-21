@@ -40,7 +40,7 @@ export default function SymptomsIntensity_note() {
     return (
         <div className="flex justify-between">
         <div className="flex text-left text-sm">{symptom}:</div>
-        <div className="flex ml-20 gap-1 my-0.5 ">
+        <div className="flex ml-20 gap-1 mb-0.5 ">
             {[1, 2, 3, 4, 5].map((value) => (
             <button
                 key={value}
@@ -64,15 +64,15 @@ export default function SymptomsIntensity_note() {
   
   return (
     <form onSubmit={submitHandler}>
-      <h1 className="mt-2">MOJE OBIAWY</h1>
+      <h1 className="mt-2 text-xl">MOJE OBIAWY</h1>
       {renderButtons(setSamopoczocie, samopoczucie, "ogólne samopoczucie")}
       {renderButtons(setBolGlowy, bolGlowy, "ból głowy")}
       {renderButtons(setKatar, katar, "katar")}
       {renderButtons(setNos, nos, "swędzenie oczu")}
       {renderButtons(setOko, oko, "swędzenie nosa")}
       {renderButtons(setKaszel, kaszel, "kaszel")}
-      <h2 className="mt-2">NOTATKA</h2>
-        <textarea id="userNote" rows="5" className="flex mt-2 p-1.5 w-full text-xs bg-white rounded-lg border resize-none shadow-inner" 
+      <h2 className="mt-2 text-xl">NOTATKA</h2>
+        <textarea id="userNote" rows="5" className="flex mt-2 p-1.5 w-full text-sm bg-white rounded-lg border resize-none shadow-inner" 
                   placeholder="Dzisiaj czuję się...">
         </textarea>
       <button className="flex my-2 bg-eden-700 active:bg-emerald-900 text-white cursor-pointer rounded-lg p-1 text-sm float-right"
