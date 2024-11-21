@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import addNoteToTheUser from "@/lib/firebase/addNoteToTheUser";
 
 export default function SymptomsIntensity() {
   const [bolGlowy, setBolGlowy] = useState(0);
@@ -13,7 +12,6 @@ export default function SymptomsIntensity() {
       bol_glowy: bolGlowy,
       katar: katar,
     };
-    addNoteToTheUser("0LGiad8GwBD5anFw0cSm", data);
   }
   return (
     <form onSubmit={submitHandler}>
