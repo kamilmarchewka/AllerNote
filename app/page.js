@@ -2,11 +2,9 @@
 import Image from "next/image";
 
 import Nav from "@/components/nav/Nav";
-import { getCollection } from "@/lib/firebase/getCollection";
 import SymptomsIntensity_note from "@/components/note/symptoms-note";
 
 export default async function Home() {
-  const data = await getCollection("users");
 
   return (
     <>

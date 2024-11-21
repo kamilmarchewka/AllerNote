@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import addNoteToTheUser from "@/lib/firebase/addNoteToTheUser";
 
 export default function SymptomsIntensity_note() {
   const [samopoczucie, setSamopoczocie] = useState(null);
