@@ -1,15 +1,20 @@
 import React from "react";
 
-export default function InputBox() {
+export default function InputBox({ type, id, label, placeholder = "" }) {
   return (
     <div className="flex flex-col relative overflow-hidden">
-      <label className="text-white/80 font-extralight italic uppercase">
-        email:
+      <label
+        htmlFor={id}
+        className="text-white/80 font-extralight italic uppercase"
+      >
+        {label}:
       </label>
       <input
-        type="email"
+        type={type}
+        id={id}
+        name={id}
         required
-        placeholder="example@gmail.com"
+        placeholder={placeholder}
         className="peer block p-1 bg-transparent text-white font-bold text-base border-b border-white/50 placeholder-white/80 placeholder:font-normal focus-within:outline-none"
       />
       {/* Underline */}

@@ -17,9 +17,14 @@ export default function Auth() {
           </header>
 
           <form className="flex flex-col gap-8 mb-16">
-            <InputBox />
+            <InputBox
+              type="email"
+              id="email"
+              label="email"
+              placeholder="example@gmail.com"
+            />
             <div className="flex flex-col gap-2">
-              <InputBox />
+              <InputBox type="password" id="password" label="hasło" />
               <LinkUnderline href="/" text="Nie pamiętam hasła" />
             </div>
           </form>
