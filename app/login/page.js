@@ -7,11 +7,11 @@ import React from "react";
 export default function Auth() {
   return (
     <>
-      <section className="">
+      <section className=" flex items-center pt-32 pb-14 lg:pt-0 lg:pb-0 lg:min-h-[calc(100vh-40px)]">
         {/* Background svg */}
 
         {/* Login in form */}
-        <section className="mt-32 mx-auto px-4 py-8 bg-eden-500 text-white rounded-3xl max-w-[27rem] shadow-md sm:p-11 md:ml-auto md:mr-0">
+        <section className="flex-grow mx-auto px-4 py-8 bg-eden-500 text-white rounded-3xl max-w-[27rem] shadow-md sm:p-11 md:ml-auto md:mr-0">
           <header className="mb-14 text-center">
             <h2 className="font-semibold text-4xl">Zaloguj się</h2>
           </header>
