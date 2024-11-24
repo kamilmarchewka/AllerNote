@@ -25,7 +25,7 @@ export default function Nav() {
   }, []);
 
   return (
-    <nav className="w-full bg-white fixed top-0 left-0 shadow-sm">
+    <nav className="w-full bg-white fixed top-0 left-0 shadow-sm z-[9999]">
       {/* Content wrapper */}
       <div className="body-spacing flex justify-between items-center  py-3">
         <Link href="/">
