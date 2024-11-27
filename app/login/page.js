@@ -12,10 +12,10 @@ export default function Login() {
   return (
     <section className="flex items-center pt-32 pb-14 lg:min-h-[calc(100vh-40px)]">
       {/* Background svg */}
-      <div className="invisible md:visible fixed bottom-0 left-[8vw]">
+      <div className="invisible md:visible fixed bottom-0 left-[8vw] origin-bottom animate-[dandelion-left_18s_ease-in-out_infinite]">
         <Dandelion />
       </div>
-      <div className="invisible md:visible fixed -bottom-14 left-[13vw] transform origin-bottom rotate-[30deg]">
+      <div className="invisible md:visible fixed -bottom-14 left-[13vw] transform origin-bottom rotate-[30deg] animate-[dandelion-right_15s_ease-in-out_infinite]">
         <Dandelion />
       </div>
 

@@ -27,6 +27,18 @@ module.exports = {
         },
         white: "#f8f8f8",
       },
+      keyframes: {
+        "dandelion-left": {
+          "0%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(5deg)" },
+          "100%": { transform: "rotate(-3deg)" },
+        },
+        "dandelion-right": {
+          "0%": { transform: "rotate(29deg)" },
+          "50%": { transform: "rotate(33deg)" },
+          "100%": { transform: "rotate(29deg)" },
+        },
+      },
     },
   },
   plugins: [],
