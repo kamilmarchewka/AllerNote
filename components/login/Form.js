@@ -47,7 +47,7 @@ export default function Form({
         />
       )}
 
-      <div className="flex mt-14 flex-col gap-2 items-center">
+      <div className="flex mt-8 flex-col gap-2 items-center">
         <ButtonPrimary text={btnText} />
         {!registration && (
           <p className="text-center">

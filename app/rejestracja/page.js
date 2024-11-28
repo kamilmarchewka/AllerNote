@@ -7,7 +7,7 @@ import Dandelion from "@/components/login/Dandelion";
 
 export default function Registration() {
   return (
-    <section className=" flex items-center pt-32 pb-14 lg:min-h-[calc(100vh-40px)]">
+    <section className=" flex items-center pt-32 pb-10 lg:min-h-[calc(100vh-40px)]">
       {/* Background svg */}
       <div className="invisible md:visible fixed bottom-0 left-[8vw] origin-bottom animate-[dandelion-left_18s_ease-in-out_infinite]">
         <Dandelion />
