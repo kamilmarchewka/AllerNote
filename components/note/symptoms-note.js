@@ -40,7 +40,7 @@ export default function SymptomsIntensity_note() {
     return (
         <div className="flex justify-between">
         <div className="flex text-left text-sm">{symptom}:</div>
-        <div className="flex ml-20 gap-1 mb-0.5 ">
+        <div className="flex ml-20 gap-1 mb-2 ">
             {[1, 2, 3, 4, 5].map((value) => (
             <button
                 key={value}
@@ -64,7 +64,7 @@ export default function SymptomsIntensity_note() {
   
   return (
     <form onSubmit={submitHandler}>
-      <h1 className="mt-2 text-xl">MOJE OBIAWY</h1>
+      <h1 className="mt-2 text-xl mb-2">MOJE OBIAWY</h1>
       {renderButtons(setSamopoczocie, samopoczucie, "ogólne samopoczucie")}
       {renderButtons(setBolGlowy, bolGlowy, "ból głowy")}
       {renderButtons(setKatar, katar, "katar")}
