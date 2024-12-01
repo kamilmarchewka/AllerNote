@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import CalendarNote, {} from "@/components/calendar/calendar-config";
 
 export default function SymptomsIntensity_note() {
   const [samopoczucie, setSamopoczocie] = useState(null);
@@ -64,7 +65,8 @@ export default function SymptomsIntensity_note() {
   
   return (
     <form onSubmit={submitHandler}>
-      <h1 className="mt-2 text-xl mb-2">MOJE OBIAWY</h1>
+      <h1></h1>
+      <h2 className="mt-2 text-xl mb-2">MOJE OBIAWY</h2>
       {renderButtons(setSamopoczocie, samopoczucie, "ogólne samopoczucie")}
       {renderButtons(setBolGlowy, bolGlowy, "ból głowy")}
       {renderButtons(setKatar, katar, "katar")}

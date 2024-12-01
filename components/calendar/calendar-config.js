@@ -22,7 +22,7 @@ export default function CalendarNote() {
         if (startCount) {
           arr[i][j] = counter;
           counter++;
-          if (counter > monthLong) {
+          if (counter > monthLong+1) {
             arr[i][j] = "";
           }
         } else {
@@ -60,8 +60,19 @@ export default function CalendarNote() {
     }
   };
 
+  const [hoveredValue, setHoveredValue] = useState(null);
+
+  const handleMouseEnter = (day) => {
+    setHoveredValue(day); 
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredValue(null); 
+  };
+
   return (
     <div>
+    <div className="flex justify-between">
       <button
         onClick={goToPreviousMonth}
         className="border rounded p-2 mb-4 text-center"
@@ -75,11 +86,12 @@ export default function CalendarNote() {
       >
         &gt;
       </button>
+      </div>
 
       <table className="border-separate border-spacing-2 text-center">
         <thead>
           <tr>
-            {["Nd", "Pon", "Wt", "Śr", "Czw", "Pt", "Sob"].map((day) => (
+            {["Nd ", "Pon", "Wt ", "Śr ", "Czw", "Pt ", "Sob"].map((day) => (
               <th key={day} className="border p-2">{day}</th>
             ))}
           </tr>
@@ -89,8 +101,19 @@ export default function CalendarNote() {
             <tr key={index}>
               {week.map((day, dayIndex) => (
                 <td key={dayIndex} className="border p-2">
-                  {day ? day : ""}
-                </td>
+                {day ? (
+                  <button 
+                    onMouseEnter={() => handleMouseEnter(day)} 
+                    onMouseLeave={handleMouseLeave} 
+                    className={`rounded-full ${day > 9 ? "px-2 py-1.5" : "px-3 py-1.5"} ${
+                      hoveredValue === day
+                      ? "bg-gradient-to-r from-emerald-600 via-emerald-700 to-eden-700 hover:bg-gradient-to-br "
+                      : "bg-transparent"
+                  }`}>
+                    {day}
+                  </button>
+                ) : null}
+              </td>
               ))}
             </tr>
           ))}
