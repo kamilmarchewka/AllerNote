@@ -6,9 +6,9 @@ export default function Allergens() {
   return (
     <>
       <header className="text-4xl font-semibold mb-16 mt-32 lg:mt-44">
-        <h1 className="flex gap-4 flex-wrap">
-          <span>Co teraz pyli w</span>
-          <span className="flex gap-4">
+        <h1 className="flex items-center gap-4 flex-wrap">
+          <span>Co teraz pyli w woj.</span>
+          <span className="flex items-center gap-4">
             <VoivodeshipSelect />
             <span>?</span>
           </span>
