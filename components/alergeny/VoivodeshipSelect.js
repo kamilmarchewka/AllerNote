@@ -23,7 +23,7 @@ export default function VoivodeshipSelect() {
       <select
         defaultValue={VOIVODESHIPS[4].value}
         name="voivodeship"
-        className="block rounded-lg px-3 py-2 border-2 border-turquoise-500"
+        className="block rounded-lg px-3 py-2 border-2 border-turquoise-500 bg-transparent"
       >
         {VOIVODESHIPS.map(({ name, value }) => (
           <option key={value} value={value}>
