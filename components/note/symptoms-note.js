@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import CalendarNote, {} from "@/components/calendar/calendar-config";
+import { todaysDate } from "@/components/calendar/calendar-config.js";
 
-export default function SymptomsIntensity_note() {
+export default function SymptomsIntensity_note({currentDateStr}) {
   const [samopoczucie, setSamopoczocie] = useState(null);
   const [bolGlowy, setBolGlowy] = useState(null);
   const [katar, setKatar] = useState(null);
@@ -10,6 +10,7 @@ export default function SymptomsIntensity_note() {
   const [oko, setOko] = useState(null);
   const [kaszel, setKaszel] = useState(null);
   
+
   function submitHandler(e) {
     e.preventDefault();
     const data = {
@@ -39,9 +40,9 @@ export default function SymptomsIntensity_note() {
     };
 
     return (
-        <div className="flex justify-between">
-        <div className="flex text-left text-sm">{symptom}:</div>
-        <div className="flex ml-20 gap-1 mb-2 ">
+        <div className="flex justify-between gap-12">
+        <div className="flex text-left text-base">{symptom}:</div>
+        <div className="flex gap-1 mb-2 ">
             {[1, 2, 3, 4, 5].map((value) => (
             <button
                 key={value}
@@ -65,23 +66,18 @@ export default function SymptomsIntensity_note() {
   
   return (
     <form onSubmit={submitHandler}>
-      <h1></h1>
-      <h2 className="mt-2 text-xl mb-2">MOJE OBIAWY</h2>
+      <h1 className="text-3xl font-bold">{currentDateStr}</h1>
+      <h2 className="mt-6 text-xl mb-2 italic">MOJE OBIAWY:</h2>
       {renderButtons(setSamopoczocie, samopoczucie, "ogólne samopoczucie")}
       {renderButtons(setBolGlowy, bolGlowy, "ból głowy")}
       {renderButtons(setKatar, katar, "katar")}
       {renderButtons(setNos, nos, "swędzenie oczu")}
       {renderButtons(setOko, oko, "swędzenie nosa")}
       {renderButtons(setKaszel, kaszel, "kaszel")}
-      <h2 className="mt-2 text-xl">NOTATKA</h2>
-        <textarea id="userNote" rows="5" className="flex mt-2 p-1.5 w-full text-sm bg-white rounded-lg border resize-none shadow-inner" 
+      <h2 className="mt-1 mb-1 text-xl italic">NOTATKA:</h2>
+        <textarea id="userNote" rows="5" className="flex mt-0.5 p-1.5 w-full h-40 text-sm border bg-white rounded-lg resize-none shadow-lg" 
                   placeholder="Dzisiaj czuję się...">
         </textarea>
-      <button className="flex my-2 bg-eden-700 active:bg-emerald-900 text-white cursor-pointer rounded-lg p-1 text-sm float-right"
-        type="submit"
-      >
-        Zapisz
-      </button>
     </form>
   );
 }

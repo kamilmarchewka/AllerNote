@@ -62,7 +62,7 @@ export default function Nav() {
                 ref={submenuRef}
                 onClick={() => setSubmenuIsOpen((prev) => !prev)}
                 isLoggedIn={true}
-                username="Maksumilian Łuczak"
+                username="Maksymilian Łuczak"
               />
             </div>
             {/* submenu */}
