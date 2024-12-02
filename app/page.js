@@ -15,7 +15,7 @@ export default function Home() {
   console.log('sssssss',selectedDate);
 
   return (
-    <div className="w-full">
+    <>
       <div className="flex mt-10 justify-between items-center min-h-screen gap-8 p-8 bg-gradient-to-tl from-turquoise-500/5 to-transparent">
         <div className="flex w-1/2 body-spacing aspect-square px-20 py-14">
           <CalendarNote updateCurrentDate={(d)=>setCurrentDateStr(d)}/>
@@ -24,6 +24,6 @@ export default function Home() {
           <SymptomsIntensity_note currentDateStr={currentDateStr}/>
         </div>
       </div>
-    </div>
+    </>
   );
 }

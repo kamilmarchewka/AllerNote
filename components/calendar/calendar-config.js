@@ -1,38 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DayBtn from "./day-button";
+import calcTable from "./calendar-table";
 
 export default function CalendarNote({updateCurrentDate}) {
-  function calcTable(year, month) {
-    let arr = new Array(6);
-
-    let startDayInWeek = new Date(year, month, 1).getDay();
-    let monthLong = new Date(year, month + 1, 0).getDate();
-
-    let counter = 1;
-    let startCount = false;
-
-    for (let i = 0; i < arr.length; i++) {
-      arr[i] = new Array(7);
-      for (let j = 0; j < arr[i].length; j++) {
-        if (i === 0 && j === startDayInWeek) {
-          startCount = true;
-        }
-
-        if (startCount) {
-          arr[i][j] = counter;
-          counter++;
-          if (counter > monthLong + 1) {
-            arr[i][j] = "";
-          }
-        } else {
-          arr[i][j] = "";
-        }
-      }
-    }
-    return arr;
-  }
-
+  
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const [selectedDate, setSelectedDate] = useState(null); 
@@ -67,21 +39,12 @@ export default function CalendarNote({updateCurrentDate}) {
     return `${setMonth}`
   };
 
-  const handleDayClick = (day) => {
-    if (day) {
-      const clickedDate = new Date(year, month, day);
-      setSelectedDate(clickedDate);
-    }
-  };
-
   const todaysDate = () => {
       const today = new Date();
       let dow = daysOfWeek[today.getDay()];
       let d = today.getDate();
       return `${dow}. ${d}`;
   }
-  console.log(todaysDate);
-
 
   useEffect(()=>{
     updateCurrentDate(todaysDate());
@@ -112,9 +75,7 @@ export default function CalendarNote({updateCurrentDate}) {
             <tr key={index}>
               {week.map((day, dayIndex) => (
                 <td key={dayIndex} className="">
-                  {day ? (
-                    <DayBtn day={day} onClick={dayBtnClickHandler} isSelected={selectedDay==day} />
-                  ) : null}
+                  {day ? (<DayBtn day={day} onClick={dayBtnClickHandler} isSelected={selectedDay==day} />) : null}
                 </td>
               ))}
             </tr>
