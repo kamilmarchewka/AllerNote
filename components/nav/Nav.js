@@ -47,11 +47,18 @@ export default function Nav() {
           } transition-all md:flex-row md:gap-3 md:p-0 md:items-center md:static md:bg-transparent md:shadow-none md:rounded-none`}
         >
           {isLoggedIn && (
-            <li className="block">
-              <Link href="/" className="block w-full p-2 text-left">
-                Kalendarz
-              </Link>
-            </li>
+            <>
+              <li className="block">
+                <Link href="/" className="block w-full p-2 text-left">
+                  Strona główna
+                </Link>
+              </li>
+              <li className="block">
+                <Link href="/kalendarz" className="block w-full p-2 text-left">
+                  Kalendarz
+                </Link>
+              </li>
+            </>
           )}
           <li className="block">
             <Link href="/alergeny" className="block w-full p-2 text-left">
