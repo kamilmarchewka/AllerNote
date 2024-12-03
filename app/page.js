@@ -6,15 +6,16 @@ import Nav from "@/components/nav/Nav";
 import React, { useState } from "react";
 import SymptomsIntensity_note from "@/components/note/symptoms-note";
 import CalendarNote from "@/components/calendar/calendar-config.js";
-
+import Calendarv2 from "@/components/calendar/CalendarV2";
 
 export default function Home() {
-  const [currentDateStr, setCurrentDateStr] = useState('');
+  const [currentDateStr, setCurrentDateStr] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
     <>
       <div className="flex-container mt-10 min-h-screen p-8">
+        <Calendarv2 />
         <div className="responsive-content pt-20">
           <CalendarNote updateCurrentDate={(d) => setCurrentDateStr(d)} />
         </div>
