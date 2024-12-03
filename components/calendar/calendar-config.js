@@ -4,11 +4,13 @@ import DayBtn from "./day-button";
 import calcTable from "./calendar-table";
 
 export default function CalendarNote({updateCurrentDate}) {
-  
+
+  const today = new Date();
+  let d = today.getDate();
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
-  const [selectedDate, setSelectedDate] = useState(null); 
-  const [selectedDay,setSelectedDay]=useState(2);
+  const [selectedDate, setSelectedDate] = useState(new Date()); 
+  const [selectedDay,setSelectedDay] = useState(d);
 
   const calendar = calcTable(year, month);
 
@@ -59,7 +61,7 @@ export default function CalendarNote({updateCurrentDate}) {
   return (
     <div>
       <div className="flex justify-between">
-        <span className="py-4 text-3xl font-bold">{months[month]} {year}</span>
+        <span className="mb-4 text-3xl font-bold">{months[month]} {year}</span>
       </div>
       <div className="border bg-white shadow-lg rounded-lg ">
       <table className="border-separate border-spacing-2 text-center">

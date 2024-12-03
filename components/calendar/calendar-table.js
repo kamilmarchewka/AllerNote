@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function calcTable(year, month) {
     let arr = new Array(6);
 

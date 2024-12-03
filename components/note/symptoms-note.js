@@ -10,7 +10,6 @@ export default function SymptomsIntensity_note({currentDateStr}) {
   const [oko, setOko] = useState(null);
   const [kaszel, setKaszel] = useState(null);
   
-
   function submitHandler(e) {
     e.preventDefault();
     const data = {
@@ -63,7 +62,8 @@ export default function SymptomsIntensity_note({currentDateStr}) {
     );
   };
   
-  
+  //console.log(currentDateStr);
+
   return (
     <form onSubmit={submitHandler}>
       <h1 className="text-3xl font-bold">{currentDateStr}</h1>
