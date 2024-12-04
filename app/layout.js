@@ -32,7 +32,9 @@ export default function RootLayout({ children }) {
             2024 <sup>&copy;</sup> AllerNote.
           </p>
         </footer>
-        <BackgroundGraphic />
+        <div className="fixed bottom-0 right-0 -z-50">
+          <BackgroundGraphic />
+        </div>
       </body>
     </html>
   );
