@@ -1,28 +1,19 @@
 import React from "react";
 
-export const CalendarHeader = ({ currentDate, onPrevMonth, onNextMonth }) => {
+export const CalendarHeader = ({ currentDate }) => {
+  const formatMonthYear = (date) => {
+    const formattedDate = date.toLocaleDateString("pl-PL", {
+      month: "long",
+      year: "numeric",
+    });
+    return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+  };
+
   return (
     <div className="flex items-center justify-between mb-4">
-      <button
-        onClick={onPrevMonth}
-        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-        aria-label="Previous month"
-      >
-        left
-      </button>
-      <h2 className="text-xl font-semibold">
-        {currentDate.toLocaleDateString("en-US", {
-          month: "long",
-          year: "numeric",
-        })}
+      <h2 className="mb-4 text-3xl font-bold">
+        {formatMonthYear(currentDate)}
       </h2>
-      <button
-        onClick={onNextMonth}
-        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-        aria-label="Next month"
-      >
-        right
-      </button>
     </div>
   );
 };

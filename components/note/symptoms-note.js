@@ -1,14 +1,17 @@
 "use client";
 import React, { useState } from "react";
-import { todaysDate } from "@/components/calendar/calendar-config.js";
+import { formatDate } from "@/utils/date";
 
-export default function SymptomsIntensity_note({currentDateStr}) {
+export default function SymptomsIntensity_note({selectedDateStr}) {
   const [samopoczucie, setSamopoczocie] = useState(null);
   const [bolGlowy, setBolGlowy] = useState(null);
   const [katar, setKatar] = useState(null);
   const [nos, setNos] = useState(null);
   const [oko, setOko] = useState(null);
   const [kaszel, setKaszel] = useState(null);
+
+  const now = new Date();
+  const formattedCurrentDate = formatDate(now);
   
   function submitHandler(e) {
     e.preventDefault();
@@ -61,12 +64,12 @@ export default function SymptomsIntensity_note({currentDateStr}) {
         </div>
     );
   };
-  
-  //console.log(currentDateStr);
 
   return (
     <form onSubmit={submitHandler}>
-      <h1 className="text-3xl font-bold">{currentDateStr}</h1>
+       <h1 className="text-3xl font-bold">
+        {selectedDateStr || formattedCurrentDate}
+      </h1>
       <h2 className="mt-6 text-xl mb-2 italic">MOJE OBIAWY:</h2>
       {renderButtons(setSamopoczocie, samopoczucie, "ogólne samopoczucie")}
       {renderButtons(setBolGlowy, bolGlowy, "ból głowy")}

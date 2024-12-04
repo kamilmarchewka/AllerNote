@@ -9,18 +9,15 @@ import CalendarNote from "@/components/calendar/calendar-config.js";
 import { Calendar } from "@/components/calendarv2/Calendar";
 
 export default function Home() {
-  const [currentDateStr, setCurrentDateStr] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
+  const [currentDate, setCurrentDate] = useState("");
+  const [selectedDateStr, setSelectedDateStr] = useState("");
+  
   return (
     <>
       <div className="flex-container mt-10 min-h-screen p-8">
-        <Calendar />
+        <Calendar updateSelectedDate={setSelectedDateStr}/>
         <div className="responsive-content pt-20">
-          <CalendarNote updateCurrentDate={(d) => setCurrentDateStr(d)} />
-        </div>
-        <div className="responsive-content pt-20">
-          <SymptomsIntensity_note currentDateStr={currentDateStr} />
+          <SymptomsIntensity_note selectedDateStr={selectedDateStr} />
         </div>
       </div>
     </>

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { CalendarHeader } from "./CalendarHeader";
+import { CalendarFooter } from "./CalendarFooter";
 import { CalendarGrid } from "./CalendarGrid";
 import { formatDate } from "../../utils/date";
+import { CalendarHeader } from "./CalendarHeader";
 
-export const Calendar = () => {
+export const Calendar = ({ updateCurrentDate, updateSelectedDate }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const formattedCurrentDate = formatDate(new Date());
 
   const handlePrevMonth = () => {
     setCurrentDate(
@@ -19,20 +21,28 @@ export const Calendar = () => {
     );
   };
 
+  const handleSelectDate = (date) => {
+    setSelectedDate(date);
+    const formattedDate = formatDate(date);
+    updateSelectedDate(formattedDate); 
+  };
+
   return (
-    <div className="w-full max-w-md mx-auto bg-white rounded-xl shadow-lg p-6">
-      <CalendarHeader
+    <div className="mt-20">
+      <CalendarHeader 
         currentDate={currentDate}
-        onPrevMonth={handlePrevMonth}
-        onNextMonth={handleNextMonth}
       />
+      <div className="w-full max-w-md mx-auto border bg-white shadow-lg rounded-lg p-2">
       <CalendarGrid
         currentDate={currentDate}
         selectedDate={selectedDate}
-        onSelectDate={setSelectedDate}
+        onSelectDate={handleSelectDate}
       />
-      <div className="mt-4 text-center text-sm text-gray-600">
-        Selected: {formatDate(selectedDate)}
+      <CalendarFooter
+        currentMonth={currentDate.getMonth()}
+        onPrevMonth={handlePrevMonth}
+        onNextMonth={handleNextMonth}
+      />
       </div>
     </div>
   );

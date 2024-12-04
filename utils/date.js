@@ -7,9 +7,8 @@ export const getFirstDayOfMonth = (year, month) => {
 };
 
 export const formatDate = (date) => {
-  return date.toLocaleDateString("en-US", {
-    month: "long",
+  return date.toLocaleDateString("pl-PL", {
+    weekday: "long",
     day: "numeric",
-    year: "numeric",
   });
 };
