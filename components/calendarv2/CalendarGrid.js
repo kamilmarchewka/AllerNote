@@ -42,7 +42,7 @@ export const CalendarGrid = ({ currentDate, selectedDate, onSelectDate }) => {
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-7 sm:gap-1 md:gap-2">
+      <div className="grid grid-cols-7 md:gap-1 lg:gap-2">
         {Array.from({ length: firstDayOfMonth }).map((_, index) => (
           <div key={`empty-${index}`} className="h-12" />
         ))}

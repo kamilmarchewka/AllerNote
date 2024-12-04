@@ -13,13 +13,9 @@ export default function Home() {
   const [selectedDateStr, setSelectedDateStr] = useState("");
 
   return (
-    <>
-      <section className="mt-32">
-        <Calendar updateSelectedDate={setSelectedDateStr} />
-      </section>
-      <section>
-        <SymptomsIntensity_note selectedDateStr={selectedDateStr} />
-      </section>
-    </>
+    <section className="flex flex-col items-center gap-28 mt-32 md:flex-row md:gap-8 lg:gap-20 md:justify-center md:items-start">
+      <Calendar updateSelectedDate={setSelectedDateStr} />
+      <SymptomsIntensity_note selectedDateStr={selectedDateStr} />
+    </section>
   );
 }
