@@ -7,8 +7,13 @@ export const getFirstDayOfMonth = (year, month) => {
 };
 
 export const formatDate = (date) => {
-  return date.toLocaleDateString("pl-PL", {
-    weekday: "long",
+  const format = {
+    weekday: "short",
     day: "numeric",
-  });
+  };
+  const formattedDate = date.toLocaleDateString("pl-PL", format);
+  return (
+    formattedDate.charAt(0).toUpperCase() +
+    formattedDate.slice(1).replace(",", "")
+  );
 };
