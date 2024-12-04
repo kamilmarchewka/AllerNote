@@ -11,15 +11,15 @@ import { Calendar } from "@/components/calendarv2/Calendar";
 export default function Home() {
   const [currentDate, setCurrentDate] = useState("");
   const [selectedDateStr, setSelectedDateStr] = useState("");
-  
+
   return (
     <>
-      <div className="flex-container mt-10 min-h-screen p-8">
-        <Calendar updateSelectedDate={setSelectedDateStr}/>
-        <div className="responsive-content pt-20">
-          <SymptomsIntensity_note selectedDateStr={selectedDateStr} />
-        </div>
-      </div>
+      <section className="mt-32">
+        <Calendar updateSelectedDate={setSelectedDateStr} />
+      </section>
+      <section>
+        <SymptomsIntensity_note selectedDateStr={selectedDateStr} />
+      </section>
     </>
   );
 }

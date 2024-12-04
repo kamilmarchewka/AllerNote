@@ -18,20 +18,26 @@ export const CalendarFooter = ({ currentMonth, onPrevMonth, onNextMonth }) => {
   months[-1] = "Grudzień";
 
   return (
-    <div className="flex items-center justify-between mb-4">
+    <div className="flex items-center justify-between px-3 mt-7">
       <button
         onClick={onPrevMonth}
-        className="p-2 mr-4 mt-4 text-base text-center text-eden-700"
+        className="group text-base text-center text-eden-700"
         aria-label="Previous month"
       >
-        &lt; {months[(currentMonth - 1) % 12]}
+        <span className="inline-block transform group-hover:-translate-x-[2px] transition-transform">
+          &lt;
+        </span>{" "}
+        {months[(currentMonth - 1) % 12]}
       </button>
       <button
         onClick={onNextMonth}
-        className="p-2 mr-4 mt-4 text-base text-center text-eden-700"
+        className="group text-base text-center text-eden-700"
         aria-label="Next month"
       >
-        {months[(currentMonth + 1) % 12]} &gt;
+        {months[(currentMonth + 1) % 12]}{" "}
+        <span className="inline-block transform group-hover:translate-x-[2px] transition-transform">
+          &gt;
+        </span>
       </button>
     </div>
   );

@@ -32,17 +32,17 @@ export const CalendarGrid = ({ currentDate, selectedDate, onSelectDate }) => {
 
   return (
     <div className="select-none">
-      <div className="grid grid-cols-7 mb-2">
+      <div className="grid grid-cols-7 mb-4">
         {days.map((day) => (
           <div
             key={day}
-            className="text-center text-sm italic font-light text-eden-700 py-2"
+            className="text-center text-sm italic font-light text-eden-700"
           >
             {day}
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 sm:gap-1 md:gap-2">
         {Array.from({ length: firstDayOfMonth }).map((_, index) => (
           <div key={`empty-${index}`} className="h-12" />
         ))}
@@ -56,9 +56,9 @@ export const CalendarGrid = ({ currentDate, selectedDate, onSelectDate }) => {
             <button
               key={index}
               onClick={(e) => onSelectDate(date)}
-              className={`rounded-lg w-12 h-12 hover:bg-eden-700 hover:text-white transition ${
+              className={`rounded-lg w-11 h-11 hover:bg-eden-700 hover:text-white transition ${
                 isSelected(date) ? "bg-eden-700 text-white" : "text-eden-700"
-              }`}
+              } ${isToday(date) ? " outline outline-eden-700" : ""}`}
             >
               {index + 1}
             </button>

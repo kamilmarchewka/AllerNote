@@ -7,7 +7,6 @@ import { CalendarHeader } from "./CalendarHeader";
 export const Calendar = ({ updateCurrentDate, updateSelectedDate }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const formattedCurrentDate = formatDate(new Date());
 
   const handlePrevMonth = () => {
     setCurrentDate(
@@ -24,26 +23,24 @@ export const Calendar = ({ updateCurrentDate, updateSelectedDate }) => {
   const handleSelectDate = (date) => {
     setSelectedDate(date);
     const formattedDate = formatDate(date);
-    updateSelectedDate(formattedDate); 
+    updateSelectedDate(formattedDate);
   };
 
   return (
-    <div className="mt-20">
-      <CalendarHeader 
-        currentDate={currentDate}
-      />
-      <div className="w-full max-w-md mx-auto border bg-white shadow-lg rounded-lg p-2">
-      <CalendarGrid
-        currentDate={currentDate}
-        selectedDate={selectedDate}
-        onSelectDate={handleSelectDate}
-      />
-      <CalendarFooter
-        currentMonth={currentDate.getMonth()}
-        onPrevMonth={handlePrevMonth}
-        onNextMonth={handleNextMonth}
-      />
+    <section className="flex flex-col w-fit">
+      <CalendarHeader currentDate={currentDate} />
+      <div className="border bg-white shadow-md rounded-2xl p-2">
+        <CalendarGrid
+          currentDate={currentDate}
+          selectedDate={selectedDate}
+          onSelectDate={handleSelectDate}
+        />
+        <CalendarFooter
+          currentMonth={currentDate.getMonth()}
+          onPrevMonth={handlePrevMonth}
+          onNextMonth={handleNextMonth}
+        />
       </div>
-    </div>
+    </section>
   );
 };
