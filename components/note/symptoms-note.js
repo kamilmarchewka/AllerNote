@@ -65,17 +65,17 @@ export default function SymptomsIntensity_note({ selectedDateStr }) {
 
   return (
     <form onSubmit={submitHandler}>
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-3xl font-bold mb-9">
         {selectedDateStr || formattedCurrentDate}
       </h1>
-      <h2 className="mt-6 text-xl mb-2 italic">MOJE OBIAWY:</h2>
+      <h2 className="text-xl mb-2 italic">MOJE OBIAWY:</h2>
       {renderButtons(setSamopoczocie, samopoczucie, "ogólne samopoczucie")}
       {renderButtons(setBolGlowy, bolGlowy, "ból głowy")}
       {renderButtons(setKatar, katar, "katar")}
       {renderButtons(setNos, nos, "swędzenie oczu")}
       {renderButtons(setOko, oko, "swędzenie nosa")}
       {renderButtons(setKaszel, kaszel, "kaszel")}
-      <h2 className="mt-1 mb-1 text-xl italic">NOTATKA:</h2>
+      <h2 className="mt-9 mb-1 text-xl italic">NOTATKA:</h2>
       <textarea
         id="userNote"
         rows="5"
