@@ -70,12 +70,18 @@ export default function Nav() {
             <div className="flex justify-center border-t pt-4 mt-2 md:pt-0 md:mt-0 md:ml-4 md:peer">
               <LoginButton
                 ref={submenuRef}
+<<<<<<< HEAD
                 onClick={() => {
                   setIsLoggedIn(true);
                   if (isLoggedIn) setSubmenuIsOpen((prev) => !prev);
                 }}
                 isLoggedIn={isLoggedIn}
                 username="Maksumilian Łuczak"
+=======
+                onClick={() => setSubmenuIsOpen((prev) => !prev)}
+                isLoggedIn={true}
+                username="Maksymilian Łuczak"
+>>>>>>> calendar
               />
             </div>
             {/* submenu */}
