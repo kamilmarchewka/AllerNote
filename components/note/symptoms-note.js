@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { formatDate } from "@/utils/date";
-import renderButtons from "./renderButtons";
+import renderButtons from "./CustomRadio";
+import CustomRadio from "./CustomRadio";
 
 export default function SymptomsIntensity_note({ selectedDateStr }) {
   const [samopoczucie, setSamopoczocie] = useState(null);
@@ -32,12 +33,37 @@ export default function SymptomsIntensity_note({ selectedDateStr }) {
         {selectedDateStr || formattedCurrentDate}
       </h1>
       <h2 className="text-xl mb-2 italic">MOJE OBIAWY:</h2>
-      {renderButtons(setSamopoczocie, samopoczucie, "ogólne samopoczucie")}
-      {renderButtons(setBolGlowy, bolGlowy, "ból głowy")}
-      {renderButtons(setKatar, katar, "katar")}
-      {renderButtons(setNos, nos, "swędzenie oczu")}
-      {renderButtons(setOko, oko, "swędzenie nosa")}
-      {renderButtons(setKaszel, kaszel, "kaszel")}
+      <CustomRadio
+        stateSetter={setSamopoczocie}
+        currentValue={samopoczucie}
+        symptom="ogólne samopoczucie"
+      />
+      <CustomRadio
+        stateSetter={setBolGlowy}
+        currentValue={bolGlowy}
+        symptom="ból głowy"
+      />
+      <CustomRadio
+        stateSetter={setKatar}
+        currentValue={katar}
+        symptom="katar"
+      />
+      <CustomRadio
+        stateSetter={setNos}
+        currentValue={nos}
+        symptom="swędzenie oczu"
+      />
+      <CustomRadio
+        stateSetter={setOko}
+        currentValue={oko}
+        symptom="swędzenie nosa"
+      />
+      <CustomRadio
+        stateSetter={setKaszel}
+        currentValue={kaszel}
+        symptom="kaszel"
+      />
+
       <h2 className="mt-5 mb-1 text-xl italic">NOTATKA:</h2>
       <textarea
         id="userNote"

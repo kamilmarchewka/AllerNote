@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-const renderButtons = (stateSetter, currentValue, symptom) => {
+const CustomRadio = ({ stateSetter, currentValue, symptom }) => {
   const [hoveredValue, setHoveredValue] = useState(null);
 
   const handleClick = (value) => {
@@ -39,4 +39,4 @@ const renderButtons = (stateSetter, currentValue, symptom) => {
   );
 };
 
-export default renderButtons;
+export default CustomRadio;
