@@ -11,7 +11,7 @@ export const Calendar = ({
   selectedDate,
 }) => {
   return (
-    <section className="flex flex-col w-fit">
+    <div className="flex flex-col w-fit">
       <CalendarHeader currentDate={currentMonth} />
       <div className="border bg-white shadow-md rounded-2xl p-2 lg:p-4">
         <CalendarGrid
@@ -41,6 +41,6 @@ export const Calendar = ({
           }
         />
       </div>
-    </section>
+    </div>
   );
 };
