@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
-import SymptomsIntensity_note from "@/components/note/symptoms-note";
+import SymptomsNote from "@/components/note/SymptomsNote";
 
 import { Calendar } from "@/components/calendar/Calendar";
 
@@ -18,7 +18,7 @@ export default function Home() {
         currentMonth={currentMonth}
         selectedDate={selectedDate}
       />
-      <SymptomsIntensity_note selectedDateStr={"aaa"} />
+      <SymptomsNote selectedDate={selectedDate} />
     </section>
   );
 }
