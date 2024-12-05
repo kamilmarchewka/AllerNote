@@ -81,7 +81,7 @@ export default function SymptomsNote({ selectedDate }) {
         )}
       </h1>
       <h2 className="text-xl mb-2 italic">MOJE OBIAWY:</h2>
-      <div className="md:pr-10 lg:pr-16">
+      <div className=" lg:pr-16">
         <CustomRadio
           stateSetter={setSamopoczocie}
           currentValue={samopoczucie}
