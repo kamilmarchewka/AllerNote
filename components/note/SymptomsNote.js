@@ -4,6 +4,7 @@ import { formatDate } from "@/utils/date";
 import renderButtons from "./CustomRadio";
 import CustomRadio from "./CustomRadio";
 import ButtonSecondary from "../buttons/ButtonSecondary";
+import ButtonPrimary from "../buttons/ButtonPrimary";
 
 export default function SymptomsNote({ selectedDate }) {
   const [samopoczucie, setSamopoczocie] = useState(null);
@@ -12,6 +13,8 @@ export default function SymptomsNote({ selectedDate }) {
   const [nos, setNos] = useState(null);
   const [oko, setOko] = useState(null);
   const [kaszel, setKaszel] = useState(null);
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const SYMPTOMS = [
     {
@@ -143,6 +146,30 @@ export default function SymptomsNote({ selectedDate }) {
             className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
             placeholder="Dzisiaj czuję się..."
           ></textarea>
+        </div>
+        <div className="ml-auto flex gap-5">
+          {!isEditing ? (
+            <ButtonPrimary style="green" onClick={() => setIsEditing(true)}>
+              Edytuj
+            </ButtonPrimary>
+          ) : (
+            <>
+              <ButtonPrimary
+                type="reset"
+                style="red"
+                onClick={() => setIsEditing(false)}
+              >
+                Anuluj
+              </ButtonPrimary>
+              <ButtonPrimary
+                type="submit"
+                style="green"
+                onClick={() => setIsEditing(false)}
+              >
+                Zapisz
+              </ButtonPrimary>
+            </>
+          )}
         </div>
       </form>
     </section>
