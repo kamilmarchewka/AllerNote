@@ -12,8 +12,8 @@ export default function Home() {
 
   return (
     <section className="flex flex-col items-center gap-28  pt-32 pb-10 lg:min-h-[calc(100vh-40px)] md:flex-row md:gap-8 lg:gap-20 md:justify-center md:items-start">
-      <Calendar updateSelectedDate={setSelectedDateStr} />
-      <SymptomsIntensity_note selectedDateStr={selectedDateStr} />
+      {/* <Calendar updateSelectedDate={setSelectedDateStr} />
+      <SymptomsIntensity_note selectedDateStr={selectedDateStr} /> */}
     </section>
   );
 }
