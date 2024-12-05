@@ -3,11 +3,10 @@ import React from "react";
 export default function Dandelion() {
   return (
     <svg
-      width="242"
-      height="532"
       viewBox="0 0 242 532"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="block w-full"
     >
       <g id="dmuchawiec">
         <g id="lodyga">
