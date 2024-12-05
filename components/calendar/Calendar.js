@@ -4,43 +4,43 @@ import { CalendarGrid } from "./CalendarGrid";
 import { formatDate } from "../../utils/date";
 import { CalendarHeader } from "./CalendarHeader";
 
-export const Calendar = ({ updateCurrentDate, updateSelectedDate }) => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  const handlePrevMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
-    );
-  };
-
-  const handleNextMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
-    );
-  };
-
-  const handleSelectDate = (date) => {
-    setSelectedDate(date);
-    const formattedDate = formatDate(date);
-    updateSelectedDate(formattedDate);
-  };
-
+export const Calendar = ({
+  setCurrentMonth,
+  setSelectedDate,
+  currentMonth,
+  selectedDate,
+}) => {
   return (
-    <section className="flex flex-col w-fit">
-      <CalendarHeader currentDate={currentDate} />
-      <div className="border bg-white shadow-md rounded-2xl p-2">
+    <div className="flex flex-col w-fit">
+      <CalendarHeader currentDate={currentMonth} />
+      <div className="border bg-white shadow-md rounded-2xl p-2 lg:p-4">
         <CalendarGrid
-          currentDate={currentDate}
+          currentDate={currentMonth}
           selectedDate={selectedDate}
-          onSelectDate={handleSelectDate}
+          onSelectDate={setSelectedDate}
         />
         <CalendarFooter
-          currentMonth={currentDate.getMonth()}
-          onPrevMonth={handlePrevMonth}
-          onNextMonth={handleNextMonth}
+          currentMonth={currentMonth.getMonth()}
+          onPrevMonth={() =>
+            setCurrentMonth(
+              new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth() - 1,
+                1
+              )
+            )
+          }
+          onNextMonth={() =>
+            setCurrentMonth(
+              new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth() + 1,
+                1
+              )
+            )
+          }
         />
       </div>
-    </section>
+    </div>
   );
 };

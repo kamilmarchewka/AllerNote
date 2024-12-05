@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import SymptomsIntensity_note from "@/components/note/symptoms-note";
+import SymptomsIntensity_note from "@/components/note/SymptomsNote";
 
 import { Calendar } from "@/components/calendar/Calendar";
 import { useRouter } from "next/navigation";
