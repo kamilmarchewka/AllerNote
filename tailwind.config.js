@@ -38,6 +38,12 @@ module.exports = {
           "50%": { transform: "rotate(33deg)" },
           "100%": { transform: "rotate(29deg)" },
         },
+        "404-jump": {
+          "0%": { transform: "translateY(0px)" },
+          "4%": { transform: "translateY(-40px)" },
+          "8%": { transform: "translateY(0px)" },
+          "0%": { transform: "translateY(0px)" },
+        },
       },
     },
   },

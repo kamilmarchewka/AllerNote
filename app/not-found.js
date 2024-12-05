@@ -32,7 +32,17 @@ export default function Custom404() {
       className="flex items-start justify-center pt-64 pb-10 lg:min-h-[calc(100vh-40px)]"
     >
       <header className="text-[20rem] font-bold ">
-        <h1 className="text-[20rem] font-bold text-eden-700">404</h1>
+        <h1 className="flex gap-1 text-[20rem] font-bold text-eden-700">
+          <span className="animate-[404-jump_5s_ease-in-out_infinite_1s]">
+            4
+          </span>
+          <span className="animate-[404-jump_5s_ease-in-out_infinite_1.1s]">
+            0
+          </span>
+          <span className="animate-[404-jump_5s_ease-in-out_infinite_1.2s]">
+            4
+          </span>
+        </h1>
       </header>
 
       {/* Dandelions */}
