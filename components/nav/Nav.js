@@ -48,13 +48,13 @@ export default function Nav() {
         >
           {isLoggedIn && (
             <>
-              <li className="block">
+              {/* <li className="block">
                 <Link href="/" className="block w-full p-2 text-left">
                   Strona główna
                 </Link>
-              </li>
+              </li> */}
               <li className="block">
-                <Link href="/kalendarz" className="block w-full p-2 text-left">
+                <Link href="/" className="block w-full p-2 text-left">
                   Kalendarz
                 </Link>
               </li>
