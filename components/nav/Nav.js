@@ -62,7 +62,7 @@ export default function Nav() {
           )}
           <li className="block">
             <Link href="/alergeny" className="block w-full p-2 text-left">
-              Co pyli?
+              Co niesie wiatr?
             </Link>
           </li>
           <li className="flex flex-col-reverse md:relative">

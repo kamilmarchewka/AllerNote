@@ -10,6 +10,8 @@ export default function Home() {
   const [currentDate, setCurrentDate] = useState("");
   const [selectedDateStr, setSelectedDateStr] = useState("");
 
+  console.log("selected data str", selectedDateStr);
+
   return (
     <section className="flex flex-col items-center gap-28  pt-32 pb-10 lg:min-h-[calc(100vh-40px)] md:flex-row md:gap-8 lg:gap-20 md:justify-center md:items-start">
       <Calendar updateSelectedDate={setSelectedDateStr} />

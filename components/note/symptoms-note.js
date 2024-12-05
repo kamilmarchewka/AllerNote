@@ -32,8 +32,9 @@ export default function SymptomsIntensity_note({ selectedDateStr }) {
     <form onSubmit={submitHandler} className="block h-[100%]">
       <h1 className="flex justify-between items-center text-3xl font-bold mb-9">
         {selectedDateStr || formattedCurrentDate}
+
         <ButtonSecondary>
-          Co pyliło?{" "}
+          Co niósł wiatr?{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
