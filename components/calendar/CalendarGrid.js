@@ -56,10 +56,12 @@ export const CalendarGrid = ({ currentDate, selectedDate, onSelectDate }) => {
             <button
               key={index}
               onClick={(e) => onSelectDate(date)}
-              className={`rounded-lg w-11 h-11 hover:bg-eden-700 hover:text-white transition ${
-                isSelected(date) ? "bg-eden-700 text-white" : "text-eden-700"
+              className={`rounded-lg w-11 h-11 hover:bg-eden-700/60 hover:text-white transition ${
+                isSelected(date)
+                  ? "bg-eden-700 text-white hover:bg-eden-700/100"
+                  : "text-eden-700"
               } ${
-                isToday(date) ? " outline outline-eden-700" : ""
+                isToday(date) && " outline outline-eden-700 outline-1"
               } lg:w-[3.2rem] lg:h-[3.2rem]`}
             >
               {index + 1}
