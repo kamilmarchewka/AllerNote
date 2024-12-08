@@ -7,7 +7,7 @@ export default function Badge() {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <section
-      className={`mx-auto relative flex flex-col items-start gap-7 bg-eden-700 text-white rounded-2xl pl-8 pr-72 py-7 max-w-[50rem] ${
+      className={`mx-auto relative flex flex-col items-start gap-7 bg-eden-700 text-white rounded-2xl p-5 pt-12 md:pl-8 md:pr-72 md:py-7 max-w-[50rem] ${
         !isOpen ? "hidden" : "flex"
       }`}
     >
@@ -31,7 +31,7 @@ export default function Badge() {
         </svg>
       </button>
       <header>
-        <h3 className="text-3xl font-bold relative  z-[1]">
+        <h3 className="text-3xl  font-bold relative  z-[1]">
           Trawa kosi ludzi na potęgę
         </h3>
       </header>
