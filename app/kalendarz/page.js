@@ -7,6 +7,7 @@ import SymptomsNote from "@/components/note/SymptomsNote";
 import { Calendar } from "@/components/calendar/Calendar";
 import Badge from "@/components/badge/Badge";
 
+
 export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());

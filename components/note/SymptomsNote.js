@@ -140,12 +140,21 @@ export default function SymptomsNote({ selectedDate }) {
             <h2 className="text-xl italic">NOTATKA:</h2>
           </header>
 
+          { !isEditing ? (
           <textarea
+            disabled
+            id="userNote"
+            rows="5"
+            className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
+            placeholder="Dzisiaj czuję się..."
+          ></textarea> ) : (
+            <textarea
             id="userNote"
             rows="5"
             className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
             placeholder="Dzisiaj czuję się..."
           ></textarea>
+          ) } 
         </div>
         <div className="ml-auto flex gap-5">
           {!isEditing ? (
