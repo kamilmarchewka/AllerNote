@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { formatDate } from "@/utils/date";
 import renderButtons from "./CustomRadio";
 import CustomRadio from "./CustomRadio";
+import CustomRadioToEdit from "./CustomRadioToEdit"
 import ButtonSecondary from "../buttons/ButtonSecondary";
 import ButtonPrimary from "../buttons/ButtonPrimary";
 
@@ -125,16 +126,23 @@ export default function SymptomsNote({ selectedDate }) {
           <header className="mb-2">
             <h2 className="text-xl first-line:italic">MOJE OBIAWY:</h2>
           </header>
-          <div className=" lg:pr-16">
-            {SYMPTOMS.map(({ stateSetter, currentValue, symptom }) => (
-              <CustomRadio
-                key={symptom}
-                stateSetter={stateSetter}
-                currentValue={currentValue}
-                symptom={symptom}
-              />
-            ))}
-          </div>
+        <div className="lg:pr-16">
+          {SYMPTOMS.map(({ stateSetter, currentValue, symptom }) => 
+          isEditing ? (
+            <CustomRadio
+              key={symptom}
+              stateSetter={stateSetter}
+              currentValue={currentValue}
+              symptom={symptom}
+            />
+          ) : (
+            <CustomRadioToEdit
+              key={symptom}
+              symptom={symptom}
+              currentValue={currentValue}
+            /> )
+          )}
+        </div>
         </div>
 
         <div>
