@@ -3,20 +3,22 @@ import { render, screen } from "@testing-library/react";
 import Custom404 from "../not-found";
 
 describe("404 Page", () => {
-  it("renders a heading with 404", () => {
+  it("404 heading is rendered with the correct text", () => {
     render(<Custom404 />);
-    const heading = screen.getByRole("heading", { name: /404/i, level: 1 });
+    const heading = screen.getByRole("heading", { level: 1 });
 
     // Assertion
     expect(heading).toBeInTheDocument();
+    expect(heading).toHaveTextContent("404");
   });
 
-  it("contains a link that redirects to the homepage", () => {
+  it("Go back home btn is rendered", () => {
     render(<Custom404 />);
-    const link = screen.getByRole("link", { name: /Powrót na stronę główną/i });
 
-    // Assertion
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute("href", "/");
+    const button = screen.getByRole("link");
+
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent(/Powrót na stronę główną/);
+    expect(button).toHaveAttribute("href", "/");
   });
 });
