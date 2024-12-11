@@ -12,7 +12,7 @@ describe("404 Page", () => {
     expect(heading).toHaveTextContent("404");
   });
 
-  it("Go back home btn is rendered", () => {
+  it("Go back home btn is rendered with text and has correct url", () => {
     render(<Custom404 />);
 
     const button = screen.getByRole("link");
