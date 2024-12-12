@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import Nav from "@/components/nav/Nav";
 import BackgroundGraphic from "@/components/background/bg-graphics";
 import "./globals.css";
+import Footer from "@/components/footer/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,11 +28,7 @@ export default function RootLayout({ children }) {
       >
         <Nav />
         <main className="body-spacing ">{children}</main>
-        <footer className="body-spacing  py-3 text-center text-eclipse-600 text-xs">
-          <p>
-            2024 <sup>&copy;</sup> AllerNote.
-          </p>
-        </footer>
+        <Footer />
         <div className="fixed bottom-0 right-0 -z-50">
           <BackgroundGraphic />
         </div>
