@@ -39,6 +39,7 @@ describe("Form Component", () => {
     render(<Form registration={false} />);
     const registrationLink = screen.getByText(/Zarejestruj się/i);
     expect(registrationLink).toBeInTheDocument();
+    expect(registrationLink).toHaveAttribute("href", "/rejestracja");
   });
 
   test("does not render registration link when registration prop is true", () => {
