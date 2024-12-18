@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import InputBox from "./InputBox";
@@ -48,7 +49,7 @@ export default function Form({
       )}
 
       <div className="flex mt-8 flex-col gap-2 items-center">
-        <ButtonPrimary text={btnText} />
+        <ButtonPrimary type="submit">{btnText}</ButtonPrimary>
         {!registration && (
           <p className="text-center">
             <span className="text-white/85">Nie masz konta?</span>{" "}
