@@ -6,9 +6,7 @@ import { time } from "drizzle-orm/mysql-core"
 //struktury tabel
 export const allergic = pgTable("allergic", 
     {
-        id: serial("id").primaryKey(),
-        firstName: varchar("first_name").notNull(),
-        lastName: varchar("last_name").notNull(),
+        userId: serial("id").primaryKey(),
         email: varchar("email").unique().notNull(),
         active: boolean("active").notNull().default(true),
         createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -18,8 +16,8 @@ export const allergic = pgTable("allergic",
 
 export const notes = pgTable("notes",
     {
-        id: serial("id").primaryKey(),
-        userId: integer("user_id").references(() => allergic.id).notNull(),
+        noteId: serial("note_id").primaryKey(),
+        userId: integer("user_id").references(() => allergic.userId).notNull(),
         content: text("content").notNull(),
         createdAt: timestamp("created_at").notNull().defaultNow(),
         updatedAt: timestamp("updated_at").notNull().defaultNow().$onUpdate(() => new Date()),
@@ -28,7 +26,7 @@ export const notes = pgTable("notes",
 
 export const symptoms = pgTable("symptoms", 
     {
-        id: serial("id").primaryKey(),
+        symptomId: serial("symptom_id").primaryKey(),
         name: varchar("symptom_name").notNull(),
     }
 )
@@ -36,43 +34,117 @@ export const symptoms = pgTable("symptoms",
 export const userSymptoms = pgTable("user_symptoms",
     {
         id: serial("id").primaryKey(),
-        userId: integer("user_id").references(() => allergic.id).notNull(),
-        symptomId: integer("symptom_id").references(() => symptoms.id).notNull(),
+        userId: integer("user_id").references(() => allergic.userId).notNull(),
+        symptomId: integer("symptom_id").references(() => symptoms.symptomId).notNull(),
         severity: integer("severity").notNull(),
         updatedAt: timestamp("updated_at").notNull().defaultNow(),
     },
     (table) => ({
         severityCheck: sql`CHECK (severity >= 1 AND severity <= 5)`, 
-        //uniqueUserSymptom: sql`UNIQUE (user_id, symptom_id)`,
+        uniqueUserSymptom: sql`UNIQUE (user_id, symptom_id)`,
     })
 )
 
+export const regions = pgTable("regions",
+    {
+        regionId: serial("region_id").primaryKey(),
+        name: varchar("region_name").notNull(),
+    }
+)
+
+export const allergenInfo = pgTable("allergen_info",
+    {
+        id: serial("id").primaryKey(),
+        allergen: varchar("allergen").notNull(),
+        allergenIntensity: integer("allergen_intensity").notNull(),
+    }
+)
+
+export const userLocation = pgTable("user_location",
+    {
+        regionId: integer("region_id").references(() => regions.regionId).notNull(),
+        userId: integer("user_id").references(() => allergic.userId).notNull(),
+        //regionIdForeign: integer("region_id").references(() => regions.regionId).notNull(), // Nazwij regionIdForeign
+    }
+)
 
 
+export const allergenLocation = pgTable("allergen_location", 
+    {
+        //id: serial("id").primaryKey(),
+        regionId: integer("region_id").references(() => regions.regionId).notNull(), // Poprawiamy na regionId
+        allergenId: integer("allergen_id").references(() => allergenInfo.id).notNull(),
+    }
+);
+
+
+   
 //relacje
-export const allergicRelations = relations(allergic, ({ many }) => ({
+export const allergicRelations = relations(allergic, 
+    ({ many }) => ({
     notes: many(notes),
     userSymptoms: many(userSymptoms),
+    userLocation: many(userLocation),
 }))
 
-export const symptomRelations = relations(symptoms, ({ many }) => ({
-    userSymptoms: many(userSymptoms),
-}))
-
-export const notesRelations = relations(notes, ({ one }) => ({
+export const notesRelations = relations(notes, 
+    ({ one }) => ({
     user: one(allergic, {
         fields: [notes.userId],
-        references: [allergic.id],
+        references: [allergic.userId],
     }),
 }))
 
-export const userSymptomsRelations = relations(userSymptoms, ({ one }) => ({
+export const regionsRelations = relations(regions, 
+    ({ many }) => ({
+    userLocation: many(userLocation),
+    allergenLocation: many(allergenLocation),
+}))
+
+export const userLocationRelations = relations(userLocation, 
+    ({ one }) => ({
+    user: one(allergic, {
+        fields: [userLocation.userId],
+        references: [allergic.userId],
+    }),
+    region: one(regions, {
+        fields: [userLocation.regionId],
+        references: [regions.regionId]
+    }),
+}))
+
+export const allergenLocationRelations = relations(allergenLocation, 
+    ({ one }) => ({
+        region: one(regions, {
+            fields: [allergenLocation.regionId],
+            references: [regions.regionId],
+        }),
+        allergenInfo: one(allergenInfo, {
+            fields: [allergenLocation.allergenId],
+            references: [allergenInfo.id],
+        }),
+    })
+);
+
+
+export const allergenInfoRelations = relations(allergenInfo, 
+    ({ many }) => ({
+    allergenLocation: many(allergenLocation),
+}))
+
+export const userSymptomsRelations = relations(userSymptoms, 
+    ({ one }) => ({
     user: one(allergic, {
         fields: [userSymptoms.userId],
-        references: [allergic.id],
+        references: [allergic.userId],
     }),
     symptom: one(symptoms, {
         fields: [userSymptoms.symptomId],
-        references: [symptoms.id],
+        references: [symptoms.symptomId],
     }),
+}))
+
+export const symptomsRelations = relations(symptoms, 
+    ({ many }) => ({
+    userSymptoms: many(userSymptoms),
 }))

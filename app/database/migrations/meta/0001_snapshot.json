@@ -1,6 +1,6 @@
 {
-  "id": "88ec96af-56b1-4973-83e9-3fb84c225779",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "db11d501-0531-449f-9c21-50816dc5c974",
+  "prevId": "88ec96af-56b1-4973-83e9-3fb84c225779",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -256,8 +256,8 @@
       "columns": {
         "region_id": {
           "name": "region_id",
-          "type": "serial",
-          "primaryKey": true,
+          "type": "integer",
+          "primaryKey": false,
           "notNull": true
         },
         "user_id": {
@@ -269,6 +269,19 @@
       },
       "indexes": {},
       "foreignKeys": {
+        "user_location_region_id_regions_region_id_fk": {
+          "name": "user_location_region_id_regions_region_id_fk",
+          "tableFrom": "user_location",
+          "tableTo": "regions",
+          "columnsFrom": [
+            "region_id"
+          ],
+          "columnsTo": [
+            "region_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
         "user_location_user_id_allergic_id_fk": {
           "name": "user_location_user_id_allergic_id_fk",
           "tableFrom": "user_location",
