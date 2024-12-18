@@ -2,20 +2,20 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import SymptomsIntensity_note from "@/components/note/SymptomsNote";
-
-import { Calendar } from "@/components/calendar/Calendar";
-import { useRouter } from "next/navigation";
+import WelcomeBadge from "@/components/welcome/WelcomeBadge";
 
 export default function Home() {
   return (
-    <section className="flex flex-col items-center gap-28  pt-32 pb-10 lg:min-h-[calc(100vh-40px)] md:flex-row md:gap-8 lg:gap-20 md:justify-center md:items-start">
-      <div className="relative text-center font-bold text-[40vw] text-white outlines font-outline-2 lg:m-60 md:m-40">
+    <section className="flex flex-col gap-28 pt-32 pb-10 items-center">
+      <section className="flex flex-col md:flex-row">
+      <div className="relative text-center font-bold text-[40vw] text-white outlines font-outline-2 m-10 lg:m-60 md:m-40 sm:m-20">
           Note
-        <div className="absolute left-1/2 -translate-x-1/2 text-center font-bold text-eden-700 text-[20vw]">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 text-center font-bold text-eden-700 text-[20vw]">
           Aller
         </div>
       </div>
+      </section>
+        <WelcomeBadge />
     </section>
   );
 }
