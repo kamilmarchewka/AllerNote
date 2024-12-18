@@ -56,6 +56,8 @@ export default function SymptomsNote({ selectedDate }) {
 
   function submitHandler(e) {
     e.preventDefault();
+  
+    // Tworzymy obiekt z danymi z formularza
     const data = {
       samopoczucie: samopoczucie,
       bol_glowy: bolGlowy,
@@ -63,8 +65,30 @@ export default function SymptomsNote({ selectedDate }) {
       swedzenie_nosa: nos,
       swedzenie_oczu: oko,
       kaszel: kaszel,
+      note: text, // Dodajemy tekst notatki
     };
+  
+    // Wysyłamy dane do API
+    fetch('/api/notes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert('Notatka została zapisana');
+        } else {
+          alert('Błąd podczas zapisywania notatki');
+        }
+      })
+      .catch((error) => {
+        console.error('Wystąpił błąd:', error);
+        alert('Wystąpił błąd przy wysyłaniu notatki');
+      });
   }
+  
   const today = new Date();
 
   function isToday(date) {
