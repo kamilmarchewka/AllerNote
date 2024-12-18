@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import Nav from "@/components/nav/Nav";
+import BackgroundGraphic from "@/components/background/bg-graphics";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -31,6 +32,9 @@ export default function RootLayout({ children }) {
             2024 <sup>&copy;</sup> AllerNote.
           </p>
         </footer>
+        <div className="fixed bottom-0 right-0 -z-50">
+          <BackgroundGraphic />
+        </div>
       </body>
     </html>
   );

@@ -22,3 +22,22 @@
       visibility 0ms ease-in-out 100ms;
   }
 }
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap; /* Aby elementy mogły przechodzić w dół */
+  justify-content: space-between; /* Rozkłada elementy równomiernie */
+  gap: 1rem; /* Odstęp między elementami */
+}
+
+.flex-item {
+  flex: 1 1 calc(50% - 1rem); /* Elastyczny element zajmuje 50% szerokości minus odstępy */
+  box-sizing: border-box; /* Aby padding i border były wliczane w szerokość */
+}
+
+@media (max-width: 768px) {
+  .flex-item {
+    flex: 1 1 100%; /* Na mniejszych ekranach zajmuje 100% szerokości */
+  }
+}
+

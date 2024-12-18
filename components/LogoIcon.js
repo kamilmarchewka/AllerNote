@@ -93,8 +93,8 @@ export default function LogoIcon() {
           y2="67.6636"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2FFCD5" />
-          <stop offset="1" stop-color="#306A5F" />
+          <stop stopColor="#2FFCD5" />
+          <stop offset="1" stopColor="#306A5F" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_160_163"
@@ -104,8 +104,8 @@ export default function LogoIcon() {
           y2="67.9157"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#30FAD4" />
-          <stop offset="1" stop-color="#316C61" />
+          <stop stopColor="#30FAD4" />
+          <stop offset="1" stopColor="#316C61" />
         </linearGradient>
         <image
           id="image0_160_163"
