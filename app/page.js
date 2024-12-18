@@ -8,19 +8,14 @@ import { Calendar } from "@/components/calendar/Calendar";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  // const [currentDate, setCurrentDate] = useState("");
-  // const [selectedDateStr, setSelectedDateStr] = useState("");
-
-  const router = useRouter();
-  useEffect(() => {
-    // Navigate to "/kalendarz" after initial render
-    router.push("/kalendarz");
-  }, [router]);
-
   return (
     <section className="flex flex-col items-center gap-28  pt-32 pb-10 lg:min-h-[calc(100vh-40px)] md:flex-row md:gap-8 lg:gap-20 md:justify-center md:items-start">
-      {/* <Calendar updateSelectedDate={setSelectedDateStr} />
-      <SymptomsIntensity_note selectedDateStr={selectedDateStr} /> */}
+      <div className="relative text-center font-bold text-[40vw] text-white outlines font-outline-2 lg:m-60 md:m-40">
+          Note
+        <div className="absolute left-1/2 -translate-x-1/2 text-center font-bold text-eden-700 text-[20vw]">
+          Aller
+        </div>
+      </div>
     </section>
   );
 }
