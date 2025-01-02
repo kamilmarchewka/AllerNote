@@ -6,17 +6,23 @@ export default function Services() {
   const ServicesPatterns = [
     {
         header: "Ocenę objawów",
-        description: "AllerNote umożliwia użytkownikowi prowadzenie codziennych notatek dotyczących samopoczucia, objawów alergii oraz zażywanych leków.",
+        description: `AllerNote umożliwia użytkownikowi prowadzenie\n 
+                    codziennych notatek dotyczących samopoczucia,\n 
+                    objawów alergii oraz zażywanych leków.`,
         icon: ""
     },
     {
         header: "Mapę pylenia", 
-        description: "Dzięki AllerNote możesz sprawdzić, które alergeny są najbardziej aktywne w danym czasie i zrozumieć, co może wpływać na nasilenie objawów.",
+        description: `Dzięki AllerNote możesz sprawdzić, które alergeny są\n
+                    najbardziej aktywne w danym czasie i zrozumieć,\n
+                    co może wpływać na nasilenie objawów.`,
         icon: ""
     },
     {
         header: "Kalendarz alergika",
-        description: "W AllerNote możesz zapisywać i przeglądać swoje notatki w formie kalendarza. Ułatwia to analizę stanu zdrowia w kontekście wcześniejszych objawów, oferując szybki dostęp do danych z przeszłości.",
+        description: `W AllerNote możesz zapisywać i przeglądać swoje notatki w formie kalendarza.\n
+                    Ułatwia to analizę stanu zdrowia w kontekście wcześniejszych objawów,\n
+                    oferując szybki dostęp do danych z przeszłości.`,
         icon: ""
     }
   ]
