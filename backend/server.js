@@ -1,6 +1,10 @@
 const express = require('express');
 const logEvents = require('./utils/logEvents');
 const app = express();
+const EventEmitter = require('events');
+class Emitter extends EventEmitter { };
+
+const MyEmitter = new Emitter();
 
 app.use((req, res, next) => {
     logEvents(`${req.method}\t${req.url}`);
@@ -20,4 +24,7 @@ app.use('*', (req, res) => {
 });
 
 const port = process.env.PORT || 3001;
-app.listen(port, () => logEvents(`Log event emitted`));
+app.listen(port, () => {
+    logEvents(`Log event emitted`);
+    console.log(`Server running on port ${port}`);
+});
