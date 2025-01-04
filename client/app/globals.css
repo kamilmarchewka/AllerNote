@@ -41,3 +41,11 @@
   }
 }
 
+@layer base {
+  .font-outline-2 {
+    -webkit-text-stroke: 2px rgba(48, 106, 95, 0.40);
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px rgba(48, 106, 95, 0.40);
+  }
+}
