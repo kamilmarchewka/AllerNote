@@ -1,0 +1,3 @@
+20250104	16:25:11	e973280d-e33b-446b-abdd-20aad142ad44	Log event emitted
+20250104	16:25:20	f2e61365-ccce-4499-a46c-bddbb075bd28	GET	/
+20250104	16:25:20	c4e6e1c3-5519-4cfa-8ee7-f6af2c22510f	GET	/favicon.ico
