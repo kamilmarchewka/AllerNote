@@ -2,16 +2,19 @@
     {
         "id": 1,
         "firstname": "Maks",
-        "secondname": "Łuczak"
+        "secondname": "Łuczak",
+        "role": "admin"
     },
     {
         "id": 2,
         "firstname": "Szymon",
-        "secondname": "Makowski"
+        "secondname": "Makowski",
+        "role": "admin"
     },
     {
         "id": 3,
         "firstname": "Kamil",
-        "secondname": "Marchewka"
+        "secondname": "Marchewka",
+        "role": "admin"
     }
 ]
