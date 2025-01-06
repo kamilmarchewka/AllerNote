@@ -25,11 +25,18 @@ app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// static files
+
 app.use('/', express.static(path.join(__dirname, '..', 'client', 'app')));
+app.use('/login', express.static(path.join(__dirname, '..', 'client', 'app')));
+app.use('/rejestracja', express.static(path.join(__dirname, '..', 'client', 'app')));
+app.use('/alergeny', express.static(path.join(__dirname, '..', 'client', 'app')));
+app.use('/kalendarz', express.static(path.join(__dirname, '..', 'client', 'app')));
 
 // routes
 
-app.use(require('./routes/api'));
+app.use('admin', require('./routes/api/admin'));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'app', 'page.js'));
