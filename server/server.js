@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions')
 const { logger } = require('./middlewares/logEvents');
 const errorHandler = require('./middlewares/errorHandler');
 const app = express();
@@ -8,18 +9,6 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(logger);
-
-const whitelist = ['http://127.0.0.1:3000', 'http://localhost:8080', 'http://localhost:3000'];
-const corsOptions = {
-    origin: (origin, callback) => {
-        if(whitelist.indexOf(origin) !== -1 || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    optionsSuccessStatus: 200
-}
 
 app.use(cors(corsOptions));
 
@@ -36,7 +25,7 @@ app.use('/kalendarz', express.static(path.join(__dirname, '..', 'client', 'app')
 
 // routes
 
-app.use('admin', require('./routes/api/admin'));
+app.use('admin', require('./routes/api/adminRoutes'));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'app', 'page.js'));

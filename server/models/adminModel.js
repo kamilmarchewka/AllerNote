@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join(__dirname, '../../data/users.json');
+const filePath = path.join(__dirname, '../../data/admins.json');
 
 const readData = () => {
     const rawData = fs.readFileSync(filePath, 'utf-8');
