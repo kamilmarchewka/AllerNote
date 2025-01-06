@@ -6,6 +6,8 @@ const { logger } = require('./middlewares/logEvents');
 const errorHandler = require('./middlewares/errorHandler');
 const app = express();
 
+const register = require('./routes/register');
+
 const port = process.env.PORT || 8080;
 
 app.use(logger);
@@ -31,6 +33,8 @@ app.get('/:page', (req, res) => {
 app.all('/api/*', (req, res) => {
     res.status(404).json({ message: 'API route not found' });
 });
+
+app.use('/register', register);
 
 app.use(errorHandler);
 
