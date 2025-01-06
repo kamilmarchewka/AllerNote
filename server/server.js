@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const corsOptions = require('./config/corsOptions')
+const corsOptions = require('./config/corsOptions');
 const { logger } = require('./middlewares/logEvents');
 const errorHandler = require('./middlewares/errorHandler');
 const app = express();
@@ -15,40 +15,21 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// static files
+app.use(express.static(path.join(__dirname, '..', 'client', 'app')));
 
-app.use('/', express.static(path.join(__dirname, '..', 'client', 'app')));
-app.use('/login', express.static(path.join(__dirname, '..', 'client', 'app')));
-app.use('/rejestracja', express.static(path.join(__dirname, '..', 'client', 'app')));
-app.use('/alergeny', express.static(path.join(__dirname, '..', 'client', 'app')));
-app.use('/kalendarz', express.static(path.join(__dirname, '..', 'client', 'app')));
+app.use('/api', require('./routes/api'));
 
-// routes
-
-app.use('admin', require('./routes/api/adminRoutes'));
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'page.js'));
-});
-
-app.get('/kalendarz', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'kalendarz', 'page.js'));
-});
-
-app.get('/alergeny', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'alergeny', 'page.js')); 
-});
-
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'login', 'page.js'));
-});
-
-app.get('/rejestracja', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'rejestracja', 'page.js'));
-});
-
-app.all('/*', (req, res) => {
+app.get('/:page', (req, res) => {
+    const { page } = req.params;
+    const allowedPages = ['kalendarz', 'alergeny', 'login', 'rejestracja']; 
+    if (allowedPages.includes(page)) {
+        return res.sendFile(path.join(__dirname, '..', 'client', 'app', page, 'page.js'));
+    }
     res.status(404).sendFile(path.join(__dirname, '..', 'client', 'app', 'not-found.js'));
+});
+
+app.all('/api/*', (req, res) => {
+    res.status(404).json({ message: 'API route not found' });
 });
 
 app.use(errorHandler);
