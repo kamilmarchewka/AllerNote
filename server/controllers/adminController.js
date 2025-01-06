@@ -1,55 +1,59 @@
-const { readData, writeData } = require('../models/adminModel');
+const adminService = require('../services/adminService');
 
-const getAllAdmins = () => {
-    return readData();
-};
-
-const getAdminById = (id) => {
-    const admins = readData();
-    const admin = admins.find(a => a.id === id);
-    if (!admin) {
-        throw new Error(`Admin with ID ${id} not found`);
+const getAllAdmins = async (req, res) => {
+    try {
+        const admins = await adminService.getAllAdmins();
+        res.status(200).json(admins);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    return admin;
 };
 
-const createAdmin = (firstname, lastname) => {
-    const admins = readData();
-    const newAdmin = {
-        id: admins.length > 0 ? admins[admins.length - 1].id + 1 : 1,
-        firstname,
-        lastname,
-        role: 'admin'
-    };
-    admins.push(newAdmin);
-    writeData(admins);
-    return newAdmin;
-};
-
-const updateAdmins = (id, updates) => {
-    const admins = readData();
-    const admin = admins.find(a => a.id === id);
-    if (!admin) {
-        throw new Error(`Admin with ID ${id} not found`);
+const getAdminById = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        const admin = await adminService.getAdminById(id);
+        res.status(200).json(admin);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
     }
-    Object.assign(admin, updates);
-    writeData(admins);
-    return admin;
 };
 
-const deleteAdmin = (id) => {
-    const admins = readData();
-    const updateAdmins = admins.filter(a => a.id !== id);
-    if (updateAdmins.length === admins.length) {
-        throw new Error(`Admin with ID ${id} not found`);
+const createAdmin = async (req, res) => {
+    try {
+        const { firstname, lastname } = req.body;
+        const newAdmin = await adminService.createAdmin(firstname, lastname);
+        res.status(201).json(newAdmin);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
-    writeData(updateAdmins);
+};
+
+const updateAdmin = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        const updates = req.body;
+        const updatedAdmin = await adminService.updateAdmin(id, updates);
+        res.status(200).json(updatedAdmin);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+};
+
+const deleteAdmin = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        await adminService.deleteAdmin(id);
+        res.status(204).send();
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
 };
 
 module.exports = {
     getAllAdmins,
     getAdminById,
     createAdmin,
-    updateAdmins,
-    deleteAdmin
+    updateAdmin,
+    deleteAdmin,
 };

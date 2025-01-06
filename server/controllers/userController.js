@@ -1,49 +1,53 @@
-const { readData, writeData } = require('../models/userModel');
+const userService = require('../services/userService');
 
-const getAllUsers = () => {
-    return readData();
-};
-
-const getUserById = (id) => {
-    const users = readData();
-    const user = users.find(u => u.id === id);
-    if (!user) {
-        throw new Error(`User with ID ${id} not found`);
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await userService.getAllUsers();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    return user;
 };
 
-const createUser = (firstname, lastname) => {
-    const users = readData();
-    const newUser = {
-        id: users.length > 0 ? users[users.length - 1].id + 1 : 1,
-        firstname,
-        lastname,
-        role: 'user'
-    };
-    users.push(newUser);
-    writeData(users);
-    return newUser;
-};
-
-const updateUser = (id, updates) => {
-    const users = readData();
-    const user = users.find(u => u.id === id);
-    if (!user) {
-        throw new Error(`User with ID ${id} not found`);
+const getUserById = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        const user = await userService.getUserById(id);
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
     }
-    Object.assign(user, updates);
-    writeData(users);
-    return user;
 };
 
-const deleteUser = (id) => {
-    const users = readData();
-    const updatedUsers = users.filter(u => u.id !== id);
-    if (updatedUsers.length === users.length) {
-        throw new Error(`User with ID ${id} not found`);
+const createUser = async (req, res) => {
+    try {
+        const { firstname, lastname } = req.body;
+        const newUser = await userService.createUser(firstname, lastname);
+        res.status(201).json(newUser);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
-    writeData(updatedUsers);
+};
+
+const updateUser = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        const updates = req.body;
+        const updatedUser = await userService.updateUser(id, updates);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+};
+
+const deleteUser = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        await userService.deleteUser(id);
+        res.status(204).send();
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
 };
 
 module.exports = {
@@ -51,5 +55,5 @@ module.exports = {
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
 };
