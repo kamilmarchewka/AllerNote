@@ -20,25 +20,39 @@ const corsOptions = {
     },
     optionsSuccessStatus: 200
 }
+
 app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'client', 'app')));
+app.use('/', express.static(path.join(__dirname, '..', 'client', 'app')));
 
-const apiRoutes = require('./routes/api');
-app.use('/api', apiRoutes);
+// routes
+
+app.use(require('./routes/api'));
 
 app.get('/', (req, res) => {
-    res.send('<h1>Home page</h1>');
+    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'page.js'));
 });
 
 app.get('/kalendarz', (req, res) => {
-    res.send('<h1>Kalendarz</h1>');
+    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'kalendarz', 'page.js'));
+});
+
+app.get('/alergeny', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'alergeny', 'page.js')); 
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'login', 'page.js'));
+});
+
+app.get('/rejestracja', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'app', 'rejestracja', 'page.js'));
 });
 
 app.all('/*', (req, res) => {
-    res.status(404).send('<h1>Not found</h1>');
+    res.status(404).sendFile(path.join(__dirname, '..', 'client', 'app', 'not-found.js'));
 });
 
 app.use(errorHandler);
