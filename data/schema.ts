@@ -4,10 +4,12 @@ import {sql} from "drizzle-orm"
 import { time } from "drizzle-orm/mysql-core"
 
 //struktury tabel
-export const allergic = pgTable("allergic", 
+export const user = pgTable("user", 
     {
         id: serial("id").primaryKey(),
+        userneme: varchar("username").unique().notNull(),
         email: varchar("email").unique().notNull(),
+        password: varchar("password").notNull(),
         active: boolean("active").notNull().default(true),
         createdAt: timestamp("created_at").notNull().defaultNow(),
         updatedAt: timestamp("updated_at").notNull().defaultNow().$onUpdate(() => new Date()),
@@ -17,7 +19,7 @@ export const allergic = pgTable("allergic",
 export const notes = pgTable("notes",
     {
         id: serial("note_id").primaryKey(),
-        userId: integer("user_id").references(() => allergic.id).notNull(),
+        userId: integer("user_id").references(() => user.id).notNull(),
         content: text("content").notNull(),
         createdAt: timestamp("created_at").notNull().defaultNow(),
         updatedAt: timestamp("updated_at").notNull().defaultNow().$onUpdate(() => new Date()),
@@ -34,7 +36,7 @@ export const symptoms = pgTable("symptoms",
 export const userSymptoms = pgTable("user_symptoms",
     {
         id: serial("id").primaryKey(),
-        userId: integer("user_id").references(() => allergic.id).notNull(),
+        userId: integer("user_id").references(() => user.id).notNull(),
         symptomId: integer("symptom_id").references(() => symptoms.id).notNull(),
         severity: integer("severity").notNull(),
         updatedAt: timestamp("updated_at").notNull().defaultNow(),
@@ -63,7 +65,7 @@ export const allergenInfo = pgTable("allergen_info",
 export const userLocation = pgTable("user_location",
     {
         id: serial("region_id").primaryKey(),
-        userId: integer("user_id").references(() => allergic.id).notNull(),
+        userId: integer("user_id").references(() => user.id).notNull(),
         regionId: integer("region_id").references(() => regions.id).notNull(),
     }
 )
@@ -78,7 +80,7 @@ export const allergenLocation = pgTable("allergen_location",
 )
 
 //relacje
-export const allergicRelations = relations(allergic, 
+export const allergicRelations = relations(user, 
     ({ many }) => ({
     notes: many(notes),
     userSymptoms: many(userSymptoms),
@@ -87,9 +89,9 @@ export const allergicRelations = relations(allergic,
 
 export const notesRelations = relations(notes, 
     ({ one }) => ({
-    user: one(allergic, {
+    user: one(user, {
         fields: [notes.userId],
-        references: [allergic.id],
+        references: [user.id],
     }),
 }))
 
@@ -101,9 +103,9 @@ export const regionsRelations = relations(regions,
 
 export const userLocationRelations = relations(userLocation, 
     ({ one }) => ({
-    user: one(allergic, {
+    user: one(user, {
         fields: [userLocation.userId],
-        references: [allergic.id],
+        references: [user.id],
     }),
     region: one(regions, {
         fields: [userLocation.regionId],
@@ -130,9 +132,9 @@ export const allergenInfoRelations = relations(allergenInfo,
 
 export const userSymptomsRelations = relations(userSymptoms, 
     ({ one }) => ({
-    user: one(allergic, {
+    user: one(user, {
         fields: [userSymptoms.userId],
-        references: [allergic.id],
+        references: [user.id],
     }),
     symptom: one(symptoms, {
         fields: [userSymptoms.symptomId],
