@@ -30,12 +30,6 @@
 20250106	09:52:50	db4e836c-de3d-4d7e-a45a-bc0508d3dd48	GET	undefined	/
 20250106	09:59:01	b5140fce-b416-4247-821b-d63ceb17f04f	GET	undefined	/
 20250106	09:59:01	045fee30-1925-4f7d-bc6a-7861f459534a	Error: Cannot find module '../client/node_modules/next/dist/server/next-server'
-Require stack:
-- /Users/maks/Documents/AllerNote-rep/AllerNote/server/server.js
-20250106	09:59:53	7d91d0c5-9ad4-49dc-997f-cfc87496d55d	GET	undefined	/
-20250106	09:59:54	5237c8e2-bcdc-4585-b6b7-804b2378c8b2	GET	undefined	/
-20250106	10:00:38	d498cb8d-a87a-4337-9e42-e3d6321b4d72	GET	undefined	/
-20250106	14:00:32	7af37dad-d9b7-4a74-b436-5b98131e9efe	GET	undefined	/
 20250106	14:00:33	31d39ac2-1a65-4f40-95e4-f42bbbcf2992	GET	undefined	/
 20250106	14:00:34	d8acab6b-ddd8-4447-9af0-ecaa535afe68	GET	undefined	/
 20250106	14:00:40	7ea1adee-b369-44e6-bda4-a58e5065dd04	GET	undefined	/kalendarz/
