@@ -6,7 +6,7 @@ const loginUser = async (username, email, password) => {
     if (!foundUser) {
         throw new Error('No user');
     }
-    if (foundUser.email ==! email) {
+    if (foundUser.email !== email) {
         throw new Error('Wrong email');
     }
     const match = await bcrypt.compare(password, foundUser.password);
