@@ -1,5 +1,5 @@
 const express = require('express');
-const allergicController = require('../controllers/allergicController');
+const allergicController = require('../../controllers/allergicController');
 
 const router = express.Router();
 
