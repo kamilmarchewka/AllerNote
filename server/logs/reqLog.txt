@@ -54,3 +54,6 @@ Require stack:
 20250106	18:07:18	c1592e87-09e0-41e6-b553-cf601ba43c47	GET	undefined	/api/admins/1/firstname
 20250106	18:07:23	396b6872-8851-4009-b093-cd918ee997d7	GET	undefined	/api/admins/1
 20250106	18:18:04	911600fc-b703-4b28-be83-f6d24619116a	GET	undefined	/api/admins/1
+20250108	20:50:22	2f1261a5-c1be-4e6c-8188-54c33eea3d10	GET	undefined	/
+20250108	20:50:29	f91fa630-e824-4be5-a6df-b2565e4c2010	GET	undefined	/api/
+20250108	20:50:34	0a40547d-c4e9-42a4-9a71-738008c7bfbc	GET	undefined	/api/1
