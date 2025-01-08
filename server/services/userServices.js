@@ -8,8 +8,8 @@ const getUserById = async (id) => {
     return await userModel.getUserById(id);
 };
 
-const createUser = async (firstname, lastname) => {
-    return await userModel.createUser(firstname, lastname);
+const createUser = async (username, email, password) => {
+    return await userModel.createUser(username, email, password);
 };
 
 const updateUser = async (id, updates) => {

@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const userModel = require('../models/userModel');
+const userModel = require('../models/registerModel');
 
 const loginUser = async (username, password) => {
     const foundUser = await userModel.findUserByUsername(username);

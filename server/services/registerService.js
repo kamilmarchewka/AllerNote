@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const userModel = require('../models/userModel');
+const userModel = require('../models/registerModel');
 
 const registerNewUser = async (username, password) => {
     const duplicateUser = await userModel.findUserByUsername(username);

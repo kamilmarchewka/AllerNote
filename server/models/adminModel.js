@@ -1,4 +1,4 @@
-const pool = require('./db');
+const pool = require('../../data/db');
 
 const getAllAdmins = async () => {
     const { rows } = await pool.query('SELECT * FROM admins');

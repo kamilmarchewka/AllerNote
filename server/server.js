@@ -21,20 +21,20 @@ app.use(express.static(path.join(__dirname, '..', 'client', 'app')));
 
 app.use('/api', require('./routes/api'));
 
-app.get('/:page', (req, res) => {
-    const { page } = req.params;
-    const allowedPages = ['kalendarz', 'alergeny', 'login', 'rejestracja']; 
-    if (allowedPages.includes(page)) {
-        return res.sendFile(path.join(__dirname, '..', 'client', 'app', page, 'page.js'));
-    }
-    res.status(404).sendFile(path.join(__dirname, '..', 'client', 'app', 'not-found.js'));
-});
+// app.get('/:page', (req, res) => {
+//     const { page } = req.params;
+//     const allowedPages = ['kalendarz', 'alergeny', 'login', 'rejestracja']; 
+//     if (allowedPages.includes(page)) {
+//         return res.sendFile(path.join(__dirname, '..', 'client', 'app', page, 'page.js'));
+//     }
+//     res.status(404).sendFile(path.join(__dirname, '..', 'client', 'app', 'not-found.js'));
+// });
 
 app.all('/api/*', (req, res) => {
     res.status(404).json({ message: 'API route not found' });
 });
 
-app.use('/register', register);
+app.use('/rejestracja', register);
 
 app.use(errorHandler);
 
