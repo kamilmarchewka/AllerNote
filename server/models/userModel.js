@@ -1,11 +1,11 @@
 const pool = require('../../data/db');
 
-const getAllAllergic = async () => {
+const getAllUsers = async () => {
     const { rows } = await pool.query('SELECT * FROM allergic');
     return rows;
 };
 
-const getAllergicById = async (id) => {
+const getUserById = async (id) => {
     const { rows } = await pool.query('SELECT * FROM allergic WHERE id = $1 LIMIT 1', [id]);
     if (rows.length === 0) {
         throw new Error('User not found');
@@ -13,7 +13,7 @@ const getAllergicById = async (id) => {
     return rows[0];
 };
 
-const createAllergic = async (username, email, password) => {
+const createUser = async (username, email, password) => {
     const { rows } = await pool.query(
         'INSERT INTO allergic (username, email, password, created_at, updated_at) VALUES ($1, $2, $3, NOW(), NOW()) RETURNING *',
         [username, email, password]
@@ -21,7 +21,7 @@ const createAllergic = async (username, email, password) => {
     return rows[0];
 };
 
-const updateAllergic = async (id, updates) => {
+const updateUser = async (id, updates) => {
     const keys = Object.keys(updates);
     const values = Object.values(updates);
 
@@ -38,7 +38,7 @@ const updateAllergic = async (id, updates) => {
     return rows[0];
 };
 
-const deleteAllergic = async (id) => {
+const deleteUser = async (id) => {
     const { rowCount } = await pool.query('DELETE FROM allergic WHERE id = $1', [id]);
     if (rowCount === 0) {
         throw new Error('User not found');
@@ -46,9 +46,9 @@ const deleteAllergic = async (id) => {
 };
 
 module.exports = {
-    getAllAllergic,
-    getAllergicById,
-    createAllergic,
-    updateAllergic,
-    deleteAllergic,
+    getAllUsers,
+    getUserById,
+    createUser,
+    updateUser,
+    deleteUser,
 };
