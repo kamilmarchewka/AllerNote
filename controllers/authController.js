@@ -1,4 +1,8 @@
 const authService = require("../services/authService");
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const fsPromises = require('fs').promises;
+const path = require('path');
 
 const handleLogin = async (req, res) => {
   const { user, email, password } = req.body;
@@ -11,6 +15,16 @@ const handleLogin = async (req, res) => {
 
   try {
     const foundUser = await authService.loginUser(user, email, password);
+    const accessToken = jwt.sign(
+      { "username": foundUser.username },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '2h' }
+    );
+    const refreshToken = jwt.sign(
+      { "username": foundUser.username },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: '1d' }
+    );
     res.status(200).json({ success: `User ${foundUser.username} logged in.` });
   } catch (err) {
     if (err.message === "No user") {
