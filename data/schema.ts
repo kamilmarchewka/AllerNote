@@ -16,7 +16,7 @@ export const users = pgTable("users",
     }
 )
 
-export const notes = pgTable("notes",
+export const note = pgTable("note",
     {
         id: serial("note_id").primaryKey(),
         userId: integer("user_id").references(() => users.id).notNull(),
@@ -82,15 +82,15 @@ export const allergenLocation = pgTable("allergen_location",
 //relacje
 export const allergicRelations = relations(users, 
     ({ many }) => ({
-    notes: many(notes),
+    note: many(note),
     userSymptoms: many(userSymptoms),
     userLocation: many(userLocation),
 }))
 
-export const notesRelations = relations(notes, 
+export const noteRelations = relations(note, 
     ({ one }) => ({
     user: one(users, {
-        fields: [notes.userId],
+        fields: [note.userId],
         references: [users.id],
     }),
 }))

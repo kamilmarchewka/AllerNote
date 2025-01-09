@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1736339553262,
-      "tag": "0000_ordinary_lucky_pierre",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1736414122245,
-      "tag": "0001_pale_kinsey_walden",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1736415247947,
-      "tag": "0002_closed_pyro",
+      "when": 1736418035906,
+      "tag": "0000_slippery_vapor",
       "breakpoints": true
     }
   ]
