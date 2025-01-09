@@ -1,0 +1,11 @@
+20250109	11:20:30	c16dfb6e-432f-4129-bf85-34188626afde	GET	undefined	/
+20250109	11:20:32	61457099-7baa-4e4b-9907-7a70d633f69e	GET	undefined	/api/hello
+20250109	11:20:32	4ca821a9-98ec-4a0f-afa6-ad8b929d947d	GET	undefined	/_next/static/css/app/layout.css?v=1736418032186
+20250109	11:20:32	ef193277-62ac-452f-811d-b5fab76ffcee	GET	undefined	/_next/static/chunks/webpack.js?v=1736418032186
+20250109	11:20:32	a566bc27-acb6-4629-aee2-71eec8c7192b	GET	undefined	/_next/static/chunks/main-app.js?v=1736418032186
+20250109	11:20:32	6e6fabbd-fb30-488e-ad40-2339f32e9842	GET	undefined	/_next/static/chunks/app-pages-internals.js
+20250109	11:20:32	b1a4c2de-fe25-4d10-857e-d7ffa4b78c48	GET	undefined	/_next/static/chunks/app/not-found.js
+20250109	11:20:32	832716c3-7cdd-48da-8863-6887b67bef1e	GET	undefined	/_next/static/chunks/app/layout.js
+20250109	11:20:32	a8a34391-fd8e-4164-87b5-eeac9a01f72f	GET	undefined	/_next/static/chunks/app/page.js
+20250109	11:20:32	39912781-0210-4369-b24a-e249abd597a5	GET	undefined	/_next/image?url=%2Flogo.png&w=96&q=75
+20250109	11:20:32	c9ce6849-deea-476e-b473-4fcad495375c	GET	undefined	/favicon.ico
