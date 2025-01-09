@@ -1,7 +1,12 @@
 const userModel = require("../models/userModel");
 
 const getAllUsers = async () => {
-  return await userModel.getAllUsers();
+  try {
+    return await userModel.getAllUsers();
+  } catch (error) {
+    console.error("Error in getAllUsers service:", error.message);
+    throw error;
+  }
 };
 
 const getUserById = async (id) => {

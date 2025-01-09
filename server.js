@@ -10,23 +10,21 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const register = require("./routes/register");
-const auth = require("./routes/auth");
-
 const PORT = process.env.PORT || 3000;
 
 app.prepare().then(() => {
   const server = express();
 
+  // Middleware
   server.use(logger);
-
   server.use(cors(corsOptions));
-
   server.use(express.urlencoded({ extended: false }));
   server.use(express.json());
-
   server.use(express.static(path.join(__dirname, "app")));
 
+  // Routes
+  //server.use("/api/auth", require("./routes/auth"));
+  //server.use("/api/register", require("./routes/register")); 
   server.use("/api", require("./routes/api"));
 
   // Example API endpoint
@@ -39,6 +37,7 @@ app.prepare().then(() => {
     return handle(req, res);
   });
 
+  // Error handling
   server.use(errorHandler);
 
   server.listen(PORT, () => {

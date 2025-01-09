@@ -1,8 +1,13 @@
 const pool = require("../data/db");
 
 const getAllUsers = async () => {
-  const { rows } = await pool.query("SELECT * FROM users");
-  return rows;
+  try {
+    const result = await pool.query("SELECT * FROM users");
+    return result.rows; 
+  } catch (error) {
+    console.error("Error in getAllUsers model:", error.message);
+    throw error; 
+  }
 };
 
 const getUserById = async (id) => {
