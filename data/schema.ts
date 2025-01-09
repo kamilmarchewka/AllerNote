@@ -14,7 +14,7 @@ import { time } from "drizzle-orm/mysql-core";
 //struktury tabel
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  userneme: varchar("username").unique().notNull(),
+  username: varchar("username").unique().notNull(),
   email: varchar("email").unique().notNull(),
   password: varchar("password").notNull(),
   active: boolean("active").notNull().default(true),
