@@ -15,6 +15,13 @@
       "when": 1736414122245,
       "tag": "0001_pale_kinsey_walden",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1736415247947,
+      "tag": "0002_closed_pyro",
+      "breakpoints": true
     }
   ]
 }
