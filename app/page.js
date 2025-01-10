@@ -7,21 +7,24 @@ import MainAllerNote from "@/components/welcome/MainAllerNote";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [users, setUsers] = useState([]);
+  const [cities, setCities] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetch("/api/cities");
       const data = await response.json();
-      setUsers(data);
+      setCities(data);
     }
     fetchData();
   }, []);
 
-  console.log(users);
+  console.log(cities);
 
   return (
-    <section className="flex flex-col gap-28 pt-32 pb-10 items-center">
+    <section className="flex flex-col pt-32 pb-10 items-center">
+      {cities.map((city) => (
+        <div key={city.id}>{city.name}</div>
+      ))}
       <MainAllerNote />
       <WelcomeBadge />
       <Services />
