@@ -5,6 +5,7 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const { logger } = require("./middlewares/logEvents");
 const errorHandler = require("./middlewares/errorHandler");
+const verifyJWT = require('./middlewares/verifyJWT');
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -23,16 +24,16 @@ app.prepare().then(() => {
   server.use(express.static(path.join(__dirname, "app")));
 
   // Routes
-  //server.use("/api/auth", require("./routes/auth"));
-  //server.use("/api/register", require("./routes/register")); 
-  server.use("/api", require("./routes/api"));
+  server.use('/rejestracja', require('./routes/register'));
+  server.use('/login', require("./routes/auth"));
 
-  // Example API endpoint
   server.get("/api/hello", (req, res) => {
     res.json({ message: "Hello from Express and Next.js!" });
   });
 
-  // Serve Next.js pages
+  server.use("/api", verifyJWT, require("./routes/api"));
+
+  // Catch-all route for Next.js
   server.all("*", (req, res) => {
     return handle(req, res);
   });

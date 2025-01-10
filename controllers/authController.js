@@ -2,10 +2,13 @@ const usersDB = {
   users: require('../models/users.json'),
   setUsers: function (data) { this.users = data }
 }
+
+const bcrypt = require('bcrypt');
+
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const fsPromises = require('fs').promises;
 const path = require('path');
-const bcrypt = require('bcrypt');
 
 
 const handleLogin = async (req, res) => {
@@ -18,16 +21,6 @@ const handleLogin = async (req, res) => {
   }
     
   const foundUser = usersDB.users.find(u => u.email === email);
-    // const accessToken = jwt.sign(
-    //   { "username": foundUser.username },
-    //   process.env.ACCESS_TOKEN_SECRET,
-    //   { expiresIn: '2h' }
-    // );
-    // const refreshToken = jwt.sign(
-    //   { "username": foundUser.username },
-    //   process.env.REFRESH_TOKEN_SECRET,
-    //   { expiresIn: '1d' }
-    // );
   res.status(200).json({ success: `User ${foundUser.username} logged in.` });
   
   if (!foundUser) {
@@ -35,7 +28,25 @@ const handleLogin = async (req, res) => {
   }
   const match = await bcrypt.compare(password, foundUser.password);
   if (match) {
-    res.json({ 'success': `User ${user} is logged in!` });
+    const accessToken = jwt.sign(
+      { "email": foundUser.email },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '30s' }
+    );
+    const refreshToken = jwt.sign(
+      { "email": foundUser.email },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: '1d' }
+    );
+    const otherUsers = usersDB.users.filter(u => u.email !== foundUser.email);
+    const currentUser = { ...foundUser, refreshToken };
+    usersDB.setUsers([...otherUsers, currentUser]);
+    await fsPromises.writeFile(
+      path.join(__dirname, '..', 'models', 'users.json'),
+      JSON.stringify(usersDB.users)
+    )
+    res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+    res.json({ accessToken });
 } else {
     res.sendStatus(401);
 }
