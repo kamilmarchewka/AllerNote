@@ -7,59 +7,49 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
-export default function NoteAnimatedSVG() {
+export default function NoteAnimatedSVG({ timeline }) {
   const container = useRef();
 
   useGSAP(
     () => {
-      // gsap code here...
       gsap.set(".N", { strokeDasharray: 2372 });
       gsap.set(".O", { strokeDasharray: 1000 });
       gsap.set(".T", { strokeDasharray: 1212 });
       gsap.set(".E", { strokeDasharray: 1360 });
 
-      gsap.fromTo(
-        ".N",
-        {
-          strokeDashoffset: 2380,
-        },
-        {
-          strokeDashoffset: 0,
-          duration: 3,
-        }
-      );
-      gsap.fromTo(
-        ".O",
-        {
-          strokeDashoffset: 1000,
-        },
-        {
-          strokeDashoffset: 0,
-          duration: 3,
-        }
-      );
-      gsap.fromTo(
-        ".T",
-        {
-          strokeDashoffset: 1212,
-        },
-        {
-          strokeDashoffset: 0,
-          duration: 3,
-        }
-      );
-      gsap.fromTo(
-        ".E",
-        {
-          strokeDashoffset: 1360,
-        },
-        {
-          strokeDashoffset: 0,
-          duration: 3,
-        }
-      );
+      timeline &&
+        timeline
+          .fromTo(
+            ".N",
+            {
+              strokeDashoffset: 2380,
+            },
+            {
+              strokeDashoffset: 0,
+              duration: 2.5,
+            },
+            "start"
+          )
+          .fromTo(
+            ".O",
+            { strokeDashoffset: 1000 },
+            { strokeDashoffset: 0, duration: 2 },
+            "start"
+          )
+          .fromTo(
+            ".T",
+            { strokeDashoffset: 1212 },
+            { strokeDashoffset: 0, duration: 2 },
+            "start"
+          )
+          .fromTo(
+            ".E",
+            { strokeDashoffset: 1360 },
+            { strokeDashoffset: 0, duration: 2 },
+            "start"
+          );
     },
-    { scope: container }
+    { scope: container, dependencies: [timeline] }
   );
   return (
     <div ref={container} className="flex gap-2 items-end ">
