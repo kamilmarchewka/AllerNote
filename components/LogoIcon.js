@@ -17,7 +17,7 @@ export default function LogoIcon() {
         height="49.3732"
         rx="7.28235"
         stroke="url(#paint0_linear_160_163)"
-        stroke-width="3.43529"
+        strokeWidth="3.43529"
       />
       <mask
         id="mask0_160_163"
