@@ -21,7 +21,7 @@ app.prepare().then(() => {
   server.use(cors(corsOptions));
   server.use(express.urlencoded({ extended: false }));
   server.use(express.json());
-  server.use(express.static(path.join(__dirname, "app")));
+  server.use(express.static(path.join(__dirname, "public")));
 
   // Routes
   server.use('/register', require('./routes/register'));

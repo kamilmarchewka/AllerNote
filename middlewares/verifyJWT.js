@@ -1,25 +1,35 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+const excludedPaths = ['/api/hello']; 
+
 const verifyJWT = (req, res, next) => {
-    if (req.path === '/api/hello') {
-        // Pomijamy autoryzację dla /api/hello
+    if (excludedPaths.includes(req.path)) {
         return next();
     }
-    
+
     const authHeader = req.headers['authorization'];
-    if (!authHeader) return res.sendStatus(401);
-    console.log(authHeader);
-    const token = authHeader.split(' ')[1];
+    if (!authHeader) {
+        return res.status(401).json({ message: "Authorization header missing." });
+    }
+
+    const token = authHeader.split(' ')[1]; 
+    if (!token) {
+        return res.status(401).json({ message: "Token missing in Authorization header." });
+    }
+
     jwt.verify(
-        token, 
+        token,
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
-            if (err) return res.sendStatus(403);
+            if (err) {
+                console.error('JWT verification error:', err.message); 
+                return res.status(403).json({ message: "Invalid or expired token." });
+            }
             req.user = decoded.email;
-            next();
+            next(); 
         }
-    )
-}
+    );
+};
 
-module.exports = verifyJWT
+module.exports = verifyJWT;
