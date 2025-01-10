@@ -16,6 +16,7 @@ export default function NoteAnimatedSVG({ timeline }) {
       gsap.set(".O", { strokeDasharray: 1000 });
       gsap.set(".T", { strokeDasharray: 1212 });
       gsap.set(".E", { strokeDasharray: 1360 });
+      gsap.set(container.current, { autoAlpha: 1 });
 
       timeline &&
         timeline
@@ -52,7 +53,7 @@ export default function NoteAnimatedSVG({ timeline }) {
     { scope: container, dependencies: [timeline] }
   );
   return (
-    <div ref={container} className="flex gap-2 items-end ">
+    <div ref={container} className="flex gap-2 items-end invisible ">
       {/* N */}
       <svg
         className="N block w-[20vw] h-fit"
