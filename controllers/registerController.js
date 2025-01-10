@@ -1,4 +1,10 @@
-const registerService = require("../services/registerService");
+const usersDB = {
+  users: require('../models/users.json'),
+  setUsers: function (data) { this.users = data }
+}
+const fsPromises = require('fs').promises;
+const path = require('path');
+const bcrypt = require('bcrypt');
 
 const handleNewUser = async (req, res) => {
   const { username, email, password } = req.body;
@@ -9,22 +15,25 @@ const handleNewUser = async (req, res) => {
       .json({ message: "Username, email and password are required." });
   }
 
+  const duplicate = usersDB.users.find(u => u.username === user);
+  if (duplicate) return res.sendStatus(409);
+
   try {
-    const newUser = await registerService.registerNewUser(
-      username,
-      email,
-      password
-    );
-    res.status(201).json({ success: `New user ${newUser.username} created.` });
+    const hashedPwd = await bcrypt.hash(password, 10);
+
+    const newUser = {
+      "username": username, 
+      "email": email, 
+      "password": hashedPwd
+    };
+    usersDB.setUsers([...usersDB.users, newUser]);
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', 'models', 'users.json'),
+            JSON.stringify(usersDB.users)
+        );
+        console.log(usersDB.users);
+        res.status(201).json({ 'success': `New user ${user} created!` });
   } catch (err) {
-    if (
-      err.message === "Duplicate username" ||
-      err.message === "Duplicate email"
-    ) {
-      return res
-        .status(409)
-        .json({ message: "Username or email already exists." });
-    }
     res.status(500).json({ error: err.message });
   }
 };
