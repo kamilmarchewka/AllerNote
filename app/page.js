@@ -4,13 +4,16 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <section className="flex flex-col items-center justify-center gap-20 pt-32 pb-10 min-h-[calc(100vh-40px)]">
-      <header className="relative text-center font-bold text-white -z-[1] select-none">
+    <section className="relative flex flex-col items-center justify-center gap-20 pt-32 pb-10 min-h-[calc(100vh-40px)]">
+      <header className="relative w-full text-center font-bold text-white -z-[1] select-none">
         <h1 className="text-[20vw] text-eden-700 leading-none">Aller</h1>
         <h1 className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 outlines font-outline-2 text-transparent text-[35vw] tracking-wider">
           Note
         </h1>
       </header>
+      <p className=" invisible  md:visible block absolute text-left right-0 bottom-5 text-lg max-w-[14.55em] text-black">
+        Dzięki <strong>AllerNote</strong> w łatwy sposób zapanujesz nad alergią.
+      </p>
       <div>
         <Link
           href="/rejestracja"
