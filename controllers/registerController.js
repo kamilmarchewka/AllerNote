@@ -15,7 +15,7 @@ const handleNewUser = async (req, res) => {
       .json({ message: "Username, email and password are required." });
   }
 
-  const duplicate = usersDB.users.find(u => u.username === user);
+  const duplicate = usersDB.users.find(u => u.username === username);
   if (duplicate) return res.sendStatus(409);
 
   try {
@@ -32,7 +32,7 @@ const handleNewUser = async (req, res) => {
             JSON.stringify(usersDB.users)
         );
         console.log(usersDB.users);
-        res.status(201).json({ 'success': `New user ${user} created!` });
+        res.status(201).json({ 'success': `New user ${username} created!` });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

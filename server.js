@@ -24,8 +24,8 @@ app.prepare().then(() => {
   server.use(express.static(path.join(__dirname, "app")));
 
   // Routes
-  server.use('/rejestracja', require('./routes/register'));
-  server.use('/login', require("./routes/auth"));
+  server.use('/register', require('./routes/register'));
+  server.use('/auth', require("./routes/auth"));
 
   server.get("/api/hello", (req, res) => {
     res.json({ message: "Hello from Express and Next.js!" });
