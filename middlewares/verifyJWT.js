@@ -8,8 +8,8 @@ const verifyJWT = (req, res, next) => {
         return next();
     }
 
-    const authHeader = req.headers['authorization'];
-    if (!authHeader) {
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    if (!authHeader?.startsWith('Bearer ')) {
         return res.status(401).json({ message: "Authorization header missing." });
     }
 
@@ -26,7 +26,8 @@ const verifyJWT = (req, res, next) => {
                 console.error('JWT verification error:', err.message); 
                 return res.status(403).json({ message: "Invalid or expired token." });
             }
-            req.user = decoded.email;
+            req.user = decoded.UserInfo.email;
+            req.roles = decoded.UserInfo.roles;
             next(); 
         }
     );

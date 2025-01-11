@@ -915,3 +915,13 @@
 20250111	20:07:32	7eee2a2f-60c0-4212-af9e-f0a9bacdc55c	GET	undefined	/_next/static/chunks/app/page.js
 20250111	20:07:32	ac48e02c-c1ce-4de9-aec6-58f004e57832	GET	undefined	/_next/static/chunks/app/layout.js
 20250111	20:07:32	4801357c-ab5e-47d6-ac4e-97b1ff2aa97b	GET	undefined	/_next/image?url=%2Flogo.png&w=96&q=75
+20250111	21:16:53	5f347ec3-ef6f-45dc-aed3-7e3e8a8b5125	GET	undefined	/
+20250111	21:16:55	a7bdeefd-9503-41c7-b57d-20f3d71eae0f	GET	undefined	/api/hello
+20250111	21:16:55	c5e4d3fd-0101-49cb-862f-a84df2a878a3	GET	undefined	/_next/static/css/app/layout.css?v=1736626614945
+20250111	21:16:55	2eee88ce-53a9-444a-b848-e4707c04f081	GET	undefined	/_next/static/chunks/main-app.js?v=1736626614945
+20250111	21:16:55	aea9a3f5-862b-46c5-9357-14deae674abc	GET	undefined	/_next/static/chunks/webpack.js?v=1736626614945
+20250111	21:16:55	81523e9f-7b2b-42f9-9c2b-62df4efe55db	GET	undefined	/_next/static/chunks/app-pages-internals.js
+20250111	21:16:55	ce75b780-1c0b-4e34-b638-774368b46522	GET	undefined	/_next/static/chunks/app/not-found.js
+20250111	21:16:55	95ac1741-6722-46f7-97ec-853c7001d3d8	GET	undefined	/_next/static/chunks/app/layout.js
+20250111	21:16:55	89d886e8-6493-476b-9fc0-a01b31f6dc7b	GET	undefined	/_next/static/chunks/app/page.js
+20250111	21:16:55	6c23506d-5abc-46f8-b20a-51957f8f4943	GET	undefined	/_next/image?url=%2Flogo.png&w=96&q=75
