@@ -7,6 +7,7 @@ const { logger } = require("./middlewares/logEvents");
 const errorHandler = require("./middlewares/errorHandler");
 const verifyJWT = require('./middlewares/verifyJWT');
 const cookieParser = require('cookie-parser');
+const credentials = require('./middlewares/credentials');
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -19,6 +20,7 @@ app.prepare().then(() => {
 
   // Middleware
   server.use(logger);
+  server.use(credentials);
   server.use(cors(corsOptions));
   server.use(express.urlencoded({ extended: false }));
   server.use(express.json());
@@ -29,6 +31,7 @@ app.prepare().then(() => {
   server.use('/register', require('./routes/register'));
   server.use('/auth', require("./routes/auth"));
   server.use('/refresh', require("./routes/refresh"));
+  server.use('/logout', require("./routes/logout"));
 
   server.get("/api/hello", (req, res) => {
     res.json({ message: "Hello from Express and Next.js!" });
