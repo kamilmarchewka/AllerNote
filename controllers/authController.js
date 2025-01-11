@@ -17,24 +17,24 @@ const handleLogin = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Email and password are required." });
-    }
+  }
 
-    const foundUser = usersDB.users.find(u => u.email === email);
-    if (!foundUser) {
+  const foundUser = usersDB.users.find(u => u.email === email);
+  if (!foundUser) {
       return res.status(401).json({ message: "User does not exist." });
-    }
+  }
 
-    const match = await bcrypt.compare(password, foundUser.password);
-    if (match) {
+  const match = await bcrypt.compare(password, foundUser.password);
+  if (match) {
       const accessToken = jwt.sign(
-        { "email": foundUser.email },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '30s' }
+          { "email": foundUser.email },
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: '15m' }
       );
       const refreshToken = jwt.sign(
-        { "email": foundUser.email },
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: '1d' }
+          { "email": foundUser.email },
+          process.env.REFRESH_TOKEN_SECRET,
+          { expiresIn: '7d' }
       );
 
       const otherUsers = usersDB.users.filter(u => u.email !== foundUser.email);
@@ -42,24 +42,24 @@ const handleLogin = async (req, res) => {
       usersDB.setUsers([...otherUsers, currentUser]);
 
       await fsPromises.writeFile(
-        path.join(__dirname, '..', 'models', 'users.json'),
-        JSON.stringify(usersDB.users, null, 2)
+          path.join(__dirname, '..', 'models', 'users.json'),
+          JSON.stringify(usersDB.users, null, 2)
       );
 
       res.cookie('jwt', refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict', 
-        maxAge: 24 * 60 * 60 * 1000 
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict', 
+          maxAge: 24 * 60 * 60 * 1000 
       });
 
       return res.json({ accessToken });
-    } else {
+  } else {
       return res.sendStatus(401);
-    }
+  }
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal server error." });
+      console.error(error);
+      return res.status(500).json({ message: "Internal server error." });
   }
 };
 

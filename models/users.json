@@ -1,1 +1,14 @@
-[{"id":1,"username":"pancakekoks1","email":"jnksjanxjks@gmail.com","password":"$2b$10$33Q9jtAoaXC4aUX9Bjihxum2BHG.ENB6JyoCvPjnuXpITtUd8x8/y"},{"username":"aa","email":"bb@gmail.com","password":"$2b$10$83kCLC58LhwCyvgv73VbtOcNVExxKUupBeI9PQPiX2nE5RvX2hilm","refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlhdCI6MTczNjUyODY5MCwiZXhwIjoxNzM2NjE1MDkwfQ.LsZYsoEUzP_tRCZdgzxl32O_ZEQ9WSi_4WN3-waGLkA"}]
+[
+  {
+    "id": 1,
+    "username": "pancakekoks1",
+    "email": "jnksjanxjks@gmail.com",
+    "password": "$2b$10$33Q9jtAoaXC4aUX9Bjihxum2BHG.ENB6JyoCvPjnuXpITtUd8x8/y"
+  },
+  {
+    "username": "aa",
+    "email": "bb@gmail.com",
+    "password": "$2b$10$83kCLC58LhwCyvgv73VbtOcNVExxKUupBeI9PQPiX2nE5RvX2hilm",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlhdCI6MTczNjYxOTAwNSwiZXhwIjoxNzM3MjIzODA1fQ.sHqj9qGa_-NkHzHwQCFgrZ5ztnhPl7NZNgVd9m5qf_g"
+  }
+]
