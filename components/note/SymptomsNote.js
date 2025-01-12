@@ -1,22 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { formatDate } from "@/utils/date";
 import renderButtons from "./CustomRadio";
 import CustomRadio from "./CustomRadio";
-import CustomRadioToEdit from "./CustomRadioToEdit"
+import CustomRadioToEdit from "./CustomRadioToEdit";
 import ButtonSecondary from "../buttons/ButtonSecondary";
 import ButtonPrimary from "../buttons/ButtonPrimary";
 
 export default function SymptomsNote({ selectedDate }) {
+  const year = selectedDate.getFullYear();
+  const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+  const day = String(selectedDate.getDate()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day}`;
+  const today = new Date();
+
   const [samopoczucie, setSamopoczocie] = useState(null);
   const [bolGlowy, setBolGlowy] = useState(null);
   const [katar, setKatar] = useState(null);
   const [nos, setNos] = useState(null);
   const [oko, setOko] = useState(null);
   const [kaszel, setKaszel] = useState(null);
-
-  const [isEditing, setIsEditing] = useState(false);
-
   const [text, setText] = useState();
 
   const SYMPTOMS = [
@@ -52,20 +56,14 @@ export default function SymptomsNote({ selectedDate }) {
     },
   ];
 
+  const [isEditing, setIsEditing] = useState(false);
+
   const selectedDateStr = formatDate(selectedDate);
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
-    const data = {
-      samopoczucie: samopoczucie,
-      bol_glowy: bolGlowy,
-      katar: katar,
-      swedzenie_nosa: nos,
-      swedzenie_oczu: oko,
-      kaszel: kaszel,
-    };
+    console.log("text", text);
   }
-  const today = new Date();
 
   function isToday(date) {
     const selected = new Date(date);
@@ -75,6 +73,19 @@ export default function SymptomsNote({ selectedDate }) {
       today.getDate() === selected.getDate()
     );
   }
+
+  async function getNote(date) {
+    const response = await fetch(`/api/notes/${date}`);
+    const { notes } = await response.json();
+
+    notes[0]?.content ? setText(notes[0].content) : setText("");
+  }
+
+  useEffect(() => {
+    console.log("Selected date:", formattedDate);
+
+    getNote(formattedDate);
+  }, [formattedDate]);
 
   return (
     <section className="flex flex-col">
@@ -126,23 +137,24 @@ export default function SymptomsNote({ selectedDate }) {
           <header className="mb-2">
             <h2 className="text-xl first-line:italic">MOJE OBIAWY:</h2>
           </header>
-        <div className="lg:pr-16">
-          {SYMPTOMS.map(({ stateSetter, currentValue, symptom }) => 
-          isEditing ? (
-            <CustomRadio
-              key={symptom}
-              stateSetter={stateSetter}
-              currentValue={currentValue}
-              symptom={symptom}
-            />
-          ) : (
-            <CustomRadioToEdit
-              key={symptom}
-              symptom={symptom}
-              currentValue={currentValue}
-            /> )
-          )}
-        </div>
+          <div className="lg:pr-16">
+            {SYMPTOMS.map(({ stateSetter, currentValue, symptom }) =>
+              isEditing ? (
+                <CustomRadio
+                  key={symptom}
+                  stateSetter={stateSetter}
+                  currentValue={currentValue}
+                  symptom={symptom}
+                />
+              ) : (
+                <CustomRadioToEdit
+                  key={symptom}
+                  symptom={symptom}
+                  currentValue={currentValue}
+                />
+              )
+            )}
+          </div>
         </div>
 
         <div>
@@ -150,23 +162,25 @@ export default function SymptomsNote({ selectedDate }) {
             <h2 className="text-xl italic">NOTATKA:</h2>
           </header>
 
-          { isEditing ? (
-          <textarea
-          id="userNote"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          rows="5"
-          className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
-          placeholder="Dzisiaj czuję się..."
-          ></textarea> ) : (
-          <textarea
-            disabled
-            id="userNote"
-            value={text}
-            rows="5"
-            className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
-            placeholder="Dzisiaj czuję się..."
-          ></textarea> ) } 
+          {isEditing ? (
+            <textarea
+              id="userNote"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              rows="5"
+              className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
+              placeholder="Dzisiaj czuję się..."
+            ></textarea>
+          ) : (
+            <textarea
+              disabled
+              id="userNote"
+              value={text}
+              rows="5"
+              className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
+              placeholder="Dzisiaj czuję się..."
+            ></textarea>
+          )}
         </div>
         <div className="ml-auto flex gap-5">
           {!isEditing ? (
@@ -185,7 +199,7 @@ export default function SymptomsNote({ selectedDate }) {
               <ButtonPrimary
                 type="submit"
                 style="green"
-                onClick={() => setIsEditing(false)}
+                // onClick={() => setIsEditing(false)}
               >
                 Zapisz
               </ButtonPrimary>
