@@ -1,7 +1,5 @@
 import { query } from "../../../lib/db";
 
-import { query } from "../../../lib/db"; // Adjust the path as needed
-
 export async function POST(request, { params }) {
   try {
     const { date } = params; // Extract date from URL params
