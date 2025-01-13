@@ -1,4 +1,3 @@
-const { PgRefreshMaterializedView } = require('drizzle-orm/pg-core');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
