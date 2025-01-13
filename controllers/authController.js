@@ -1,12 +1,6 @@
-const usersDB = {
-  users: require('../models/users.json'),
-  setUsers: function (data) { this.users = data }
-};
-
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const fsPromises = require('fs').promises;
-const path = require('path');
 
 const handleLogin = async (req, res) => {
   try {
@@ -18,7 +12,7 @@ const handleLogin = async (req, res) => {
         .json({ message: "Email and password are required." });
   }
 
-  const foundUser = usersDB.users.find(u => u.email === email);
+  const foundUser = await User.findOne({ email }).exec();
   if (!foundUser) {
       return res.status(401).json({ message: "User does not exist." });
   }
@@ -42,18 +36,11 @@ const handleLogin = async (req, res) => {
           { expiresIn: '7d' }
       );
 
-      const otherUsers = usersDB.users.filter(u => u.email !== foundUser.email);
-      const currentUser = { ...foundUser, refreshToken };
-      usersDB.setUsers([...otherUsers, currentUser]);
-
-      await fsPromises.writeFile(
-          path.join(__dirname, '..', 'models', 'users.json'),
-          JSON.stringify(usersDB.users, null, 2)
-      );
+      foundUser.refreshToken = refreshToken;
+      const result = await foundUser.save();
 
       res.cookie('jwt', refreshToken, {
           httpOnly: true,
-          sameSite: 'None',
           secure: true,
           sameSite: 'strict', 
           maxAge: 24 * 60 * 60 * 1000 

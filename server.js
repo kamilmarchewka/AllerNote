@@ -9,10 +9,9 @@ const errorHandler = require("./middlewares/errorHandler");
 const verifyJWT = require('./middlewares/verifyJWT');
 const cookieParser = require('cookie-parser');
 const credentials = require('./middlewares/credentials');
-const mongoose = require('mongoose'); // Corrected typo
+const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 
-// Connect to MongoDB
 connectDB();
 
 const dev = process.env.NODE_ENV !== "production";
@@ -31,6 +30,7 @@ app.prepare().then(() => {
   server.use(express.urlencoded({ extended: false }));
   server.use(express.json());
   server.use(cookieParser());
+  server.use(express.static(path.join(__dirname, "public")));
 
   // Routes
   server.use('/register', require('./routes/register'));
@@ -38,15 +38,11 @@ app.prepare().then(() => {
   server.use('/refresh', require("./routes/refresh"));
   server.use('/logout', require("./routes/logout"));
 
-  server.use("/api", verifyJWT, require("./routes/api"));
-
-  // Next.js API route example
   server.get("/api/hello", (req, res) => {
     res.json({ message: "Hello from Express and Next.js!" });
   });
 
-  // Static files
-  server.use(express.static(path.join(__dirname, "public")));
+  server.use("/api", verifyJWT, require("./routes/api"));
 
   // Catch-all route for Next.js
   server.all("*", (req, res) => {
@@ -56,11 +52,9 @@ app.prepare().then(() => {
   // Error handling
   server.use(errorHandler);
 
-  // Start server after connecting to MongoDB
   mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
   });
-
   server.listen(PORT, () => {
     console.log(`> Ready on http://localhost:${PORT}`);
   });

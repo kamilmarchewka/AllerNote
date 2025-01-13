@@ -1,42 +1,40 @@
-const usersDB = {
-  users: require('../models/users.json'),
-  setUsers: function (data) { this.users = data }
-}
-const fsPromises = require('fs').promises;
-const path = require('path');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 const handleNewUser = async (req, res) => {
   const { username, email, password } = req.body;
 
+  // Validate input
   if (!username || !email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Username, email and password are required." });
+    return res.status(400).json({
+      message: "Username, email, and password are required."
+    });
   }
 
-  const duplicate = usersDB.users.find(u => u.username === username);
-  if (duplicate) return res.sendStatus(409);
-
   try {
+    const duplicateEmail = await User.findOne({ email }).exec();
+    const duplicateUsername = await User.findOne({ username }).exec();
+
+    if (duplicateEmail) {
+      return res.status(409).json({ message: "Email already in use." });
+    }
+    if (duplicateUsername) {
+      return res.status(409).json({ message: "Username already taken." });
+    }
+
     const hashedPwd = await bcrypt.hash(password, 10);
 
-    const newUser = {
-      "id": usersDB.users.length ? usersDB.users[usersDB.users.length - 1].id + 1 : 1,
-      "username": username, 
-      "roles": { "User": 2001 },
-      "email": email, 
-      "password": hashedPwd
-    };
-    usersDB.setUsers([...usersDB.users, newUser]);
-        await fsPromises.writeFile(
-            path.join(__dirname, '..', 'models', 'users.json'),
-            JSON.stringify(usersDB.users)
-        );
-        console.log(usersDB.users);
-        res.status(201).json({ 'success': `New user ${username} created!` });
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPwd
+    });
+
+    console.log(newUser);
+    res.status(201).json({ success: `New user ${username} created!` });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ message: "An error occurred during registration." });
   }
 };
 
