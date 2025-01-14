@@ -1,18 +1,11 @@
-const mongoose = reguire('moongose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const noteSchema = new Schema({
-    note_id: {
-        type: Number, 
-        required: true
-    },
-    user_id: {
-
-    }, 
     date: {
         type: Date, 
         default: Date.now,
-        reguired: true
+        required: true
     },
     well_being: {
         type: Number, min: 0, max: 5,
@@ -34,12 +27,17 @@ const noteSchema = new Schema({
         type: Number, min: 0, max: 5,
         default: 0
     },
-    cought: {
+    cough: {
         type: Number, min: 0, max: 5,
         default: 0
     },
     free_note: {
         type: String
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 

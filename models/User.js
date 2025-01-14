@@ -24,7 +24,11 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    refreshToken: String
+    refreshToken: String,
+    userNotes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Note'
+    }]
 });
 
 module.exports = mongoose.model('User', userSchema);
