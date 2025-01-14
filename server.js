@@ -23,7 +23,6 @@ const PORT = process.env.PORT || 3000;
 app.prepare().then(() => {
   const server = express();
 
-  // Middleware
   server.use(logger);
   server.use(credentials);
   server.use(cors(corsOptions));
@@ -32,7 +31,6 @@ app.prepare().then(() => {
   server.use(cookieParser());
   server.use(express.static(path.join(__dirname, "public")));
 
-  // Routes
   server.use('/register', require('./routes/register'));
   server.use('/auth', require("./routes/auth"));
   server.use('/refresh', require("./routes/refresh"));
@@ -44,12 +42,10 @@ app.prepare().then(() => {
 
   server.use("/api", verifyJWT, require("./routes/api"));
 
-  // Catch-all route for Next.js
   server.all("*", (req, res) => {
     return handle(req, res);
   });
 
-  // Error handling
   server.use(errorHandler);
 
   mongoose.connection.once('open', () => {

@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const handleNewUser = async (req, res) => {
   const { username, email, password } = req.body;
 
-  // Validate input
   if (!username || !email || !password) {
     return res.status(400).json({
       message: "Username, email, and password are required."

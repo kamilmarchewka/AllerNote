@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 const getAllUsers = async (req, res) => {
   const users = await User.find();
@@ -22,13 +23,15 @@ const getUserById = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  if (!req?.body?.username || !req?.body?.email) {
+  if (!req?.body?.username || !req?.body?.email || !req?.body?.password) {
     return res.status(400).json({ 'message': 'username, email and password are required' });
   }
   try {
+    const hashedPwd = await bcrypt.hash(req.body.password, 10);
     const result = await User.create({
       username: req.body.username,
-      email: req.body.email
+      email: req.body.email,
+      password: hashedPwd
     });
     res.status(201).json(result);
   } catch (error) {
