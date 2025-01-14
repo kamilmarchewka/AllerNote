@@ -28,6 +28,10 @@ const userSchema = new Schema({
     userNotes: [{
         type: Schema.Types.ObjectId,
         ref: 'Note'
+    }],
+    userAreas: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Area'
     }]
 });
 

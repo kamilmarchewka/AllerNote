@@ -34,7 +34,7 @@ const noteSchema = new Schema({
     free_note: {
         type: String
     },
-    user: {
+    noteUser: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
