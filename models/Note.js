@@ -15,22 +15,28 @@ const noteSchema = new Schema({
         reguired: true
     },
     well_being: {
-        type: Number, min: 1, max: 5
+        type: Number, min: 0, max: 5,
+        default: 0
     },
     headache: {
-        type: Number, min: 1, max: 5
+        type: Number, min: 0, max: 5,
+        default: 0
     },
     runny_nose: {
-        type: Number, min: 1, max: 5
+        type: Number, min: 0, max: 5,
+        default: 0
     },
     itchy_nose: {
-        type: Number, min: 1, max: 5
+        type: Number, min: 0, max: 5,
+        default: 0
     },
     itchy_eyes: {
-        type: Number, min: 1, max: 5
+        type: Number, min: 0, max: 5,
+        default: 0
     },
     cought: {
-        type: Number, min: 1, max: 5
+        type: Number, min: 0, max: 5,
+        default: 0
     },
     free_note: {
         type: String
