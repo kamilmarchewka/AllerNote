@@ -14,7 +14,7 @@ const getPollenData = (latitude, longitude) => {
             port: null,
             path: `/latest/pollen/by-lat-lng?lat=${latitude}&lng=${longitude}`,
             headers: {
-                "x-api-key": "process.env.AMBEEDATA_API_KEY", // Klucz API z pliku .env
+                "x-api-key": process.env.AMBEEDATA_API_KEY, // Klucz API z pliku .env
                 "Content-type": "application/json"
             }
         };
@@ -45,4 +45,13 @@ const getPollenData = (latitude, longitude) => {
     });
 };
 
-module.exports = { getPollenData };
+//module.exports = { getPollenData };
+
+(async () => {
+    try {
+        const data = await getPollenData(50.04, 19.56); // Warszawa
+        console.log("Pollen Data:", JSON.stringify(data, null, 2));
+    } catch (err) {
+        console.error("Error:", err.message);
+    }
+})();
