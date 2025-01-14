@@ -32,7 +32,8 @@ const noteSchema = new Schema({
         default: 0
     },
     free_note: {
-        type: String
+        type: String,
+        default: ''
     },
     noteUser: {
         type: Schema.Types.ObjectId,
