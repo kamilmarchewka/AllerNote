@@ -19,6 +19,7 @@
     "drizzle-orm": "^0.38.3",
     "express": "^4.21.2",
     "gsap": "^3.12.5",
+    "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.4",
     "next": "15.0.3",

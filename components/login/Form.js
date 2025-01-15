@@ -20,7 +20,7 @@ export default function Form({
   const [inputPassword, setInputPassword] = React.useState("");
   const [inputRepeatedPassword, setInputRepeatedPassword] = React.useState("");
 
-  console.error(registration);
+  // console.error(registration);
 
   useEffect(() => {
     console.table({
@@ -88,7 +88,6 @@ export default function Form({
       // clearInputs();
       clearInputs();
       registration && router.push("/login");
-      !registration && router.push("/kalendarz");
     } catch (err) {
       console.error(err);
     }

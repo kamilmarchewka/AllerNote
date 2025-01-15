@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const next = require("next");
 const path = require("path");
@@ -6,11 +6,11 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const { logger } = require("./middlewares/logEvents");
 const errorHandler = require("./middlewares/errorHandler");
-const verifyJWT = require('./middlewares/verifyJWT');
-const cookieParser = require('cookie-parser');
-const credentials = require('./middlewares/credentials');
-const mongoose = require('mongoose');
-const connectDB = require('./config/dbConn');
+const verifyJWT = require("./middlewares/verifyJWT");
+const cookieParser = require("cookie-parser");
+const credentials = require("./middlewares/credentials");
+const mongoose = require("mongoose");
+const connectDB = require("./config/dbConn");
 
 connectDB();
 
@@ -31,10 +31,10 @@ app.prepare().then(() => {
   server.use(cookieParser());
   server.use(express.static(path.join(__dirname, "public")));
 
-  server.use('/register', require('./routes/register'));
-  server.use('/auth', require("./routes/auth"));
-  server.use('/refresh', require("./routes/refresh"));
-  server.use('/logout', require("./routes/logout"));
+  server.use("/register", require("./routes/register"));
+  server.use("/auth", require("./routes/auth"));
+  server.use("/refresh", require("./routes/refresh"));
+  server.use("/logout", require("./routes/logout"));
 
   server.get("/api/hello", (req, res) => {
     res.json({ message: "Hello from Express and Next.js!" });
@@ -48,8 +48,8 @@ app.prepare().then(() => {
 
   server.use(errorHandler);
 
-  mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB');
+  mongoose.connection.once("open", () => {
+    console.log("Connected to MongoDB");
   });
   server.listen(PORT, () => {
     console.log(`> Ready on http://localhost:${PORT}`);
