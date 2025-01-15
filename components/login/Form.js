@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 
 import InputBox from "./InputBox";
 import ButtonPrimary from "../buttons/ButtonPrimary";
@@ -13,10 +13,69 @@ export default function Form({
   btnText,
   registration = false,
 }) {
+  const [inputName, setInputName] = React.useState("Kamil");
+  const [inputEmail, setInputEmail] = React.useState("kamil@gmail.com");
+  const [inputPassword, setInputPassword] = React.useState("qwer1234");
+  const [inputRepeatedPassword, setInputRepeatedPassword] =
+    React.useState("qwer1234");
+
+  useEffect(() => {
+    console.table({
+      inputName,
+      inputEmail,
+      inputPassword,
+      inputRepeatedPassword,
+    });
+  }, [inputName, inputEmail, inputPassword, inputRepeatedPassword]);
+
+  function submitHandler(e) {
+    e.preventDefault();
+
+    if (
+      (registration && !inputName) ||
+      !inputEmail ||
+      !inputPassword ||
+      !inputRepeatedPassword
+    ) {
+      console.log("Fill all fields");
+      return;
+    } else if ((!registration && !inputEmail) || !inputPassword) {
+      console.log("Fill all fields");
+      return;
+    }
+
+    if (
+      registration &&
+      !validatePasswords(inputPassword, inputRepeatedPassword)
+    ) {
+      console.log("Passwords don't match");
+      return;
+    }
+    console.log("submit");
+    // senda data to server
+    console.log("Data sent to server");
+    registration
+      ? console.table({
+          inputName,
+          inputEmail,
+          inputPassword,
+          inputRepeatedPassword,
+        })
+      : console.table({
+          inputEmail,
+          inputPassword,
+        });
+  }
+  function validatePasswords(p1, p2) {
+    return p1 === p2;
+  }
+
   return (
-    <form className="flex flex-col gap-8">
+    <form onSubmit={submitHandler} className="flex flex-col gap-8">
       {nickname && registration && (
         <InputBox
+          value={inputName}
+          onChange={(e) => setInputName(e.target.value)}
           type="text"
           id="nicname"
           label="nazwa użytkownika"
@@ -25,6 +84,8 @@ export default function Form({
       )}
       {email && (
         <InputBox
+          value={inputEmail}
+          onChange={(e) => setInputEmail(e.target.value)}
           type="email"
           id="email"
           label="email"
@@ -33,6 +94,8 @@ export default function Form({
       )}
       {password && (
         <InputBox
+          value={inputPassword}
+          onChange={(e) => setInputPassword(e.target.value)}
           type="password"
           id="password"
           label="haslo"
@@ -41,6 +104,8 @@ export default function Form({
       )}
       {password && registration && (
         <InputBox
+          value={inputRepeatedPassword}
+          onChange={(e) => setInputRepeatedPassword(e.target.value)}
           type="password"
           id="repeatedPassword"
           label="powtórz hasło"

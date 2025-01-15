@@ -1,6 +1,13 @@
 import React from "react";
 
-export default function InputBox({ type, id, label, placeholder = "" }) {
+export default function InputBox({
+  type,
+  id,
+  label,
+  placeholder = "",
+  value,
+  onChange,
+}) {
   return (
     <div className="flex flex-col relative overflow-hidden">
       <label
@@ -10,6 +17,8 @@ export default function InputBox({ type, id, label, placeholder = "" }) {
         {label}:
       </label>
       <input
+        value={value}
+        onChange={onChange}
         type={type}
         id={id}
         name={id}
