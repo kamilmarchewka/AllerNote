@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import InputBox from "./InputBox";
 import ButtonPrimary from "../buttons/ButtonPrimary";
 import LinkUnderline from "../buttons/LinkUnderline";
+import { useRouter } from "next/navigation";
 
 export default function Form({
   password,
@@ -13,11 +14,13 @@ export default function Form({
   btnText,
   registration = false,
 }) {
-  const [inputName, setInputName] = React.useState("Kamil");
-  const [inputEmail, setInputEmail] = React.useState("kamil@gmail.com");
-  const [inputPassword, setInputPassword] = React.useState("qwer1234");
-  const [inputRepeatedPassword, setInputRepeatedPassword] =
-    React.useState("qwer1234");
+  const router = useRouter();
+  const [inputName, setInputName] = React.useState("");
+  const [inputEmail, setInputEmail] = React.useState("");
+  const [inputPassword, setInputPassword] = React.useState("");
+  const [inputRepeatedPassword, setInputRepeatedPassword] = React.useState("");
+
+  console.error(registration);
 
   useEffect(() => {
     console.table({
@@ -28,26 +31,21 @@ export default function Form({
     });
   }, [inputName, inputEmail, inputPassword, inputRepeatedPassword]);
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
 
     if (
-      (registration && !inputName) ||
-      !inputEmail ||
-      !inputPassword ||
-      !inputRepeatedPassword
+      registration &&
+      (!inputName || !inputEmail || !inputPassword || !inputRepeatedPassword)
     ) {
       console.log("Fill all fields");
       return;
-    } else if ((!registration && !inputEmail) || !inputPassword) {
+    } else if (!registration && (!inputEmail || !inputPassword)) {
       console.log("Fill all fields");
       return;
     }
 
-    if (
-      registration &&
-      !validatePasswords(inputPassword, inputRepeatedPassword)
-    ) {
+    if (registration && inputPassword != inputRepeatedPassword) {
       console.log("Passwords don't match");
       return;
     }
@@ -65,9 +63,41 @@ export default function Form({
           inputEmail,
           inputPassword,
         });
+
+    try {
+      const path = `${registration ? "/register" : "/auth"}`;
+      const body = registration
+        ? { username: inputName, email: inputEmail, password: inputPassword }
+        : { email: inputEmail, password: inputPassword };
+
+      const res = await fetch(path, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify JSON format
+        },
+        body: JSON.stringify(body), // Convert the body to JSON
+      });
+
+      if (!res.ok) {
+        console.error(`Error: ${res.status} ${res.statusText}`);
+        return;
+      }
+
+      const data = await res.json();
+      console.log(data);
+      // clearInputs();
+      clearInputs();
+      registration && router.push("/login");
+      !registration && router.push("/kalendarz");
+    } catch (err) {
+      console.error(err);
+    }
   }
-  function validatePasswords(p1, p2) {
-    return p1 === p2;
+  function clearInputs() {
+    setInputName("");
+    setInputEmail("");
+    setInputPassword("");
+    setInputRepeatedPassword("");
   }
 
   return (
