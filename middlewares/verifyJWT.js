@@ -26,7 +26,7 @@ const verifyJWT = (req, res, next) => {
                 console.error('JWT verification error:', err.message); 
                 return res.status(403).json({ message: "Invalid or expired token." });
             }
-            req.user = decoded.UserInfo.email;
+            req.user = decoded.UserInfo.id;
             req.roles = decoded.UserInfo.roles;
             next(); 
         }
