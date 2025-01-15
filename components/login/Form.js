@@ -88,6 +88,7 @@ export default function Form({
       // clearInputs();
       clearInputs();
       registration && router.push("/login");
+      !registration && router.push("/kalendarz");
     } catch (err) {
       console.error(err);
     }
