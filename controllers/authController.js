@@ -23,7 +23,7 @@ const handleLogin = async (req, res) => {
       const accessToken = jwt.sign(
         { 
             "UserInfo": {
-                "email": foundUser.email, 
+                "id": foundUser._id,
                 "roles": roles
             }
         },
@@ -41,8 +41,8 @@ const handleLogin = async (req, res) => {
 
       res.cookie('jwt', refreshToken, {
           httpOnly: true,
-          secure: true,
-          sameSite: 'strict', 
+          secure: false,
+          sameSite: 'Lax', 
           maxAge: 24 * 60 * 60 * 1000 
       });
 
