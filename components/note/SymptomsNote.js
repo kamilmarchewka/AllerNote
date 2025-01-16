@@ -66,7 +66,6 @@ export default function SymptomsNote({ selectedDate }) {
     };
 
     const jwtToken = getCookie("jwt");
-    console.log(jwtToken);
 
     // const decodedToken = jwt_decode(jwtToken);
     // console.log("Decoded JWT:", decodedToken);
@@ -79,7 +78,7 @@ export default function SymptomsNote({ selectedDate }) {
           "Content-Type": "application/json", // Specify JSON format
           Authorization: `Bearer ${jwtToken}`,
         },
-        body: JSON.stringify({ free_note: "dupaaa" }), // Convert the body to JSON
+        body: JSON.stringify({ free_note: "aaaa" }), // Convert the body to JSON
       });
 
       if (!res.ok) {
