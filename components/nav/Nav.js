@@ -19,11 +19,21 @@ export default function Nav() {
   }
   useEffect(() => {
     document.addEventListener("mousedown", (e) => clickOutsideHandler(e));
+    // Usage
+    const myCookie = getCookie("myCookieName");
+    console.log(myCookie);
 
     return () => {
       document.removeEventListener("mousedown", (e) => clickOutsideHandler(e));
     };
   }, []);
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+    return null;
+  }
 
   return (
     <nav className="w-full bg-white fixed top-0 left-0 shadow-sm z-[9999]">
@@ -65,13 +75,17 @@ export default function Nav() {
               Co niesie wiatr?
             </Link>
           </li>
+          <li className="block">
+            <Link href="/ustawienia" className="block w-full p-2 text-left">
+              Ustawienia
+            </Link>
+          </li>
           <li className="flex flex-col-reverse md:relative">
             {/* button with user name */}
             <div className="flex justify-center border-t pt-4 mt-2 md:pt-0 md:mt-0 md:ml-4 md:peer">
               <LoginButton
                 ref={submenuRef}
                 onClick={() => {
-                  setIsLoggedIn(true);
                   if (isLoggedIn) setSubmenuIsOpen((prev) => !prev);
                 }}
                 isLoggedIn={isLoggedIn}
@@ -86,11 +100,11 @@ export default function Nav() {
                   : "md:invisible md:-translate-y-5 md:opacity-0 submenu-transition-out"
               } `}
             >
-              <li className="block border-t pt-2 mt-2 md:pt-0 md:mt-0 md:border-t-0">
+              {/* <li className="block border-t pt-2 mt-2 md:pt-0 md:mt-0 md:border-t-0">
                 <Link href="/ustawienia" className="block w-full p-2 text-left">
                   Ustawienia
                 </Link>
-              </li>
+              </li> */}
               {isLoggedIn && (
                 <li className="block">
                   <button
