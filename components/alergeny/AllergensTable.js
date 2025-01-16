@@ -3,18 +3,18 @@ import IntensityLabel from "./IntensityLabel";
 
 export default function AllergensTable() {
   const DUMMY_DATA = [
-    { name: "Pyłki traw", intensity: 2 },
-    { name: "Roztocza kurzu domowego", intensity: 0 },
-    { name: "Pleśnie", intensity: 1 },
-    { name: "Sierść kota", intensity: 2 },
-    { name: "Sierść psa", intensity: 0 },
-    { name: "Orzechy", intensity: 1 },
-    { name: "Mleko", intensity: 2 },
-    { name: "Jaja", intensity: 1 },
-    { name: "Ryby", intensity: 0 },
-    { name: "Soja", intensity: 2 },
-    { name: "Pszenica", intensity: 1 },
-    { name: "Lateks", intensity: 0 },
+    { name: "Trawy", intensity: 2 },
+    { name: "Bylica", intensity: 0 },
+    { name: "Brzoza", intensity: 1 },
+    { name: "Alternaria", intensity: 2 },
+    { name: "Babka", intensity: 0 },
+    { name: "Dąb", intensity: 1 },
+    { name: "Leszczyna", intensity: 2 },
+    { name: "Olsza", intensity: 1 },
+    { name: "Pokrzywa", intensity: 0 },
+    { name: "Szczaw", intensity: 2 },
+    { name: "Topola", intensity: 1 },
+    { name: "Wierzba", intensity: 0 },
   ];
 
   return (

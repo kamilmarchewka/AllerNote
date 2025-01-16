@@ -44,7 +44,6 @@ const handleLogin = async (req, res) => {
         sameSite: "Lax",
         maxAge: 24 * 60 * 60 * 1000,
       });
-      // res.send();
 
       return res.json({ accessToken });
     } else {
