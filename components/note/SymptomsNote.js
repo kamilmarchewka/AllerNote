@@ -1,23 +1,35 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { formatDate } from "@/utils/date";
 import renderButtons from "./CustomRadio";
 import CustomRadio from "./CustomRadio";
-import CustomRadioToEdit from "./CustomRadioToEdit"
+import CustomRadioToEdit from "./CustomRadioToEdit";
 import ButtonSecondary from "../buttons/ButtonSecondary";
 import ButtonPrimary from "../buttons/ButtonPrimary";
 
 export default function SymptomsNote({ selectedDate }) {
+  const today = new Date();
+
+  const [jwt, setJwt] = useState(null);
+
+  useEffect(() => {
+    // Parse the `document.cookie` string to extract the JWT
+    const cookies = document.cookie.split("; ");
+    const jwtCookie = cookies.find((row) => row.startsWith("jwt="));
+    if (jwtCookie) {
+      setJwt(jwtCookie.split("=")[1]); // Get the value after "jwt="
+    }
+  }, []);
+
   const [samopoczucie, setSamopoczocie] = useState(null);
   const [bolGlowy, setBolGlowy] = useState(null);
   const [katar, setKatar] = useState(null);
   const [nos, setNos] = useState(null);
   const [oko, setOko] = useState(null);
   const [kaszel, setKaszel] = useState(null);
+  const [note, setNote] = useState("");
 
   const [isEditing, setIsEditing] = useState(false);
-
-  const [text, setText] = useState();
 
   const SYMPTOMS = [
     {
@@ -54,18 +66,39 @@ export default function SymptomsNote({ selectedDate }) {
 
   const selectedDateStr = formatDate(selectedDate);
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
-    const data = {
-      samopoczucie: samopoczucie,
-      bol_glowy: bolGlowy,
-      katar: katar,
-      swedzenie_nosa: nos,
-      swedzenie_oczu: oko,
-      kaszel: kaszel,
+    setIsEditing(false);
+
+    console.log(jwt);
+
+    const body = {
+      free_note: note,
     };
+
+    try {
+      // send data to the server
+      const res = await fetch("/api/kalendarz", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify JSON format
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNodWpAZ21haWwuY29tIiwiaWF0IjoxNzM2OTg0ODI0LCJleHAiOjE3Mzc1ODk2MjR9.HtGu-TzCJnCGIL3RX6VMZ7dIgRIvmze26WFFVZQ9agc`,
+        },
+        body: JSON.stringify(body), // Convert the body to JSON
+      });
+
+      if (!res.ok) {
+        console.error(`Error: ${res.status} ${res.statusText}`);
+        return;
+      }
+
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+    console.table(data);
   }
-  const today = new Date();
 
   function isToday(date) {
     const selected = new Date(date);
@@ -121,28 +154,29 @@ export default function SymptomsNote({ selectedDate }) {
           )}
         </h1>
       </header>
-      <form onSubmit={submitHandler} className="flex flex-col gap-8 ">
+      <form className="flex flex-col gap-8 ">
         <div>
           <header className="mb-2">
             <h2 className="text-xl first-line:italic">MOJE OBIAWY:</h2>
           </header>
-        <div className="lg:pr-16">
-          {SYMPTOMS.map(({ stateSetter, currentValue, symptom }) => 
-          isEditing ? (
-            <CustomRadio
-              key={symptom}
-              stateSetter={stateSetter}
-              currentValue={currentValue}
-              symptom={symptom}
-            />
-          ) : (
-            <CustomRadioToEdit
-              key={symptom}
-              symptom={symptom}
-              currentValue={currentValue}
-            /> )
-          )}
-        </div>
+          <div className="lg:pr-16">
+            {SYMPTOMS.map(({ stateSetter, currentValue, symptom }) =>
+              isEditing ? (
+                <CustomRadio
+                  key={symptom}
+                  stateSetter={stateSetter}
+                  currentValue={currentValue}
+                  symptom={symptom}
+                />
+              ) : (
+                <CustomRadioToEdit
+                  key={symptom}
+                  symptom={symptom}
+                  currentValue={currentValue}
+                />
+              )
+            )}
+          </div>
         </div>
 
         <div>
@@ -150,23 +184,25 @@ export default function SymptomsNote({ selectedDate }) {
             <h2 className="text-xl italic">NOTATKA:</h2>
           </header>
 
-          { isEditing ? (
-          <textarea
-          id="userNote"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          rows="5"
-          className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
-          placeholder="Dzisiaj czuję się..."
-          ></textarea> ) : (
-          <textarea
-            disabled
-            id="userNote"
-            value={text}
-            rows="5"
-            className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
-            placeholder="Dzisiaj czuję się..."
-          ></textarea> ) } 
+          {isEditing ? (
+            <textarea
+              id="userNote"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              rows="5"
+              className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
+              placeholder="Dzisiaj czuję się..."
+            ></textarea>
+          ) : (
+            <textarea
+              disabled
+              id="userNote"
+              value={note}
+              rows="5"
+              className="block mt-0.5 p-1.5 w-full h-44 text-sm border bg-white rounded-lg resize-none shadow-md"
+              placeholder="Dzisiaj czuję się..."
+            ></textarea>
+          )}
         </div>
         <div className="ml-auto flex gap-5">
           {!isEditing ? (
@@ -185,7 +221,7 @@ export default function SymptomsNote({ selectedDate }) {
               <ButtonPrimary
                 type="submit"
                 style="green"
-                onClick={() => setIsEditing(false)}
+                onClick={submitHandler}
               >
                 Zapisz
               </ButtonPrimary>
