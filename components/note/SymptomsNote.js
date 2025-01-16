@@ -1,4 +1,6 @@
 "use client";
+import { jwt_decode } from "jwt-decode";
+
 import React, { useState, useEffect } from "react";
 import { formatDate } from "@/utils/date";
 import renderButtons from "./CustomRadio";
@@ -9,17 +11,6 @@ import ButtonPrimary from "../buttons/ButtonPrimary";
 
 export default function SymptomsNote({ selectedDate }) {
   const today = new Date();
-
-  const [jwt, setJwt] = useState(null);
-
-  useEffect(() => {
-    // Parse the `document.cookie` string to extract the JWT
-    const cookies = document.cookie.split("; ");
-    const jwtCookie = cookies.find((row) => row.startsWith("jwt="));
-    if (jwtCookie) {
-      setJwt(jwtCookie.split("=")[1]); // Get the value after "jwt="
-    }
-  }, []);
 
   const [samopoczucie, setSamopoczocie] = useState(null);
   const [bolGlowy, setBolGlowy] = useState(null);
@@ -70,21 +61,25 @@ export default function SymptomsNote({ selectedDate }) {
     e.preventDefault();
     setIsEditing(false);
 
-    console.log(jwt);
-
     const body = {
       free_note: note,
     };
 
+    const jwtToken = getCookie("jwt");
+    console.log(jwtToken);
+
+    // const decodedToken = jwt_decode(jwtToken);
+    // console.log("Decoded JWT:", decodedToken);
+
     try {
       // send data to the server
-      const res = await fetch("/api/kalendarz", {
+      const res = await fetch("http://localhost:3000/api/kalendarz", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Specify JSON format
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNodWpAZ21haWwuY29tIiwiaWF0IjoxNzM2OTg0ODI0LCJleHAiOjE3Mzc1ODk2MjR9.HtGu-TzCJnCGIL3RX6VMZ7dIgRIvmze26WFFVZQ9agc`,
+          Authorization: `Bearer ${jwtToken}`,
         },
-        body: JSON.stringify(body), // Convert the body to JSON
+        body: JSON.stringify({ free_note: "dupaaa" }), // Convert the body to JSON
       });
 
       if (!res.ok) {
@@ -108,6 +103,11 @@ export default function SymptomsNote({ selectedDate }) {
       today.getDate() === selected.getDate()
     );
   }
+  const getCookie = (name) => {
+    const cookies = document.cookie.split("; ");
+    const cookie = cookies.find((c) => c.startsWith(`${name}=`));
+    return cookie ? cookie.split("=")[1] : null;
+  };
 
   return (
     <section className="flex flex-col">

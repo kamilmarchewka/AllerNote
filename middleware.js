@@ -4,7 +4,6 @@ import { jwtVerify } from "jose"; // Import jwtVerify from jose (works in Edge R
 
 const protectedRoutes = ["/kalendarz", "/opcje"];
 const publicRoutes = ["/login", "/rejestracja", "/alergeny"];
-
 export default async function middleware(req) {
   console.log("Middleware running for:", req.nextUrl.pathname);
 
