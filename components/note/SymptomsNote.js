@@ -62,6 +62,12 @@ export default function SymptomsNote({ selectedDate }) {
     setIsEditing(false);
 
     const body = {
+      well_being: samopoczucie,
+      headache: bolGlowy,
+      runny_nose: katar,
+      itchy_nose: nos,
+      itchy_eyes: oko,
+      cough: kaszel,
       free_note: note,
     };
 
@@ -78,7 +84,7 @@ export default function SymptomsNote({ selectedDate }) {
           "Content-Type": "application/json", // Specify JSON format
           Authorization: `Bearer ${jwtToken}`,
         },
-        body: JSON.stringify({ free_note: "aaaa" }), // Convert the body to JSON
+        body: JSON.stringify(body), // Convert the body to JSON
       });
 
       if (!res.ok) {
