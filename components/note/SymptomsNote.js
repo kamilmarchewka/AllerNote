@@ -70,34 +70,6 @@ export default function SymptomsNote({ selectedDate }) {
       cough: kaszel,
       free_note: note,
     };
-
-    const jwtToken = getCookie("jwt");
-
-    // const decodedToken = jwt_decode(jwtToken);
-    // console.log("Decoded JWT:", decodedToken);
-
-    try {
-      // send data to the server
-      const res = await fetch("http://localhost:3000/api/kalendarz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Specify JSON format
-          Authorization: `Bearer ${jwtToken}`,
-        },
-        body: JSON.stringify(body), // Convert the body to JSON
-      });
-
-      if (!res.ok) {
-        console.error(`Error: ${res.status} ${res.statusText}`);
-        return;
-      }
-
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      console.error(err);
-    }
-    console.table(data);
   }
 
   function isToday(date) {

@@ -70,22 +70,6 @@ export default function Form({
         ? { username: inputName, email: inputEmail, password: inputPassword }
         : { email: inputEmail, password: inputPassword };
 
-      const res = await fetch(path, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Specify JSON format
-        },
-        body: JSON.stringify(body), // Convert the body to JSON
-      });
-
-      if (!res.ok) {
-        console.error(`Error: ${res.status} ${res.statusText}`);
-        return;
-      }
-
-      const data = await res.json();
-      console.log(data);
-      // clearInputs();
       clearInputs();
       registration && router.push("/login");
       !registration && router.push("/kalendarz");
