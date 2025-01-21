@@ -7,7 +7,7 @@ import GoBackIcon from "@/components/login/GoBackIcon";
 import Card from "@/components/login/Card";
 import Form from "@/components/login/Form";
 import Dandelion from "@/components/login/Dandelion";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/lib/firebase/firebase";
 
 export default async function Login() {
@@ -18,6 +18,21 @@ export default async function Login() {
   querySnapshot.forEach((doc) => {
     items.push({ id: doc.id, ...doc.data() });
   });
+
+  try {
+    const citiesCollection = collection(firestore, "cities");
+
+    // New city data
+    const newCity = {
+      name: "Bydgoszcz",
+    };
+
+    // Add the new city to Firestore
+    const docRef = await addDoc(citiesCollection, newCity);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
 
   console.table(items);
   return (
