@@ -10,12 +10,14 @@ import ButtonPrimary from "../buttons/ButtonPrimary";
 import { isSameDay } from "@/utils/date";
 
 import {
+  Timestamp,
   addDoc,
   collection,
   getDocs,
   query,
   where,
   doc,
+  updateDoc,
 } from "firebase/firestore";
 import { firestore } from "@/lib/firebase/firebase";
 import { get } from "mongoose";
@@ -74,8 +76,64 @@ export default function SymptomsNote({ selectedDate }) {
 
     const data = {
       content: note,
-      create_at: selectedDate,
+      created_at: selectedDate,
     };
+
+    await addOrUpdateNote(selectedDate, "kamil@gmail.com", "dupa");
+
+    async function addOrUpdateNote(selectedDate, userEmail, noteContent) {
+      try {
+        const usersRef = collection(firestore, "users");
+
+        // Query to find the user by email
+        const emailQuery = query(usersRef, where("email", "==", userEmail));
+        const userSnapshot = await getDocs(emailQuery);
+
+        if (userSnapshot.empty) {
+          console.log("No user found with this email");
+          return;
+        }
+
+        // Get the user's document
+        const userDoc = userSnapshot.docs[0];
+        const notesRef = collection(firestore, "users", userDoc.id, "notes");
+        const notesSnapshot = await getDocs(notesRef);
+
+        // Check if a note already exists for the selected date
+        const existingNote = notesSnapshot.docs.find((noteDoc) => {
+          const noteData = noteDoc.data();
+          const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to Date object
+          return createdAt && isSameDay(createdAt, selectedDate);
+        });
+
+        if (existingNote) {
+          // If a note exists, update it
+          const noteDocRef = doc(
+            firestore,
+            "users",
+            userDoc.id,
+            "notes",
+            existingNote.id
+          );
+          await updateDoc(noteDocRef, {
+            content: noteContent, // Update the content
+          });
+          console.log("Note updated successfully!");
+        } else {
+          // If no note exists, add a new one
+          const newNote = {
+            content: noteContent,
+            created_at: Timestamp.fromDate(selectedDate), // Set created_at to the selected date
+          };
+
+          // Add the new note to Firestore
+          await addDoc(notesRef, newNote);
+          console.log("New note added successfully!");
+        }
+      } catch (error) {
+        console.error("Error adding or updating note:", error);
+      }
+    }
 
     console.log("selecteddate", selectedDate);
 
@@ -124,6 +182,61 @@ export default function SymptomsNote({ selectedDate }) {
     } catch (error) {
       console.error("Error fetching notes:", error);
       return [];
+    }
+  }
+
+  async function addOrUpdateNote(selectedDate, userEmail, noteContent) {
+    try {
+      const usersRef = collection(firestore, "users");
+
+      // Query to find the user by email
+      const emailQuery = query(usersRef, where("email", "==", userEmail));
+      const userSnapshot = await getDocs(emailQuery);
+
+      if (userSnapshot.empty) {
+        console.log("No user found with this email");
+        return;
+      }
+
+      // Get the user's document
+      const userDoc = userSnapshot.docs[0];
+      const notesRef = collection(firestore, "users", userDoc.id, "notes");
+      const notesSnapshot = await getDocs(notesRef);
+
+      // Check if a note already exists for the selected date
+      const existingNote = notesSnapshot.docs.find((noteDoc) => {
+        const noteData = noteDoc.data();
+        const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to Date object
+        return createdAt && isSameDay(createdAt, selectedDate);
+      });
+
+      if (existingNote) {
+        // If a note exists, update it
+        const noteDocRef = doc(
+          firestore,
+          "users",
+          userDoc.id,
+          "notes",
+          existingNote.id
+        );
+        await updateDoc(noteDocRef, {
+          content: noteContent, // Update the content
+          updated_at: Timestamp.fromDate(new Date()), // Optional: track the update time
+        });
+        console.log("Note updated successfully!");
+      } else {
+        // If no note exists, add a new one
+        const newNote = {
+          content: noteContent,
+          created_at: Timestamp.fromDate(selectedDate), // Set created_at to the selected date
+        };
+
+        // Add the new note to Firestore
+        await addDoc(notesRef, newNote);
+        console.log("New note added successfully!");
+      }
+    } catch (error) {
+      console.error("Error adding or updating note:", error);
     }
   }
 
