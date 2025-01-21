@@ -7,8 +7,19 @@ import GoBackIcon from "@/components/login/GoBackIcon";
 import Card from "@/components/login/Card";
 import Form from "@/components/login/Form";
 import Dandelion from "@/components/login/Dandelion";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { firestore } from "@/lib/firebase/firebase";
 
-export default function Login() {
+export default async function Login() {
+  const items = [];
+  const citiesCollection = collection(firestore, "cities");
+  const querySnapshot = await getDocs(citiesCollection);
+
+  querySnapshot.forEach((doc) => {
+    items.push({ id: doc.id, ...doc.data() });
+  });
+
+  console.table(items);
   return (
     <section className="flex items-center pt-32 pb-10 lg:min-h-[calc(100vh-40px)]">
       {/* Background svg */}
