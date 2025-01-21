@@ -1,5 +1,4 @@
 "use client";
-import { jwt_decode } from "jwt-decode";
 
 import React, { useState, useEffect } from "react";
 import { formatDate } from "@/utils/date";
@@ -8,6 +7,18 @@ import CustomRadio from "./CustomRadio";
 import CustomRadioToEdit from "./CustomRadioToEdit";
 import ButtonSecondary from "../buttons/ButtonSecondary";
 import ButtonPrimary from "../buttons/ButtonPrimary";
+import { isSameDay } from "@/utils/date";
+
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
+import { firestore } from "@/lib/firebase/firebase";
+import { get } from "mongoose";
 
 export default function SymptomsNote({ selectedDate }) {
   const today = new Date();
@@ -61,15 +72,15 @@ export default function SymptomsNote({ selectedDate }) {
     e.preventDefault();
     setIsEditing(false);
 
-    const body = {
-      well_being: samopoczucie,
-      headache: bolGlowy,
-      runny_nose: katar,
-      itchy_nose: nos,
-      itchy_eyes: oko,
-      cough: kaszel,
-      free_note: note,
+    const data = {
+      content: note,
+      create_at: selectedDate,
     };
+
+    console.log("selecteddate", selectedDate);
+
+    const receivedNotes = await getNotesForSelectedDate(selectedDate);
+    console.log("note", receivedNotes[0].content);
   }
 
   function isToday(date) {
@@ -80,11 +91,41 @@ export default function SymptomsNote({ selectedDate }) {
       today.getDate() === selected.getDate()
     );
   }
-  const getCookie = (name) => {
-    const cookies = document.cookie.split("; ");
-    const cookie = cookies.find((c) => c.startsWith(`${name}=`));
-    return cookie ? cookie.split("=")[1] : null;
-  };
+
+  async function getNotesForSelectedDate(selectedDate) {
+    try {
+      const usersRef = collection(firestore, "users");
+      const userEmail = "kamil@gmail.com"; // Replace with actual user email or dynamic value
+
+      // Get the user document based on the email
+      const emailQuery = query(usersRef, where("email", "==", userEmail));
+      const userSnapshot = await getDocs(emailQuery);
+
+      if (userSnapshot.empty) {
+        console.log("No user found with this email");
+        return [];
+      }
+
+      // Get the user's notes collection
+      const userDoc = userSnapshot.docs[0];
+      const notesRef = collection(firestore, "users", userDoc.id, "notes");
+      const notesSnapshot = await getDocs(notesRef);
+
+      // Filter notes where the created_at date is the same as selectedDate
+      const filteredNotes = notesSnapshot.docs
+        .filter((noteDoc) => {
+          const noteData = noteDoc.data();
+          const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to JavaScript Date object
+          return createdAt && isSameDay(createdAt, selectedDate);
+        })
+        .map((doc) => doc.data()); // Map the filtered documents to data
+
+      return filteredNotes;
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+      return [];
+    }
+  }
 
   return (
     <section className="flex flex-col">
