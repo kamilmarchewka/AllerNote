@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { formatDate } from "@/utils/date";
+import React, { useState, useEffect, use } from "react";
+import { formatDate, isToday } from "@/utils/date";
 import renderButtons from "./CustomRadio";
 import CustomRadio from "./CustomRadio";
 import CustomRadioToEdit from "./CustomRadioToEdit";
@@ -20,7 +20,6 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { firestore } from "@/lib/firebase/firebase";
-import { get } from "mongoose";
 
 export default function SymptomsNote({ selectedDate }) {
   const today = new Date();
@@ -141,50 +140,6 @@ export default function SymptomsNote({ selectedDate }) {
     console.log("note", receivedNotes[0].content);
   }
 
-  function isToday(date) {
-    const selected = new Date(date);
-    return (
-      today.getFullYear() === selected.getFullYear() &&
-      today.getMonth() === selected.getMonth() &&
-      today.getDate() === selected.getDate()
-    );
-  }
-
-  async function getNotesForSelectedDate(selectedDate) {
-    try {
-      const usersRef = collection(firestore, "users");
-      const userEmail = "kamil@gmail.com"; // Replace with actual user email or dynamic value
-
-      // Get the user document based on the email
-      const emailQuery = query(usersRef, where("email", "==", userEmail));
-      const userSnapshot = await getDocs(emailQuery);
-
-      if (userSnapshot.empty) {
-        console.log("No user found with this email");
-        return [];
-      }
-
-      // Get the user's notes collection
-      const userDoc = userSnapshot.docs[0];
-      const notesRef = collection(firestore, "users", userDoc.id, "notes");
-      const notesSnapshot = await getDocs(notesRef);
-
-      // Filter notes where the created_at date is the same as selectedDate
-      const filteredNotes = notesSnapshot.docs
-        .filter((noteDoc) => {
-          const noteData = noteDoc.data();
-          const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to JavaScript Date object
-          return createdAt && isSameDay(createdAt, selectedDate);
-        })
-        .map((doc) => doc.data()); // Map the filtered documents to data
-
-      return filteredNotes;
-    } catch (error) {
-      console.error("Error fetching notes:", error);
-      return [];
-    }
-  }
-
   async function addOrUpdateNote(selectedDate, userEmail, noteContent) {
     try {
       const usersRef = collection(firestore, "users");
@@ -239,6 +194,53 @@ export default function SymptomsNote({ selectedDate }) {
       console.error("Error adding or updating note:", error);
     }
   }
+
+  async function getNotesForSelectedDate(selectedDate) {
+    const usersRef = collection(firestore, "users");
+    const userEmail = "kamil@gmail.com"; // Replace with actual user email or dynamic value
+    const emailQuery = query(usersRef, where("email", "==", userEmail));
+
+    try {
+      // Get the user document based on the email
+      const userSnapshot = await getDocs(emailQuery);
+
+      if (userSnapshot.empty) {
+        console.log("No user found with this email");
+        return [];
+      }
+
+      // Get the user's notes collection
+      const userDoc = userSnapshot.docs[0];
+      const notesRef = collection(firestore, "users", userDoc.id, "notes");
+      const notesSnapshot = await getDocs(notesRef);
+
+      // Filter notes where the created_at date is the same as selectedDate
+      const filteredNotes = notesSnapshot.docs
+        .filter((noteDoc) => {
+          const noteData = noteDoc.data();
+          const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to JavaScript Date object
+          return createdAt && isSameDay(createdAt, selectedDate);
+        })
+        .map((doc) => doc.data()); // Map the filtered documents to data
+
+      console.log("kurwaaaaa");
+      console.log("data", filteredNotes);
+
+      // Update the state with the filtered notes
+
+      setNote(filteredNotes[0]?.content || "");
+      return filteredNotes;
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    getNotesForSelectedDate(selectedDate);
+
+    // console.log("received notes", receivedNotes);
+  }, [selectedDate]);
 
   return (
     <section className="flex flex-col">

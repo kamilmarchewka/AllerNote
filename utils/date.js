@@ -31,3 +31,13 @@ export function isSameDay(date1, date2) {
   // Compare year, month, and day
   return year1 === year2 && month1 === month2 && day1 === day2;
 }
+
+export function isToday(date) {
+  const selected = new Date(date);
+  const today = new Date();
+  return (
+    today.getFullYear() === selected.getFullYear() &&
+    today.getMonth() === selected.getMonth() &&
+    today.getDate() === selected.getDate()
+  );
+}
