@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { CalendarFooter } from "./CalendarFooter";
 import { CalendarGrid } from "./CalendarGrid";
-import { formatDate } from "../../utils/date";
 import { CalendarHeader } from "./CalendarHeader";
 
-export const Calendar = ({
+export function Calendar({
   setCurrentMonth,
   setSelectedDate,
   currentMonth,
   selectedDate,
-}) => {
+}) {
   return (
     <div className="flex flex-col w-fit">
       <CalendarHeader currentDate={currentMonth} />
@@ -43,4 +42,4 @@ export const Calendar = ({
       </div>
     </div>
   );
-};
+}

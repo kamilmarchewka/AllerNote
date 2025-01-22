@@ -5,6 +5,11 @@ import InputBox from "./InputBox";
 import ButtonPrimary from "../buttons/ButtonPrimary";
 import LinkUnderline from "../buttons/LinkUnderline";
 import { useRouter } from "next/navigation";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "@/lib/firebase/firebase";
 
 export default function Form({
   password,
@@ -51,47 +56,21 @@ export default function Form({
     }
     console.log("submit");
     // senda data to server
-    console.log("Data sent to server");
-    registration
-      ? console.table({
-          inputName,
-          inputEmail,
-          inputPassword,
-          inputRepeatedPassword,
-        })
-      : console.table({
-          inputEmail,
-          inputPassword,
-        });
-
     try {
-      const path = `${registration ? "/register" : "/auth"}`;
-      const body = registration
-        ? { username: inputName, email: inputEmail, password: inputPassword }
-        : { email: inputEmail, password: inputPassword };
-
-      const res = await fetch(path, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Specify JSON format
-        },
-        body: JSON.stringify(body), // Convert the body to JSON
-      });
-
-      if (!res.ok) {
-        console.error(`Error: ${res.status} ${res.statusText}`);
-        return;
+      if (registration) {
+        await createUserWithEmailAndPassword(auth, inputEmail, inputPassword);
+        console.log("Registration successful!");
+        router.push("/login");
+      } else {
+        await signInWithEmailAndPassword(auth, inputEmail, inputPassword);
+        console.log("Login successful!");
+        router.push("/kalendarz");
       }
-
-      const data = await res.json();
-      console.log(data);
-      // clearInputs();
-      clearInputs();
-      registration && router.push("/login");
-      !registration && router.push("/kalendarz");
     } catch (err) {
-      console.error(err);
+      console.log(err.message);
     }
+
+    clearInputs();
   }
   function clearInputs() {
     setInputName("");

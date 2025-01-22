@@ -1,23 +1,35 @@
 "use client";
-import { jwt_decode } from "jwt-decode";
 
-import React, { useState, useEffect } from "react";
-import { formatDate } from "@/utils/date";
+import React, { useState, useEffect, use } from "react";
+import { formatDate, isToday } from "@/utils/date";
 import renderButtons from "./CustomRadio";
 import CustomRadio from "./CustomRadio";
 import CustomRadioToEdit from "./CustomRadioToEdit";
 import ButtonSecondary from "../buttons/ButtonSecondary";
 import ButtonPrimary from "../buttons/ButtonPrimary";
+import { isSameDay } from "@/utils/date";
+
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { firestore } from "@/lib/firebase/firebase";
 
 export default function SymptomsNote({ selectedDate }) {
   const today = new Date();
 
-  const [samopoczucie, setSamopoczocie] = useState(null);
-  const [bolGlowy, setBolGlowy] = useState(null);
-  const [katar, setKatar] = useState(null);
-  const [nos, setNos] = useState(null);
-  const [oko, setOko] = useState(null);
-  const [kaszel, setKaszel] = useState(null);
+  const [samopoczucie, setSamopoczocie] = useState(0);
+  const [bolGlowy, setBolGlowy] = useState(0);
+  const [katar, setKatar] = useState(0);
+  const [nos, setNos] = useState(0);
+  const [oko, setOko] = useState(0);
+  const [kaszel, setKaszel] = useState(0);
   const [note, setNote] = useState("");
 
   const [isEditing, setIsEditing] = useState(false);
@@ -57,62 +69,196 @@ export default function SymptomsNote({ selectedDate }) {
 
   const selectedDateStr = formatDate(selectedDate);
 
+  async function addOrUpdateNote(selectedDate, userEmail, noteContent) {
+    try {
+      const usersRef = collection(firestore, "users");
+
+      // Query to find the user by email
+      const emailQuery = query(usersRef, where("email", "==", userEmail));
+      const userSnapshot = await getDocs(emailQuery);
+
+      if (userSnapshot.empty) {
+        console.log("No user found with this email");
+        return;
+      }
+
+      // Get the user's document
+      const userDoc = userSnapshot.docs[0];
+      const notesRef = collection(firestore, "users", userDoc.id, "notes");
+      const notesSnapshot = await getDocs(notesRef);
+
+      // Check if a note already exists for the selected date
+      const existingNote = notesSnapshot.docs.find((noteDoc) => {
+        const noteData = noteDoc.data();
+        const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to Date object
+        return createdAt && isSameDay(createdAt, selectedDate);
+      });
+
+      if (existingNote) {
+        // If a note exists, update it
+        const noteDocRef = doc(
+          firestore,
+          "users",
+          userDoc.id,
+          "notes",
+          existingNote.id
+        );
+        await updateDoc(noteDocRef, {
+          content: noteContent, // Update the content
+          updated_at: Timestamp.fromDate(new Date()), // Optional: track the update time
+        });
+        console.log("Note updated successfully!");
+      } else {
+        // If no note exists, add a new one
+        const newNote = {
+          content: noteContent,
+          created_at: Timestamp.fromDate(selectedDate), // Set created_at to the selected date
+        };
+
+        // Add the new note to Firestore
+        await addDoc(notesRef, newNote);
+        console.log("New note added successfully!");
+      }
+    } catch (error) {
+      console.error("Error adding or updating note:", error);
+    }
+  }
+
+  useEffect(() => {
+    getNotesForSelectedDate(selectedDate);
+
+    // console.log("received notes", receivedNotes);
+  }, [selectedDate]);
+
+  async function getNotesForSelectedDate(selectedDate) {
+    const usersRef = collection(firestore, "users");
+    const userEmail = "kamil@gmail.com"; // Replace with actual user email or dynamic value
+    const emailQuery = query(usersRef, where("email", "==", userEmail));
+
+    try {
+      // Get the user document based on the email
+      const userSnapshot = await getDocs(emailQuery);
+
+      if (userSnapshot.empty) {
+        console.log("No user found with this email");
+        return [];
+      }
+
+      // Get the user's notes collection
+      const userDoc = userSnapshot.docs[0];
+      const notesRef = collection(firestore, "users", userDoc.id, "notes");
+      const notesSnapshot = await getDocs(notesRef);
+
+      // Filter notes where the created_at date is the same as selectedDate
+      const filteredNotes = notesSnapshot.docs
+        .filter((noteDoc) => {
+          const noteData = noteDoc.data();
+          const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to JavaScript Date object
+          return createdAt && isSameDay(createdAt, selectedDate);
+        })
+        .map((doc) => doc.data()); // Map the filtered documents to data
+
+      console.log("kurwaaaaa");
+      console.log("data", filteredNotes);
+
+      // Update the state with the filtered notes
+
+      setNote(filteredNotes[0]?.content || "");
+      setSamopoczocie(filteredNotes[0]?.samopoczucie || 0);
+      setBolGlowy(filteredNotes[0]?.bol_glowy || 0);
+      setKatar(filteredNotes[0]?.katar || 0);
+      setNos(filteredNotes[0]?.swedzenie_nosa || 0);
+      setOko(filteredNotes[0]?.swedzenie_oczu || 0);
+      setKaszel(filteredNotes[0]?.kaszel || 0);
+      return filteredNotes;
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+      return [];
+    }
+  }
+
+  async function addOrUpdateNote(selectedDate, userEmail, data) {
+    try {
+      const usersRef = collection(firestore, "users");
+
+      // Query to find the user by email
+      const emailQuery = query(usersRef, where("email", "==", userEmail));
+      const userSnapshot = await getDocs(emailQuery);
+
+      if (userSnapshot.empty) {
+        console.log("No user found with this email");
+        return;
+      }
+
+      // Get the user's document
+      const userDoc = userSnapshot.docs[0];
+      const notesRef = collection(firestore, "users", userDoc.id, "notes");
+      const notesSnapshot = await getDocs(notesRef);
+
+      // Check if a note already exists for the selected date
+      const existingNote = notesSnapshot.docs.find((noteDoc) => {
+        const noteData = noteDoc.data();
+        const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to Date object
+        return createdAt && isSameDay(createdAt, selectedDate);
+      });
+
+      if (existingNote) {
+        // If a note exists, update it
+        const noteDocRef = doc(
+          firestore,
+          "users",
+          userDoc.id,
+          "notes",
+          existingNote.id
+        );
+        await updateDoc(noteDocRef, {
+          ...data, // Update the content
+        });
+        console.log("Note updated successfully!");
+      } else {
+        // If no note exists, add a new one
+        const newNote = {
+          ...data,
+          created_at: Timestamp.fromDate(selectedDate), // Set created_at to the selected date
+        };
+
+        // Add the new note to Firestore
+        await addDoc(notesRef, newNote);
+        console.log("New note added successfully!");
+      }
+    } catch (error) {
+      console.error("Error adding or updating note:", error);
+    }
+  }
+
   async function submitHandler(e) {
     e.preventDefault();
     setIsEditing(false);
 
-    const body = {
-      well_being: samopoczucie,
-      headache: bolGlowy,
-      runny_nose: katar,
-      itchy_nose: nos,
-      itchy_eyes: oko,
-      cough: kaszel,
-      free_note: note,
+    const data = {
+      samopoczucie: samopoczucie,
+      bol_glowy: bolGlowy,
+      katar: katar,
+      swedzenie_oczu: oko,
+      swedzenie_nosa: nos,
+      kaszel: kaszel,
+      content: note,
+      created_at: selectedDate,
     };
 
-    const jwtToken = getCookie("jwt");
+    await addOrUpdateNote(selectedDate, "kamil@gmail.com", data);
 
-    // const decodedToken = jwt_decode(jwtToken);
-    // console.log("Decoded JWT:", decodedToken);
+    console.log("selecteddate", selectedDate);
 
-    try {
-      // send data to the server
-      const res = await fetch("http://localhost:3000/api/kalendarz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Specify JSON format
-          Authorization: `Bearer ${jwtToken}`,
-        },
-        body: JSON.stringify(body), // Convert the body to JSON
-      });
-
-      if (!res.ok) {
-        console.error(`Error: ${res.status} ${res.statusText}`);
-        return;
-      }
-
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      console.error(err);
-    }
-    console.table(data);
+    const receivedNotes = await getNotesForSelectedDate(selectedDate);
+    console.log("note", receivedNotes[0].content);
   }
 
-  function isToday(date) {
-    const selected = new Date(date);
-    return (
-      today.getFullYear() === selected.getFullYear() &&
-      today.getMonth() === selected.getMonth() &&
-      today.getDate() === selected.getDate()
-    );
+  async function cancelHandler(e) {
+    e.preventDefault();
+    setIsEditing(false);
+    getNotesForSelectedDate(selectedDate);
   }
-  const getCookie = (name) => {
-    const cookies = document.cookie.split("; ");
-    const cookie = cookies.find((c) => c.startsWith(`${name}=`));
-    return cookie ? cookie.split("=")[1] : null;
-  };
 
   return (
     <section className="flex flex-col">
@@ -216,11 +362,7 @@ export default function SymptomsNote({ selectedDate }) {
             </ButtonPrimary>
           ) : (
             <>
-              <ButtonPrimary
-                type="reset"
-                style="red"
-                onClick={() => setIsEditing(false)}
-              >
+              <ButtonPrimary type="reset" style="red" onClick={cancelHandler}>
                 Anuluj
               </ButtonPrimary>
               <ButtonPrimary
