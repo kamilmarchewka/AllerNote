@@ -10,6 +10,8 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase/firebase";
+import { firestore } from "@/lib/firebase/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function Form({
   password,
@@ -58,7 +60,22 @@ export default function Form({
     // senda data to server
     try {
       if (registration) {
-        await createUserWithEmailAndPassword(auth, inputEmail, inputPassword);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          inputEmail,
+          inputPassword
+        );
+        const user = userCredential.user;
+
+        // Save user data in Firestore
+        await setDoc(doc(firestore, "users", user.uid), {
+          email: user.email,
+          name: inputName, // Add other fields as needed
+          createdAt: new Date(),
+        });
+
+        alert("User registered and data stored in Firestore!");
+
         console.log("Registration successful!");
         router.push("/login");
       } else {

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, use } from "react";
+import { auth } from "@/lib/firebase/firebase";
 import { formatDate, isToday } from "@/utils/date";
 import renderButtons from "./CustomRadio";
 import CustomRadio from "./CustomRadio";
@@ -20,6 +21,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { firestore } from "@/lib/firebase/firebase";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SymptomsNote({ selectedDate }) {
   const today = new Date();
@@ -31,6 +33,7 @@ export default function SymptomsNote({ selectedDate }) {
   const [oko, setOko] = useState(0);
   const [kaszel, setKaszel] = useState(0);
   const [note, setNote] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -68,6 +71,8 @@ export default function SymptomsNote({ selectedDate }) {
   ];
 
   const selectedDateStr = formatDate(selectedDate);
+
+  const { user, loading } = useAuth();
 
   async function addOrUpdateNote(selectedDate, userEmail, noteContent) {
     try {
@@ -125,14 +130,15 @@ export default function SymptomsNote({ selectedDate }) {
   }
 
   useEffect(() => {
-    getNotesForSelectedDate(selectedDate);
+    setUserEmail(user?.email);
+    if (userEmail) getNotesForSelectedDate(selectedDate);
 
     // console.log("received notes", receivedNotes);
-  }, [selectedDate]);
+  }, [selectedDate, user, loading]);
 
   async function getNotesForSelectedDate(selectedDate) {
     const usersRef = collection(firestore, "users");
-    const userEmail = "kamil@gmail.com"; // Replace with actual user email or dynamic value
+    console.log("userEmail", auth.currentUser?.email);
     const emailQuery = query(usersRef, where("email", "==", userEmail));
 
     try {
@@ -246,12 +252,12 @@ export default function SymptomsNote({ selectedDate }) {
       created_at: selectedDate,
     };
 
-    await addOrUpdateNote(selectedDate, "kamil@gmail.com", data);
+    await addOrUpdateNote(selectedDate, userEmail, data);
 
     console.log("selecteddate", selectedDate);
 
     const receivedNotes = await getNotesForSelectedDate(selectedDate);
-    console.log("note", receivedNotes[0].content);
+    console.log("note", receivedNotes[0]?.content);
   }
 
   async function cancelHandler(e) {
