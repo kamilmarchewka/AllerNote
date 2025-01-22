@@ -24,12 +24,12 @@ import { firestore } from "@/lib/firebase/firebase";
 export default function SymptomsNote({ selectedDate }) {
   const today = new Date();
 
-  const [samopoczucie, setSamopoczocie] = useState(null);
-  const [bolGlowy, setBolGlowy] = useState(null);
-  const [katar, setKatar] = useState(null);
-  const [nos, setNos] = useState(null);
-  const [oko, setOko] = useState(null);
-  const [kaszel, setKaszel] = useState(null);
+  const [samopoczucie, setSamopoczocie] = useState(0);
+  const [bolGlowy, setBolGlowy] = useState(0);
+  const [katar, setKatar] = useState(0);
+  const [nos, setNos] = useState(0);
+  const [oko, setOko] = useState(0);
+  const [kaszel, setKaszel] = useState(0);
   const [note, setNote] = useState("");
 
   const [isEditing, setIsEditing] = useState(false);
@@ -68,77 +68,6 @@ export default function SymptomsNote({ selectedDate }) {
   ];
 
   const selectedDateStr = formatDate(selectedDate);
-
-  async function submitHandler(e) {
-    e.preventDefault();
-    setIsEditing(false);
-
-    const data = {
-      content: note,
-      created_at: selectedDate,
-    };
-
-    await addOrUpdateNote(selectedDate, "kamil@gmail.com", "dupa");
-
-    async function addOrUpdateNote(selectedDate, userEmail, noteContent) {
-      try {
-        const usersRef = collection(firestore, "users");
-
-        // Query to find the user by email
-        const emailQuery = query(usersRef, where("email", "==", userEmail));
-        const userSnapshot = await getDocs(emailQuery);
-
-        if (userSnapshot.empty) {
-          console.log("No user found with this email");
-          return;
-        }
-
-        // Get the user's document
-        const userDoc = userSnapshot.docs[0];
-        const notesRef = collection(firestore, "users", userDoc.id, "notes");
-        const notesSnapshot = await getDocs(notesRef);
-
-        // Check if a note already exists for the selected date
-        const existingNote = notesSnapshot.docs.find((noteDoc) => {
-          const noteData = noteDoc.data();
-          const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to Date object
-          return createdAt && isSameDay(createdAt, selectedDate);
-        });
-
-        if (existingNote) {
-          // If a note exists, update it
-          const noteDocRef = doc(
-            firestore,
-            "users",
-            userDoc.id,
-            "notes",
-            existingNote.id
-          );
-          await updateDoc(noteDocRef, {
-            content: noteContent, // Update the content
-          });
-          console.log("Note updated successfully!");
-        } else {
-          // If no note exists, add a new one
-          const newNote = {
-            content: noteContent,
-            created_at: Timestamp.fromDate(selectedDate), // Set created_at to the selected date
-          };
-
-          // Add the new note to Firestore
-          await addDoc(notesRef, newNote);
-          console.log("New note added successfully!");
-        }
-      } catch (error) {
-        console.error("Error adding or updating note:", error);
-      }
-    }
-
-    console.log("selecteddate", selectedDate);
-
-    const receivedNotes = await getNotesForSelectedDate(selectedDate);
-    console.log("note", receivedNotes[0].content);
-  }
 
   async function addOrUpdateNote(selectedDate, userEmail, noteContent) {
     try {
@@ -195,6 +124,12 @@ export default function SymptomsNote({ selectedDate }) {
     }
   }
 
+  useEffect(() => {
+    getNotesForSelectedDate(selectedDate);
+
+    // console.log("received notes", receivedNotes);
+  }, [selectedDate]);
+
   async function getNotesForSelectedDate(selectedDate) {
     const usersRef = collection(firestore, "users");
     const userEmail = "kamil@gmail.com"; // Replace with actual user email or dynamic value
@@ -229,6 +164,12 @@ export default function SymptomsNote({ selectedDate }) {
       // Update the state with the filtered notes
 
       setNote(filteredNotes[0]?.content || "");
+      setSamopoczocie(filteredNotes[0]?.samopoczucie || 0);
+      setBolGlowy(filteredNotes[0]?.bol_glowy || 0);
+      setKatar(filteredNotes[0]?.katar || 0);
+      setNos(filteredNotes[0]?.swedzenie_nosa || 0);
+      setOko(filteredNotes[0]?.swedzenie_oczu || 0);
+      setKaszel(filteredNotes[0]?.kaszel || 0);
       return filteredNotes;
     } catch (error) {
       console.error("Error fetching notes:", error);
@@ -236,11 +177,82 @@ export default function SymptomsNote({ selectedDate }) {
     }
   }
 
-  useEffect(() => {
-    getNotesForSelectedDate(selectedDate);
+  async function addOrUpdateNote(selectedDate, userEmail, data) {
+    try {
+      const usersRef = collection(firestore, "users");
 
-    // console.log("received notes", receivedNotes);
-  }, [selectedDate]);
+      // Query to find the user by email
+      const emailQuery = query(usersRef, where("email", "==", userEmail));
+      const userSnapshot = await getDocs(emailQuery);
+
+      if (userSnapshot.empty) {
+        console.log("No user found with this email");
+        return;
+      }
+
+      // Get the user's document
+      const userDoc = userSnapshot.docs[0];
+      const notesRef = collection(firestore, "users", userDoc.id, "notes");
+      const notesSnapshot = await getDocs(notesRef);
+
+      // Check if a note already exists for the selected date
+      const existingNote = notesSnapshot.docs.find((noteDoc) => {
+        const noteData = noteDoc.data();
+        const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to Date object
+        return createdAt && isSameDay(createdAt, selectedDate);
+      });
+
+      if (existingNote) {
+        // If a note exists, update it
+        const noteDocRef = doc(
+          firestore,
+          "users",
+          userDoc.id,
+          "notes",
+          existingNote.id
+        );
+        await updateDoc(noteDocRef, {
+          ...data, // Update the content
+        });
+        console.log("Note updated successfully!");
+      } else {
+        // If no note exists, add a new one
+        const newNote = {
+          ...data,
+          created_at: Timestamp.fromDate(selectedDate), // Set created_at to the selected date
+        };
+
+        // Add the new note to Firestore
+        await addDoc(notesRef, newNote);
+        console.log("New note added successfully!");
+      }
+    } catch (error) {
+      console.error("Error adding or updating note:", error);
+    }
+  }
+
+  async function submitHandler(e) {
+    e.preventDefault();
+    setIsEditing(false);
+
+    const data = {
+      samopoczucie: samopoczucie,
+      bol_glowy: bolGlowy,
+      katar: katar,
+      swedzenie_oczu: oko,
+      swedzenie_nosa: nos,
+      kaszel: kaszel,
+      content: note,
+      created_at: selectedDate,
+    };
+
+    await addOrUpdateNote(selectedDate, "kamil@gmail.com", data);
+
+    console.log("selecteddate", selectedDate);
+
+    const receivedNotes = await getNotesForSelectedDate(selectedDate);
+    console.log("note", receivedNotes[0].content);
+  }
 
   return (
     <section className="flex flex-col">
