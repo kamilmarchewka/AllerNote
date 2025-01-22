@@ -254,6 +254,12 @@ export default function SymptomsNote({ selectedDate }) {
     console.log("note", receivedNotes[0].content);
   }
 
+  async function cancelHandler(e) {
+    e.preventDefault();
+    setIsEditing(false);
+    getNotesForSelectedDate(selectedDate);
+  }
+
   return (
     <section className="flex flex-col">
       <header className="mb-9">
@@ -356,11 +362,7 @@ export default function SymptomsNote({ selectedDate }) {
             </ButtonPrimary>
           ) : (
             <>
-              <ButtonPrimary
-                type="reset"
-                style="red"
-                onClick={() => setIsEditing(false)}
-              >
+              <ButtonPrimary type="reset" style="red" onClick={cancelHandler}>
                 Anuluj
               </ButtonPrimary>
               <ButtonPrimary
