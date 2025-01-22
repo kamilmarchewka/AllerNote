@@ -4,9 +4,11 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import Hamburger from "./Hamburger";
 import LoginButton from "./LoginButton";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase/firebase";
 
 export default function Nav() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [navIsOpen, setNavIsOpen] = useState(false);
   const [submenuIsOpen, setSubmenuIsOpen] = useState(false);
   const submenuRef = useRef(null);
@@ -19,21 +21,21 @@ export default function Nav() {
   }
   useEffect(() => {
     document.addEventListener("mousedown", (e) => clickOutsideHandler(e));
-    // Usage
-    const myCookie = getCookie("myCookieName");
-    console.log(myCookie);
 
     return () => {
       document.removeEventListener("mousedown", (e) => clickOutsideHandler(e));
     };
   }, []);
 
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-    return null;
-  }
+  const LogoutHandler = async () => {
+    try {
+      await signOut(auth);
+      alert("User logged out successfully!");
+      setIsLoggedIn(false);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   return (
     <nav className="w-full bg-white fixed top-0 left-0 shadow-sm z-[9999]">
@@ -108,10 +110,7 @@ export default function Nav() {
               {isLoggedIn && (
                 <li className="block">
                   <button
-                    onClick={() => {
-                      console.log("alskdfj");
-                      setIsLoggedIn(false);
-                    }}
+                    onClick={LogoutHandler}
                     className="block w-full p-2 text-left"
                   >
                     Wyloguj
