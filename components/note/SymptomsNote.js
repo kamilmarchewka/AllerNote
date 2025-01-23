@@ -164,7 +164,6 @@ export default function SymptomsNote({ selectedDate }) {
         })
         .map((doc) => doc.data()); // Map the filtered documents to data
 
-      console.log("kurwaaaaa");
       console.log("data", filteredNotes);
 
       // Update the state with the filtered notes
