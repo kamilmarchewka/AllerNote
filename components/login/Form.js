@@ -2,62 +2,27 @@
 import React, { useEffect } from "react";
 
 import InputBox from "./InputBox";
-import ButtonPrimary from "../buttons/ButtonPrimary";
-import LinkUnderline from "../buttons/LinkUnderline";
 import { useRouter } from "next/navigation";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from "@/lib/firebase/firebase";
-import { firestore } from "@/lib/firebase/firebase";
-import { doc, setDoc } from "firebase/firestore";
 
-export default function Form({
-  password,
-  nickname,
-  email,
-  voivodship,
-  btnText,
-  registration = false,
-}) {
+import { login, signup } from "@/app/login/actions";
+
+export default function Form({ password, email }) {
   const router = useRouter();
-  const [inputName, setInputName] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
   const [inputPassword, setInputPassword] = React.useState("");
-  const [inputRepeatedPassword, setInputRepeatedPassword] = React.useState("");
 
   // console.error(registration);
 
   useEffect(() => {
     console.table({
-      inputName,
       inputEmail,
       inputPassword,
-      inputRepeatedPassword,
     });
-  }, [inputName, inputEmail, inputPassword, inputRepeatedPassword]);
+  }, [inputEmail, inputPassword]);
 
   async function submitHandler(e) {
     e.preventDefault();
 
-    if (
-      registration &&
-      (!inputName || !inputEmail || !inputPassword || !inputRepeatedPassword)
-    ) {
-      console.log("Fill all fields");
-      return;
-    } else if (!registration && (!inputEmail || !inputPassword)) {
-      console.log("Fill all fields");
-      return;
-    }
-
-    if (registration && inputPassword != inputRepeatedPassword) {
-      console.log("Passwords don't match");
-      return;
-    }
-    console.log("submit");
-    // senda data to server
     try {
       if (registration) {
         const userCredential = await createUserWithEmailAndPassword(
@@ -97,56 +62,37 @@ export default function Form({
   }
 
   return (
-    <form onSubmit={submitHandler} className="flex flex-col gap-8">
-      {nickname && registration && (
-        <InputBox
-          value={inputName}
-          onChange={(e) => setInputName(e.target.value)}
-          type="text"
-          id="nicname"
-          label="nazwa użytkownika"
-          placeholder="Gustaw"
-        />
-      )}
-      {email && (
-        <InputBox
-          value={inputEmail}
-          onChange={(e) => setInputEmail(e.target.value)}
-          type="email"
-          id="email"
-          label="email"
-          placeholder="example@gmail.com"
-        />
-      )}
-      {password && (
-        <InputBox
-          value={inputPassword}
-          onChange={(e) => setInputPassword(e.target.value)}
-          type="password"
-          id="password"
-          label="haslo"
-          placeholder="**********"
-        />
-      )}
-      {password && registration && (
-        <InputBox
-          value={inputRepeatedPassword}
-          onChange={(e) => setInputRepeatedPassword(e.target.value)}
-          type="password"
-          id="repeatedPassword"
-          label="powtórz hasło"
-          placeholder="**********"
-        />
-      )}
+    <form className="flex flex-col gap-8">
+      <InputBox
+        value={inputEmail}
+        onChange={(e) => setInputEmail(e.target.value)}
+        type="email"
+        id="email"
+        label="email"
+        placeholder="example@gmail.com"
+      />
+      <InputBox
+        value={inputPassword}
+        onChange={(e) => setInputPassword(e.target.value)}
+        type="password"
+        id="password"
+        label="haslo"
+        placeholder="**********"
+      />
 
       <div className="flex mt-8 flex-col gap-2 items-center">
-        <ButtonPrimary type="submit">{btnText}</ButtonPrimary>
-        {!registration && (
-          <p className="text-center">
-            <span className="text-white/85">Nie masz konta?</span>{" "}
-            <LinkUnderline href="/rejestracja" text="Zarejestruj się" />
-          </p>
-        )}
+        <button
+          formAction={login}
+          className={`block px-[2.1rem] py-[.7rem]  rounded-[1.13rem] transform hover:scale-105 transition-transform text-eden-500 bg-white`}
+        >
+          Log in
+        </button>
+        <button
+          formAction={signup}
+          className="text-white opacity-85 underline hover:opacity-100 transition-opacity"
+        >
+          Sign up
+        </button>
       </div>
     </form>
   );
