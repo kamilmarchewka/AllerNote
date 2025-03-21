@@ -4,14 +4,30 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import Hamburger from "./Hamburger";
 import LoginButton from "./LoginButton";
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase/firebase";
+import { signout } from "@/app/login/actions";
+import { createClient } from "@/utils/supabase/client";
 
 export default function Nav() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [navIsOpen, setNavIsOpen] = useState(false);
   const [submenuIsOpen, setSubmenuIsOpen] = useState(false);
   const submenuRef = useRef(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const supabase = createClient();
+
+      const session = (await supabase.auth.getSession()).data.session;
+      console.log("session", session);
+      if (session) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+
+    fetchUser();
+  });
 
   function clickOutsideHandler(e) {
     // Close menu when clicking outside
@@ -20,22 +36,14 @@ export default function Nav() {
     }
   }
   useEffect(() => {
+    // Check if user is logged in
+
     document.addEventListener("mousedown", (e) => clickOutsideHandler(e));
 
     return () => {
       document.removeEventListener("mousedown", (e) => clickOutsideHandler(e));
     };
   }, []);
-
-  const LogoutHandler = async () => {
-    try {
-      await signOut(auth);
-      alert("User logged out successfully!");
-      setIsLoggedIn(false);
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
 
   return (
     <nav className="w-full bg-white fixed top-0 left-0 shadow-sm z-[9999]">
@@ -59,27 +67,15 @@ export default function Nav() {
           } transition-all md:flex-row md:gap-3 md:p-0 md:items-center md:static md:bg-transparent md:shadow-none md:rounded-none`}
         >
           {isLoggedIn && (
-            <>
-              {/* <li className="block">
-                <Link href="/" className="block w-full p-2 text-left">
-                  Strona główna
-                </Link>
-              </li> */}
-              <li className="block">
-                <Link href="/kalendarz" className="block w-full p-2 text-left">
-                  Kalendarz
-                </Link>
-              </li>
-            </>
+            <li className="block">
+              <Link href="/kalendarz" className="block w-full p-2 text-left">
+                Kalendarz
+              </Link>
+            </li>
           )}
           <li className="block">
             <Link href="/alergeny" className="block w-full p-2 text-left">
               Co niesie wiatr?
-            </Link>
-          </li>
-          <li className="block">
-            <Link href="/ustawienia" className="block w-full p-2 text-left">
-              Ustawienia
             </Link>
           </li>
           <li className="flex flex-col-reverse md:relative">
@@ -91,7 +87,6 @@ export default function Nav() {
                   if (isLoggedIn) setSubmenuIsOpen((prev) => !prev);
                 }}
                 isLoggedIn={isLoggedIn}
-                username="Maksumilian Łuczak"
               />
             </div>
             {/* submenu */}
@@ -102,23 +97,25 @@ export default function Nav() {
                   : "md:invisible md:-translate-y-5 md:opacity-0 submenu-transition-out"
               } `}
             >
-              {/* <li className="block border-t pt-2 mt-2 md:pt-0 md:mt-0 md:border-t-0">
-                <Link href="/ustawienia" className="block w-full p-2 text-left">
-                  Ustawienia
-                </Link>
-              </li> */}
-              {isLoggedIn && (
+              {/* {isLoggedIn && (
                 <li className="block">
                   <button
-                    onClick={LogoutHandler}
+                    onClick={signout}
                     className="block w-full p-2 text-left"
                   >
                     Wyloguj
                   </button>
                 </li>
-              )}
+              )} */}
             </ul>
           </li>
+          {isLoggedIn && (
+            <li className="block">
+              <button onClick={signout} className="block w-full p-2 text-left">
+                Wyloguj
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

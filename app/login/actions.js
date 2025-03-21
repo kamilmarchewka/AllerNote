@@ -21,8 +21,8 @@ export async function login(formData) {
     redirect("/error");
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/kalendarz", "layout");
+  redirect("/kalendarz");
 }
 
 export async function signup(formData) {
@@ -36,6 +36,24 @@ export async function signup(formData) {
   };
 
   const { error } = await supabase.auth.signUp(data);
+
+  if (error) {
+    redirect("/error");
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/");
+}
+
+export async function signout() {
+  const supabase = await createClient();
+
+  // type-casting here for convenience
+  // in practice, you should validate your inputs
+
+  const { error } = await supabase.auth.signOut();
+
+  console.log("signout error", error);
 
   if (error) {
     redirect("/error");
