@@ -1,27 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, use } from "react";
-import { auth } from "@/lib/firebase/firebase";
-import { formatDate, isToday } from "@/utils/date";
-import renderButtons from "./CustomRadio";
+import React, { useState, useEffect } from "react";
+import { formatDate, isToday, isSameDay } from "@/utils/date";
 import CustomRadio from "./CustomRadio";
 import CustomRadioToEdit from "./CustomRadioToEdit";
 import ButtonSecondary from "../buttons/ButtonSecondary";
 import ButtonPrimary from "../buttons/ButtonPrimary";
-import { isSameDay } from "@/utils/date";
-
-import {
-  Timestamp,
-  addDoc,
-  collection,
-  getDocs,
-  query,
-  where,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
-import { firestore } from "@/lib/firebase/firebase";
-import { useAuth } from "@/hooks/useAuth";
+import { createClient } from "@/utils/supabase/client";
 
 export default function SymptomsNote({ selectedDate }) {
   const today = new Date();
@@ -72,168 +57,24 @@ export default function SymptomsNote({ selectedDate }) {
 
   const selectedDateStr = formatDate(selectedDate);
 
-  const { user, loading } = useAuth();
-
-  async function addOrUpdateNote(selectedDate, userEmail, noteContent) {
-    try {
-      const usersRef = collection(firestore, "users");
-
-      // Query to find the user by email
-      const emailQuery = query(usersRef, where("email", "==", userEmail));
-      const userSnapshot = await getDocs(emailQuery);
-
-      if (userSnapshot.empty) {
-        console.log("No user found with this email");
-        return;
-      }
-
-      // Get the user's document
-      const userDoc = userSnapshot.docs[0];
-      const notesRef = collection(firestore, "users", userDoc.id, "notes");
-      const notesSnapshot = await getDocs(notesRef);
-
-      // Check if a note already exists for the selected date
-      const existingNote = notesSnapshot.docs.find((noteDoc) => {
-        const noteData = noteDoc.data();
-        const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to Date object
-        return createdAt && isSameDay(createdAt, selectedDate);
-      });
-
-      if (existingNote) {
-        // If a note exists, update it
-        const noteDocRef = doc(
-          firestore,
-          "users",
-          userDoc.id,
-          "notes",
-          existingNote.id
-        );
-        await updateDoc(noteDocRef, {
-          content: noteContent, // Update the content
-          updated_at: Timestamp.fromDate(new Date()), // Optional: track the update time
-        });
-        console.log("Note updated successfully!");
-      } else {
-        // If no note exists, add a new one
-        const newNote = {
-          content: noteContent,
-          created_at: Timestamp.fromDate(selectedDate), // Set created_at to the selected date
-        };
-
-        // Add the new note to Firestore
-        await addDoc(notesRef, newNote);
-        console.log("New note added successfully!");
-      }
-    } catch (error) {
-      console.error("Error adding or updating note:", error);
-    }
-  }
-
   useEffect(() => {
-    setUserEmail(user?.email);
+    setUserEmail("asdf");
     if (userEmail) getNotesForSelectedDate(selectedDate);
 
     // console.log("received notes", receivedNotes);
-  }, [selectedDate, user, loading]);
+  }, [selectedDate]);
 
-  async function getNotesForSelectedDate(selectedDate) {
-    const usersRef = collection(firestore, "users");
-    console.log("userEmail", auth.currentUser?.email);
-    const emailQuery = query(usersRef, where("email", "==", userEmail));
+  async function addOrUpdateNote(selectedDate, userEmail, userData) {
+    const supabase = createClient();
+    const user = (await supabase.auth.getSession()).data.session.user;
+    const { data, error } = await supabase
+      .from("notes")
+      .select("*")
+      .eq("user_id", user.id);
 
-    try {
-      // Get the user document based on the email
-      const userSnapshot = await getDocs(emailQuery);
-
-      if (userSnapshot.empty) {
-        console.log("No user found with this email");
-        return [];
-      }
-
-      // Get the user's notes collection
-      const userDoc = userSnapshot.docs[0];
-      const notesRef = collection(firestore, "users", userDoc.id, "notes");
-      const notesSnapshot = await getDocs(notesRef);
-
-      // Filter notes where the created_at date is the same as selectedDate
-      const filteredNotes = notesSnapshot.docs
-        .filter((noteDoc) => {
-          const noteData = noteDoc.data();
-          const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to JavaScript Date object
-          return createdAt && isSameDay(createdAt, selectedDate);
-        })
-        .map((doc) => doc.data()); // Map the filtered documents to data
-
-      console.log("data", filteredNotes);
-
-      // Update the state with the filtered notes
-
-      setNote(filteredNotes[0]?.content || "");
-      setSamopoczocie(filteredNotes[0]?.samopoczucie || 0);
-      setBolGlowy(filteredNotes[0]?.bol_glowy || 0);
-      setKatar(filteredNotes[0]?.katar || 0);
-      setNos(filteredNotes[0]?.swedzenie_nosa || 0);
-      setOko(filteredNotes[0]?.swedzenie_oczu || 0);
-      setKaszel(filteredNotes[0]?.kaszel || 0);
-      return filteredNotes;
-    } catch (error) {
-      console.error("Error fetching notes:", error);
-      return [];
-    }
-  }
-
-  async function addOrUpdateNote(selectedDate, userEmail, data) {
-    try {
-      const usersRef = collection(firestore, "users");
-
-      // Query to find the user by email
-      const emailQuery = query(usersRef, where("email", "==", userEmail));
-      const userSnapshot = await getDocs(emailQuery);
-
-      if (userSnapshot.empty) {
-        console.log("No user found with this email");
-        return;
-      }
-
-      // Get the user's document
-      const userDoc = userSnapshot.docs[0];
-      const notesRef = collection(firestore, "users", userDoc.id, "notes");
-      const notesSnapshot = await getDocs(notesRef);
-
-      // Check if a note already exists for the selected date
-      const existingNote = notesSnapshot.docs.find((noteDoc) => {
-        const noteData = noteDoc.data();
-        const createdAt = noteData.created_at?.toDate(); // Convert Firestore Timestamp to Date object
-        return createdAt && isSameDay(createdAt, selectedDate);
-      });
-
-      if (existingNote) {
-        // If a note exists, update it
-        const noteDocRef = doc(
-          firestore,
-          "users",
-          userDoc.id,
-          "notes",
-          existingNote.id
-        );
-        await updateDoc(noteDocRef, {
-          ...data, // Update the content
-        });
-        console.log("Note updated successfully!");
-      } else {
-        // If no note exists, add a new one
-        const newNote = {
-          ...data,
-          created_at: Timestamp.fromDate(selectedDate), // Set created_at to the selected date
-        };
-
-        // Add the new note to Firestore
-        await addDoc(notesRef, newNote);
-        console.log("New note added successfully!");
-      }
-    } catch (error) {
-      console.error("Error adding or updating note:", error);
-    }
+    console.log("userid", user.id);
+    console.log("Data:", data);
+    console.log("Error:", error);
   }
 
   async function submitHandler(e) {
@@ -252,17 +93,11 @@ export default function SymptomsNote({ selectedDate }) {
     };
 
     await addOrUpdateNote(selectedDate, userEmail, data);
-
-    console.log("selecteddate", selectedDate);
-
-    const receivedNotes = await getNotesForSelectedDate(selectedDate);
-    console.log("note", receivedNotes[0]?.content);
   }
 
   async function cancelHandler(e) {
     e.preventDefault();
     setIsEditing(false);
-    getNotesForSelectedDate(selectedDate);
   }
 
   return (
