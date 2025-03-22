@@ -80,17 +80,17 @@ export default function Nav() {
           </li>
           <li className="flex flex-col-reverse md:relative">
             {/* button with user name */}
-            <div className="flex justify-center border-t pt-4 mt-2 md:pt-0 md:mt-0 md:ml-4 md:peer">
+            <div className="flex justify-center pt-4 mt-2 md:pt-0 md:mt-0 md:ml-1 md:border-l md:pl-6 md:peer">
               <LoginButton
                 ref={submenuRef}
-                onClick={() => {
-                  if (isLoggedIn) setSubmenuIsOpen((prev) => !prev);
-                }}
+                // onClick={() => {
+                //   if (isLoggedIn) setSubmenuIsOpen((prev) => !prev);
+                // }}
                 isLoggedIn={isLoggedIn}
               />
             </div>
             {/* submenu */}
-            <ul
+            {/* <ul
               className={`md:flex md:flex-col md:items-start md:absolute md:p-2 md:bg-white md:top-[calc(100%+1.5rem)] md:right-0 md:shadow-md md:rounded-md md:transform ${
                 submenuIsOpen
                   ? "md:visible md:translate-y-0 md:opacity-100 submenu-transition-in"
@@ -106,13 +106,13 @@ export default function Nav() {
                     Wyloguj
                   </button>
                 </li>
-              )} */}
-            </ul>
+              )} 
+            </ul> */}
           </li>
           {isLoggedIn && (
             <li className="block">
               <button onClick={signout} className="block w-full p-2 text-left">
-                Wyloguj
+                Log out
               </button>
             </li>
           )}

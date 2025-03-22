@@ -58,7 +58,7 @@ export default function Home() {
       </p>
       <div ref={btn} className="invisible">
         <Link
-          href="/rejestracja"
+          href="/login"
           className="block px-[2.1rem] py-[.7rem]  rounded-[1.13rem] bg-eden-700 text-white transform hover:scale-105 transition-transform "
         >
           Dołącz do nas już dziś!

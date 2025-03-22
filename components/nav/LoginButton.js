@@ -8,10 +8,14 @@ export default function LoginButton({ isLoggedIn, onClick, ref }) {
       href="/login"
       ref={ref}
       onClick={onClick}
-      className="flex items-center gap-3 px-6 py-3 bg-gradient-to-br from-turquoise-500 to-eden-700 text-white rounded-[.8rem] font-semibold md:transform md:hover:scale-105 md:transition-transform"
+      className={`${
+        isLoggedIn
+          ? "relative w-11 h-11 rounded-full"
+          : "flex items-center px-6 py-3 rounded-[.8rem]"
+      }  bg-gradient-to-br from-turquoise-500 to-eden-700 text-white  font-semibold md:transform md:hover:scale-105 md:transition-transform`}
     >
       {isLoggedIn ? (
-        <span className="block w-6">
+        <span className="absolute left-1/2 top-1/2 block w-6 transform -translate-x-1/2 -translate-y-1/2">
           <UserIcon />
         </span>
       ) : (

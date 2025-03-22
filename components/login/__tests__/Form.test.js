@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Form from "../Form";
+import Form from "../LoginForm";
 
 describe("Form Component", () => {
   test("renders email input when email prop is true", () => {
@@ -33,13 +33,6 @@ describe("Form Component", () => {
     render(<Form btnText={btnText} />);
     const submitButton = screen.getByRole("button", { name: btnText });
     expect(submitButton).toBeInTheDocument();
-  });
-
-  test("renders registration link when registration prop is false", () => {
-    render(<Form registration={false} />);
-    const registrationLink = screen.getByText(/Zarejestruj się/i);
-    expect(registrationLink).toBeInTheDocument();
-    expect(registrationLink).toHaveAttribute("href", "/rejestracja");
   });
 
   test("does not render registration link when registration prop is true", () => {
