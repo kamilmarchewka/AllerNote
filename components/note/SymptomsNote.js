@@ -58,19 +58,45 @@ export default function SymptomsNote({ selectedDate }) {
   const selectedDateStr = formatDate(selectedDate);
 
   useEffect(() => {
-    setUserEmail("asdf");
-    if (userEmail) getNotesForSelectedDate(selectedDate);
-
+    // setUserEmail("asdf");
+    // if (userEmail) getNotesForSelectedDate(selectedDate);
     // console.log("received notes", receivedNotes);
   }, [selectedDate]);
 
   async function addOrUpdateNote(selectedDate, userEmail, userData) {
     const supabase = createClient();
+
     const user = (await supabase.auth.getSession()).data.session.user;
+    const transformedDate = selectedDate.toISOString().split("T")[0];
+
     const { data, error } = await supabase
       .from("notes")
       .select("*")
-      .eq("user_id", user.id);
+      .eq("user_id", user.id)
+      .eq("date", transformedDate);
+
+    if (data.length === 0) {
+      console.log("No data found, creating new note");
+
+      const { data, error } = await supabase.from("notes").insert({
+        user_id: user.id,
+        date: transformedDate,
+        bol_glowy: 6,
+        katar: 6,
+      });
+
+      console.log("note added:", data);
+    } else {
+      console.log("Data found, updating note");
+      const { data, error } = await supabase
+        .from("notes")
+        .update({
+          bol_glowy: 0,
+          katar: 0,
+        })
+        .eq("user_id", user.id)
+        .eq("date", transformedDate);
+    }
 
     console.log("userid", user.id);
     console.log("Data:", data);
