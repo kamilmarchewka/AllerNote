@@ -56,7 +56,19 @@ export default function SymptomsNote({ selectedDate }) {
 
   const selectedDateStr = formatDate(selectedDate);
 
-  useEffect(() => {}, [selectedDate]);
+  useEffect(() => {
+    getNote(selectedDate).then((data) => {
+      console.log(data);
+
+      setSamopoczocie(data[0]?.samopoczucie || 0);
+      setBolGlowy(data[0]?.bol_glowy || 0);
+      setKatar(data[0]?.katar || 0);
+      setNos(data[0]?.swedzenie_nosa || 0);
+      setOko(data[0]?.swedzenie_oczu || 0);
+      setKaszel(data[0]?.kaszel || 0);
+      setNote(data[0]?.content || "");
+    });
+  }, [selectedDate]);
 
   async function addOrUpdateNote(selectedDate, userData) {
     console.log("SELECTED DATE", selectedDate);
@@ -100,6 +112,26 @@ export default function SymptomsNote({ selectedDate }) {
     console.log("userid", user.id);
     console.log("Data:", data);
     console.log("Error:", error);
+  }
+
+  async function getNote(selectedDate) {
+    const supabase = createClient();
+
+    const user = (await supabase.auth.getSession()).data.session.user;
+    const transformedDate = new Date(
+      selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+    console.log("transformedDate", transformedDate);
+
+    const { data, error } = await supabase
+      .from("notes")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("date", transformedDate);
+
+    return data;
   }
 
   async function submitHandler(e) {
