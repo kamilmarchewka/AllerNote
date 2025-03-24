@@ -9,6 +9,9 @@ export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  console.log("currentMonth", currentMonth);
+  console.log("selectedDate", selectedDate);
+
   return (
     <section className="flex flex-col gap-20 pt-32 pb-10 lg:min-h-[calc(100vh-40px)]">
       <Badge></Badge>

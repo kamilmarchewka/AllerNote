@@ -18,7 +18,6 @@ export default function SymptomsNote({ selectedDate }) {
   const [oko, setOko] = useState(0);
   const [kaszel, setKaszel] = useState(0);
   const [note, setNote] = useState("");
-  const [userEmail, setUserEmail] = useState("");
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -57,17 +56,19 @@ export default function SymptomsNote({ selectedDate }) {
 
   const selectedDateStr = formatDate(selectedDate);
 
-  useEffect(() => {
-    // setUserEmail("asdf");
-    // if (userEmail) getNotesForSelectedDate(selectedDate);
-    // console.log("received notes", receivedNotes);
-  }, [selectedDate]);
+  useEffect(() => {}, [selectedDate]);
 
-  async function addOrUpdateNote(selectedDate, userEmail, userData) {
+  async function addOrUpdateNote(selectedDate, userData) {
+    console.log("SELECTED DATE", selectedDate);
     const supabase = createClient();
 
     const user = (await supabase.auth.getSession()).data.session.user;
-    const transformedDate = selectedDate.toISOString().split("T")[0];
+    const transformedDate = new Date(
+      selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+    console.log("transformedDate", transformedDate);
 
     const { data, error } = await supabase
       .from("notes")
@@ -81,8 +82,7 @@ export default function SymptomsNote({ selectedDate }) {
       const { data, error } = await supabase.from("notes").insert({
         user_id: user.id,
         date: transformedDate,
-        bol_glowy: 6,
-        katar: 6,
+        ...userData,
       });
 
       console.log("note added:", data);
@@ -91,8 +91,7 @@ export default function SymptomsNote({ selectedDate }) {
       const { data, error } = await supabase
         .from("notes")
         .update({
-          bol_glowy: 0,
-          katar: 0,
+          ...userData,
         })
         .eq("user_id", user.id)
         .eq("date", transformedDate);
@@ -104,6 +103,7 @@ export default function SymptomsNote({ selectedDate }) {
   }
 
   async function submitHandler(e) {
+    console.log("SELECTED DATE", selectedDate);
     e.preventDefault();
     setIsEditing(false);
 
@@ -115,10 +115,9 @@ export default function SymptomsNote({ selectedDate }) {
       swedzenie_nosa: nos,
       kaszel: kaszel,
       content: note,
-      created_at: selectedDate,
     };
 
-    await addOrUpdateNote(selectedDate, userEmail, data);
+    await addOrUpdateNote(selectedDate, data);
   }
 
   async function cancelHandler(e) {
