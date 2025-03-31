@@ -7,8 +7,6 @@ import GoBackIcon from "@/components/login/GoBackIcon";
 import Card from "@/components/login/Card";
 import LoginForm from "@/components/login/LoginForm";
 import Dandelion from "@/components/login/Dandelion";
-import { addDoc, collection, getDocs } from "firebase/firestore";
-import { firestore } from "@/lib/firebase/firebase";
 
 export default async function Login() {
   return (
