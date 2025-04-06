@@ -7,7 +7,7 @@ export default function LoadingScreen({ isLoading = false }) {
         isLoading ? " visible " : " invisible"
       } fixed top-0 left-0 w-screen h-screen bg-white/40 f z-[9999] flex items-center justify-center`}
     >
-      <div className="rounded-full w-6 h-6 border-4 border-black border-t-transparent animate-spin"></div>
+      <div className="rounded-full w-6 h-6 border-4 border-eden-700 border-t-transparent animate-spin"></div>
     </div>
   );
 }
