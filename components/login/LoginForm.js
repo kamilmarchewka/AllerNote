@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 
 import InputBox from "./InputBox";
 
-import { login, signup } from "@/app/login/actions";
+import { login, signup } from "@/app/(auth)/login/actions";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useTransition } from "react";
+import Link from "next/link";
 
-export default function LoginForm() {
+export default function LoginForm({ registration = false }) {
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -35,21 +36,26 @@ export default function LoginForm() {
         />
 
         <div className="flex mt-8 gap-6 items-center justify-center">
+          {!registration && (
+            <Link
+              href="/rejestracja"
+              className={
+                "text-white opacity-85 underline hover:opacity-100 transition-opacity"
+              }
+            >
+              Zarejestruj się
+            </Link>
+          )}
+
           <button
             formAction={(formAction) =>
-              startTransition(() => signup(formAction))
-            }
-            className="text-white opacity-85 underline hover:opacity-100 transition-opacity"
-          >
-            Sign up
-          </button>
-          <button
-            formAction={(formAction) =>
-              startTransition(() => login(formAction))
+              startTransition(() => {
+                registration ? signup(formAction) : login(formAction);
+              })
             }
             className={`block px-[2.1rem] py-[.7rem]  rounded-[1.13rem] transform hover:scale-105 transition-transform text-eden-500 bg-white`}
           >
-            Log in
+            {registration ? "Zarejestru się" : "Zaloguj się"}
           </button>
         </div>
       </form>

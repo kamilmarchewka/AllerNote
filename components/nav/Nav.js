@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState, useTransition } from "react";
 import Hamburger from "./Hamburger";
 import LoginButton from "./LoginButton";
-import { signout } from "@/app/login/actions";
+import { signout } from "@/app/(auth)/login/actions";
 import { createClient } from "@/utils/supabase/client";
 import LoadingScreen from "../LoadingScreen";
 
