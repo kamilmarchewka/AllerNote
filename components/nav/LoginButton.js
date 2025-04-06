@@ -19,7 +19,7 @@ export default function LoginButton({ isLoggedIn, onClick, ref }) {
           <UserIcon />
         </span>
       ) : (
-        <span>Login</span>
+        <span>Zaloguj się</span>
       )}
     </Link>
   );

@@ -53,7 +53,7 @@ export default function Nav() {
       <nav className="w-full bg-white fixed top-0 left-0 shadow-sm z-[9999]">
         {/* Content wrapper */}
         <div className="body-spacing flex justify-between items-center  py-3">
-          <Link href="/">
+          <Link onClick={() => setNavIsOpen(false)} href="/">
             <Image src="/logo.png" width={40} height={30} alt="" />
           </Link>
 
@@ -72,13 +72,21 @@ export default function Nav() {
           >
             {isLoggedIn && (
               <li className="block">
-                <Link href="/kalendarz" className="block w-full p-2 text-left">
+                <Link
+                  onClick={() => setNavIsOpen(false)}
+                  href="/kalendarz"
+                  className="block w-full p-2 text-left"
+                >
                   Kalendarz
                 </Link>
               </li>
             )}
             <li className="block">
-              <Link href="/alergeny" className="block w-full p-2 text-left">
+              <Link
+                onClick={() => setNavIsOpen(false)}
+                href="/alergeny"
+                className="block w-full p-2 text-left"
+              >
                 Co niesie wiatr?
               </Link>
             </li>
@@ -86,6 +94,7 @@ export default function Nav() {
               {/* button with user name */}
               <div className="flex justify-center pt-4 mt-2 md:pt-0 md:mt-0 md:ml-1 md:border-l md:pl-6 md:peer">
                 <LoginButton
+                  onClick={() => setNavIsOpen(false)}
                   ref={submenuRef}
                   // onClick={() => {
                   //   if (isLoggedIn) setSubmenuIsOpen((prev) => !prev);
@@ -117,13 +126,14 @@ export default function Nav() {
               <li className="block">
                 <button
                   onClick={() => {
+                    setNavIsOpen(false);
                     startTransition(() => {
                       signout();
                     });
                   }}
                   className="block w-full p-2 text-left"
                 >
-                  Log out
+                  Wyloguj się
                 </button>
               </li>
             )}

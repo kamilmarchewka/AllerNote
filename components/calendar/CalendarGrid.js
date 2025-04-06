@@ -62,7 +62,10 @@ export const CalendarGrid = ({ currentDate, selectedDate, onSelectDate }) => {
                   : "text-eden-700"
               } ${
                 isToday(date) && " outline outline-eden-700 outline-1"
-              } lg:w-[3.2rem] lg:h-[3.2rem]`}
+              } lg:w-[3.2rem] lg:h-[3.2rem] ${
+                date > new Date() && "opacity-30 pointer-events-none"
+              }`}
+              disabled={date > new Date()}
             >
               {index + 1}
             </button>
