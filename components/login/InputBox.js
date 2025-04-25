@@ -23,6 +23,7 @@ export default function InputBox({
         id={id}
         name={id}
         required
+        minLength={6}
         placeholder={placeholder}
         className="peer block p-1 bg-transparent text-white font-bold text-base border-b border-white/50 placeholder-white/80 placeholder:font-normal focus-within:outline-none"
       />
