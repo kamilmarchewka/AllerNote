@@ -29,6 +29,14 @@ export default async function AllergensTable() {
     }
   ).then((r) => r.json());
 
+  if (!response || !response.data || response.data.length === 0) {
+    return (
+      <div className="text-center py-10">
+        <h2 className="text-lg font-semibold">Brak danych</h2>
+        <p className="text-gray-500">Spróbuj ponownie później.</p>
+      </div>
+    );
+  }
   const allergens = response.data[0].Species;
   const flattenedAllergens = Object.entries(allergens).reduce(
     (acc, [key, val]) => ({
